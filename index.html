@@ -112,10 +112,6 @@ body::before {
 .materi-content li { color: var(--text); line-height: 1.75; margin-bottom: 6px; font-size: 0.96rem; }
 .materi-content strong { color: var(--navy); }
 
-.materi-visual { background: linear-gradient(135deg, #eaf6fd, #fff8e0); border-radius: 16px; padding: 22px; margin: 18px 0; border: 1px solid rgba(168,216,240,0.5); text-align: center; }
-.materi-visual canvas { display: block; margin: 0 auto; max-width: 100%; }
-.materi-visual .caption { font-size: 0.85rem; color: var(--text-dim); margin-top: 12px; font-style: italic; }
-
 .contoh-soal { background: rgba(255,233,168,0.35); border-left: 5px solid var(--yellow-accent); border-radius: 12px; padding: 18px 20px; margin: 16px 0; }
 .contoh-soal .label { display: inline-block; background: var(--yellow-accent); color: var(--navy); font-weight: 800; font-size: 0.75rem; padding: 4px 10px; border-radius: 6px; margin-bottom: 10px; }
 .contoh-soal .jawaban { background: rgba(255,255,255,0.7); border-radius: 10px; padding: 12px 14px; margin-top: 10px; font-size: 0.92rem; display: none; }
@@ -123,14 +119,13 @@ body::before {
 .contoh-soal button { background: var(--navy); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; font-size: 0.85rem; cursor: pointer; font-family: inherit; margin-top: 8px; }
 .contoh-soal button:hover { background: var(--navy-soft); }
 
-/* LAB - NEW LAYOUT */
+/* LAB */
 .lab-layout { display: grid; grid-template-columns: 320px 1fr; gap: 16px; }
 @media (max-width: 1000px) { .lab-layout { grid-template-columns: 1fr; } }
 .lab-panel { background: rgba(255,255,255,0.9); backdrop-filter: blur(18px); border: 1px solid var(--glass-border); border-radius: 20px; padding: 16px; box-shadow: var(--shadow-md); }
 .lab-panel h3 { color: var(--navy); margin-bottom: 8px; font-size: 1rem; }
 .lab-panel .subtitle { font-size: 0.78rem; color: var(--text-dim); margin-bottom: 10px; line-height: 1.5; }
 
-/* Periodic table mini */
 .periodic-mini { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; margin-bottom: 10px; }
 .periodic-cell {
   aspect-ratio: 1; border-radius: 8px; border: 2px solid rgba(15,40,71,0.08);
@@ -145,7 +140,6 @@ body::before {
 .periodic-cell.selected { border-color: var(--gold); border-width: 3px; box-shadow: 0 0 0 3px rgba(255,213,79,0.4), 0 4px 12px rgba(15,40,71,0.2); transform: scale(1.08); }
 .periodic-cell.empty { visibility: hidden; }
 
-/* Rekomendasi senyawa */
 .rekomendasi-title { font-size: 0.85rem; font-weight: 800; color: var(--navy); margin: 12px 0 8px; display: flex; align-items: center; gap: 6px; }
 .rekomendasi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; max-height: 180px; overflow-y: auto; padding-right: 4px; }
 .rekomendasi-grid::-webkit-scrollbar { width: 6px; }
@@ -190,41 +184,37 @@ body::before {
 .badge-polar { background: #ffc9de; color: #c2185b; }
 .badge-nonpolar { background: #b3f0ff; color: #00838f; }
 
-/* KUIS */
-.quiz-arena { display: grid; grid-template-columns: 1fr auto 1fr; gap: 20px; align-items: center; margin-bottom: 22px; }
-@media (max-width: 700px) { .quiz-arena { grid-template-columns: 1fr; } .vs-badge { transform: rotate(90deg); } }
-.fighter { text-align: center; padding: 18px; background: rgba(255,255,255,0.85); backdrop-filter: blur(14px); border-radius: 20px; border: 3px solid transparent; transition: all 0.3s; box-shadow: var(--shadow-md); position: relative; }
-.fighter.team-blue { border-color: #5aa8d4; }
-.fighter.team-yellow { border-color: var(--yellow-accent); }
-.fighter.active-turn { transform: scale(1.03); box-shadow: 0 0 0 4px rgba(255,213,79,0.5), var(--shadow-lg); }
-.fighter .avatar { font-size: 3rem; margin-bottom: 6px; display: inline-block; transition: transform 0.1s; }
-.fighter.attack .avatar { animation: attackAnim 0.6s; }
-.fighter.hit .avatar { animation: hitAnim 0.5s; }
-.fighter.ai-move .avatar { animation: aiMove 0.4s; }
-@keyframes attackAnim { 0%,100%{transform:translateX(0) scale(1)} 50%{transform:translateX(18px) scale(1.15)} }
-@keyframes hitAnim { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-12px) rotate(-8deg)} 75%{transform:translateX(12px) rotate(8deg)} }
-@keyframes aiMove { 0%,100%{transform:rotate(0) scale(1)} 25%{transform:rotate(-10deg) scale(1.1)} 75%{transform:rotate(10deg) scale(1.1)} }
-.fighter .name { font-weight: 800; font-size: 1rem; margin-bottom: 10px; }
-.team-blue .name { color: #1a6ba0; }
-.team-yellow .name { color: var(--gold); }
-.hp-bar { height: 18px; background: rgba(15,40,71,0.15); border-radius: 10px; overflow: hidden; border: 2px solid rgba(15,40,71,0.1); }
-.hp-fill { height: 100%; width: 100%; transition: width 0.6s ease; border-radius: 8px; }
-.team-blue .hp-fill { background: linear-gradient(90deg, #7fc4e8, #2a7bb0); }
-.team-yellow .hp-fill { background: linear-gradient(90deg, #ffe082, #e0a800); }
-.hp-text { font-size: 0.78rem; margin-top: 6px; color: var(--text-dim); font-weight: 700; }
+/* ==================== KUIS ROBLOX RACE ==================== */
+.race-track-wrap {
+  background: linear-gradient(135deg, #eaf6fd, #fff8e0);
+  border-radius: 20px; padding: 14px; border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-md); margin-bottom: 18px;
+  position: relative; overflow: hidden;
+}
+.race-track-wrap::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: 
+    linear-gradient(90deg, rgba(168,216,240,0.06) 1px, transparent 1px),
+    linear-gradient(rgba(168,216,240,0.06) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+}
+#raceCanvas { display: block; width: 100%; height: 220px; position: relative; z-index: 1; }
 
-.vs-badge { font-size: 1.8rem; font-weight: 900; color: var(--navy); background: var(--yellow-accent); padding: 10px 16px; border-radius: 50%; box-shadow: 0 6px 20px rgba(224,168,0,0.5); animation: pulseVs 1.6s infinite; }
-@keyframes pulseVs { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12)} }
+.race-legend {
+  display: flex; justify-content: space-around; gap: 10px;
+  margin-top: 10px; font-size: 0.78rem; font-weight: 800;
+  position: relative; z-index: 1;
+}
+.race-legend .legend-item { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 10px; }
+.race-legend .legend-blue { background: rgba(90,168,212,0.2); color: #1a6ba0; }
+.race-legend .legend-yellow { background: rgba(255,213,79,0.3); color: #b8900a; }
 
-.tug-canvas-wrap { background: linear-gradient(135deg, #eaf6fd, #fff8e0); border-radius: 18px; padding: 12px; border: 1px solid var(--glass-border); box-shadow: var(--shadow-md); margin-bottom: 20px; text-align: center; }
-#tugCanvas { display: block; margin: 0 auto; max-width: 100%; }
+/* Dual question */
+.dual-question-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 900px) { .dual-question-wrap { grid-template-columns: 1fr; } }
 
-/* DUAL QUESTION LAYOUT */
-.dual-question-wrap { display: grid; grid-template-columns: 1fr; gap: 16px; }
-.dual-question-wrap.two-lanes { grid-template-columns: 1fr 1fr; }
-@media (max-width: 900px) { .dual-question-wrap.two-lanes { grid-template-columns: 1fr; } }
-
-.quiz-panel { background: rgba(255,255,255,0.9); backdrop-filter: blur(18px); border: 1px solid var(--glass-border); border-radius: 22px; padding: 22px; box-shadow: var(--shadow-md); position: relative; transition: all 0.2s; }
+.quiz-panel { background: rgba(255,255,255,0.9); backdrop-filter: blur(18px); border: 1px solid var(--glass-border); border-radius: 22px; padding: 20px; box-shadow: var(--shadow-md); position: relative; transition: all 0.2s; }
 .quiz-panel.lane-blue { border-top: 4px solid #5aa8d4; }
 .quiz-panel.lane-yellow { border-top: 4px solid var(--yellow-accent); }
 .quiz-panel.lane-blue.active-lane { box-shadow: 0 0 0 3px rgba(90,168,212,0.4), var(--shadow-md); }
@@ -238,7 +228,7 @@ body::before {
 .quiz-meta .timer.danger { color: #c62828; background: rgba(229,115,115,0.25); animation: blink 0.6s infinite; }
 @keyframes blink { 50% { opacity: 0.4; } }
 
-.quiz-question { font-size: 1.02rem; font-weight: 700; color: var(--navy); line-height: 1.5; margin-bottom: 14px; padding: 12px; background: rgba(168,216,240,0.2); border-radius: 10px; border-left: 4px solid var(--sky); }
+.quiz-question { font-size: 1rem; font-weight: 700; color: var(--navy); line-height: 1.5; margin-bottom: 14px; padding: 12px; background: rgba(168,216,240,0.2); border-radius: 10px; border-left: 4px solid var(--sky); min-height: 60px; }
 .quiz-options { display: grid; gap: 8px; }
 .quiz-option { display: flex; align-items: center; gap: 10px; padding: 11px 14px; background: white; border: 2px solid rgba(15,40,71,0.12); border-radius: 10px; cursor: pointer; font-size: 0.88rem; color: var(--navy); text-align: left; width: 100%; font-family: inherit; transition: all 0.15s; font-weight: 600; }
 .quiz-option:hover:not(:disabled) { border-color: var(--navy); background: var(--sky-light); transform: translateX(3px); }
@@ -259,15 +249,7 @@ body::before {
 .lane-status.answered { background: #e8f5e9; color: #2e7d32; }
 .lane-status.done { background: rgba(15,40,71,0.1); color: var(--text-dim); }
 
-/* MODAL */
-.modal-overlay { position: fixed; inset: 0; background: rgba(15,40,71,0.6); backdrop-filter: blur(6px); display: none; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
-.modal-overlay.show { display: flex; }
-.modal { background: white; border-radius: 24px; padding: 32px; max-width: 500px; width: 100%; box-shadow: var(--shadow-lg); text-align: center; }
-.modal h3 { font-size: 1.5rem; color: var(--navy); margin-bottom: 10px; }
-.modal p { color: var(--text-dim); margin-bottom: 24px; line-height: 1.6; }
-.modal-actions { display: flex; flex-direction: column; gap: 12px; }
-
-/* RESULT */
+/* Result */
 .result-screen { text-align: center; padding: 40px 24px; }
 .result-screen .trophy { font-size: 5rem; margin-bottom: 12px; animation: bounce 1s infinite; }
 @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
@@ -278,11 +260,11 @@ body::before {
 .kategori.perak { background: linear-gradient(135deg, #cfd8dc, #90a4ae); color: white; }
 .kategori.perunggu { background: linear-gradient(135deg, #ffcc80, #ef6c00); color: white; }
 .kategori.belajar { background: linear-gradient(135deg, #90caf9, #1976d2); color: white; }
-.result-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; max-width: 560px; margin: 0 auto 26px; }
+.result-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; max-width: 620px; margin: 0 auto 26px; }
 .stat-box { background: rgba(255,255,255,0.8); border-radius: 14px; padding: 14px; border: 1px solid rgba(15,40,71,0.1); }
 .stat-box .val { font-size: 1.5rem; font-weight: 900; color: var(--navy); }
 .stat-box .lbl { font-size: 0.78rem; color: var(--text-dim); font-weight: 700; margin-top: 2px; }
-.pembahasan { text-align: left; max-width: 720px; margin: 0 auto; background: rgba(255,255,255,0.85); border-radius: 18px; padding: 24px; box-shadow: var(--shadow-sm); max-height: 420px; overflow-y: auto; }
+.pembahasan { text-align: left; max-width: 760px; margin: 0 auto; background: rgba(255,255,255,0.85); border-radius: 18px; padding: 24px; box-shadow: var(--shadow-sm); max-height: 420px; overflow-y: auto; }
 .pembahasan h3 { color: var(--navy); margin-bottom: 14px; font-size: 1.1rem; }
 .pembahasan .item { padding: 12px 0; border-bottom: 1px dashed rgba(15,40,71,0.1); font-size: 0.88rem; line-height: 1.6; }
 .pembahasan .item:last-child { border-bottom: none; }
@@ -311,6 +293,7 @@ body::before {
   .materi-content { padding: 20px; }
   .lab-layout { grid-template-columns: 1fr; }
   .periodic-mini { grid-template-columns: repeat(6, 1fr); }
+  #raceCanvas { height: 180px; }
 }
 </style>
 </head>
@@ -343,7 +326,7 @@ body::before {
         <div class="hero-features">
           <div class="feature"><div class="icon">📚</div><h3>6 Subbab Materi</h3><p>Konsep dasar, ion, kovalen, koordinasi, kepolaran, bentuk molekul.</p></div>
           <div class="feature"><div class="icon">🧪</div><h3>Lab Maya 3D Interaktif</h3><p>Tabel periodik, drag & drop, rotasi 360°, rekomendasi senyawa.</p></div>
-          <div class="feature"><div class="icon">⚔️</div><h3>Kuis Cepat-cepatan</h3><p>2 soal tampil bersamaan, battle melawan AI aktif.</p></div>
+          <div class="feature"><div class="icon">🏁</div><h3>Roblox Race Battle</h3><p>Balapan 2 mobil sesuai warna tim! Benar maju, salah diam.</p></div>
           <div class="feature"><div class="icon">🎵</div><h3>Musik & Efek Suara</h3><p>Suasana belajar yang menyenangkan.</p></div>
         </div>
         <div class="tagline">"DISCOVER THE ATOMS, CONNECT THE BONDS, MASTER THE CHEMISTRY!"</div>
@@ -358,7 +341,7 @@ body::before {
     </div>
   </section>
 
-  <!-- SIMULASI NEW -->
+  <!-- SIMULASI -->
   <section class="page" id="page-simulasi">
     <div class="lab-layout">
       <div class="lab-panel">
@@ -374,15 +357,15 @@ body::before {
           <button id="btnElectron" onclick="labToggleElectrons()">⚡ ELEKTRON</button>
           <button id="btnRotate" onclick="labToggleRotate()">🔄 AUTO-PUTAR</button>
           <button onclick="labShowLewis()">📐 LEWIS</button>
-          <button onclick="labResetView()">🎯 RESET VIEW</button>
+          <button onclick="labResetView()">🎯 RESET ZOOM</button>
           <button class="danger" onclick="labClear()">🗑️ RESET LAB</button>
         </div>
         <p style="font-size:0.72rem; color:var(--text-dim); margin-top:8px; line-height:1.5; text-align:center;">
-          💡 Drag atom untuk memindahkan • Scroll untuk zoom • Klik atom untuk hapus
+          💡 Drag atom = pindah • Scroll = zoom molekul • Double-click = hapus
         </p>
       </div>
       <div class="lab-canvas-wrap">
-        <div class="lab-hint">🖱️ Drag atom = pindah • Scroll = zoom • Klik = hapus</div>
+        <div class="lab-hint">🖱️ Drag atom = pindah • Scroll = zoom molekul • Double-click = hapus</div>
         <canvas id="labCanvas"></canvas>
         <div class="lab-info-panel" id="labInfo"></div>
       </div>
@@ -392,42 +375,29 @@ body::before {
   <!-- KUIS -->
   <section class="page" id="page-kuis">
     <div id="kuisIntro" style="text-align:center; padding: 40px 20px;">
-      <h2 style="color:var(--navy); font-size:1.8rem; margin-bottom:10px;">⚔️ CHEMISTRY BATTLE</h2>
-      <p style="color:var(--text-dim); margin-bottom:24px;">Tarik Tambang Ikatan Kimia! Cepat-cepatan menjawab!</p>
+      <h2 style="color:var(--navy); font-size:1.8rem; margin-bottom:10px;">🏁 ROBLOX RACE BATTLE</h2>
+      <p style="color:var(--text-dim); margin-bottom:24px;">Balapan mobil! Jawab benar = maju, salah = tetap di tempat. Siapa cepat sampai finish menang!</p>
       <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:24px;">
-        <button class="btn btn-primary btn-lg" onclick="startKuis('individu')">👤 MODE INDIVIDU<br><small style="font-weight:400;font-size:0.8rem;">Melawan Komputer Aktif</small></button>
-        <button class="btn btn-gold btn-lg" onclick="startKuis('tim')">👥 MODE DUA TIM<br><small style="font-weight:400;font-size:0.8rem;">2 soal • Cepat-cepatan</small></button>
+        <button class="btn btn-primary btn-lg" onclick="startKuis('individu')">👤 MODE INDIVIDU<br><small style="font-weight:400;font-size:0.8rem;">Melawan Komputer</small></button>
+        <button class="btn btn-gold btn-lg" onclick="startKuis('tim')">👥 MODE DUA TIM<br><small style="font-weight:400;font-size:0.8rem;">2 mobil balapan</small></button>
       </div>
     </div>
 
     <div id="kuisGame" style="display:none;">
-      <div class="quiz-arena">
-        <div class="fighter team-blue" id="teamBlue">
-          <div class="avatar" id="avatarBlue">🔵</div>
-          <div class="name" id="nameBlue">TIM ATOM BIRU</div>
-          <div class="hp-bar"><div class="hp-fill" id="hpBlue"></div></div>
-          <div class="hp-text" id="hpBlueText">100 HP</div>
-        </div>
-        <div class="vs-badge">VS</div>
-        <div class="fighter team-yellow" id="teamYellow">
-          <div class="avatar" id="avatarYellow">🟡</div>
-          <div class="name" id="nameYellow">TIM ATOM KUNING</div>
-          <div class="hp-bar"><div class="hp-fill" id="hpYellow"></div></div>
-          <div class="hp-text" id="hpYellowText">100 HP</div>
+      <div class="race-track-wrap">
+        <canvas id="raceCanvas" width="900" height="220"></canvas>
+        <div class="race-legend">
+          <div class="legend-item legend-blue">🔵 <span id="legendBlue">KAMU / TIM BIRU</span></div>
+          <div class="legend-item legend-yellow">🟡 <span id="legendYellow">KOMPUTER / TIM KUNING</span></div>
         </div>
       </div>
 
-      <div class="tug-canvas-wrap">
-        <canvas id="tugCanvas" width="600" height="140"></canvas>
-      </div>
-
-      <!-- DUAL QUESTION -->
-      <div class="dual-question-wrap two-lanes" id="dualWrap">
+      <div class="dual-question-wrap">
         <div class="quiz-panel lane-blue" id="panelBlue">
           <div class="quiz-top">
             <div class="quiz-meta">
               <span class="q-num" id="qNumBlue">Soal 1/10</span>
-              <span class="lane-status waiting" id="statusBlue">MENUNGGU</span>
+              <span class="lane-status waiting" id="statusBlue">MENJAWAB</span>
             </div>
             <div class="quiz-meta">
               <span class="timer" id="timerBlue">30s</span>
@@ -442,7 +412,7 @@ body::before {
           <div class="quiz-top">
             <div class="quiz-meta">
               <span class="q-num" id="qNumYellow">Soal 1/10</span>
-              <span class="lane-status waiting" id="statusYellow">MENUNGGU</span>
+              <span class="lane-status waiting" id="statusYellow">MENJAWAB</span>
             </div>
             <div class="quiz-meta">
               <span class="timer" id="timerYellow">30s</span>
@@ -896,13 +866,12 @@ function toggleJawab(btn) {
 }
 
 /* ============================================================
-   LAB SIMULASI — UPGRADED
+   LAB SIMULASI
    ============================================================ */
 const labCanvas = document.getElementById('labCanvas');
 const labCtx = labCanvas ? labCanvas.getContext('2d') : null;
 const labInfo = document.getElementById('labInfo');
 
-// Data unsur lengkap dengan warna pastel, radius, konfigurasi elektron
 const atomData = {
   H:  { color: '#ffb3ba', radius: 16, valensi: 1, konfig: '1',    nama: 'Hidrogen',   en: 2.20 },
   He: { color: '#ffd4b3', radius: 14, valensi: 2, konfig: '2',    nama: 'Helium',     en: null },
@@ -926,7 +895,6 @@ const atomData = {
   Ca: { color: '#b3f0ff', radius: 28, valensi: 2, konfig: '2,8,8,2',nama: 'Kalsium',  en: 1.00 }
 };
 
-// Tabel periodik mini layout (periode x golongan approximation)
 const periodicLayout = [
   { sym: 'H', row: 1, col: 1 }, { sym: 'He', row: 1, col: 8 },
   { sym: 'Li', row: 2, col: 1 }, { sym: 'Be', row: 2, col: 2 }, { sym: 'B', row: 2, col: 3 },
@@ -938,7 +906,6 @@ const periodicLayout = [
   { sym: 'K', row: 4, col: 1 }, { sym: 'Ca', row: 4, col: 2 }
 ];
 
-// Rekomendasi senyawa lengkap dengan data teoritis
 const rekomendasiSenyawa = [
   { rumus: 'H₂O', nama: 'Air', atoms: ['O','H','H'], jenis: 'kovalen-polar' },
   { rumus: 'NaCl', nama: 'Garam Dapur', atoms: ['Na','Cl'], jenis: 'ion' },
@@ -956,7 +923,6 @@ const rekomendasiSenyawa = [
   { rumus: 'H₂S', nama: 'Asam Sulfida', atoms: ['H','H','S'], jenis: 'kovalen-polar' }
 ];
 
-// Database senyawa untuk analisis
 const senyawaDB = {
   'H-H':       { nama: 'Gas Hidrogen', rumus: 'H₂', jenis: 'Kovalen Nonpolar', lewis: 'H—H', pei: 1, peb: 0, bentuk: 'Linear', sudut: '180°', konfig: 'H: 1 (duplet)', proses: 'Dua atom H berbagi 1 pasang elektron.', ikatanDetail: 'Ikatan kovalen tunggal nonpolar' },
   'O-O':       { nama: 'Gas Oksigen', rumus: 'O₂', jenis: 'Kovalen Nonpolar', lewis: 'O=O', pei: 2, peb: 2, bentuk: 'Linear', sudut: '180°', konfig: 'O: 2,6 (butuh 2e⁻)', proses: 'Dua atom O berbagi 2 pasang elektron (rangkap dua).', ikatanDetail: 'Ikatan kovalen rangkap dua' },
@@ -973,26 +939,24 @@ const senyawaDB = {
   'Be-Cl-Cl':  { nama: 'Berilium Klorida', rumus: 'BeCl₂', jenis: 'Kovalen Nonpolar', lewis: 'Cl—Be—Cl', pei: 2, peb: 0, bentuk: 'Linear', sudut: '180°', konfig: 'Be: 2,2 | Cl: 2,8,7', proses: 'Be berbagi 2 pasang e⁻ dengan 2 Cl.', ikatanDetail: '2 ikatan kovalen tunggal polar (molekul nonpolar)' },
   'Cl-Na':     { nama: 'Natrium Klorida', rumus: 'NaCl', jenis: 'Ikatan Ion', lewis: 'Na⁺ [:Cl:]⁻', pei: 0, peb: 0, bentuk: 'Kisi Kristal', sudut: '-', konfig: 'Na: 2,8,1 → Na⁺: 2,8 | Cl: 2,8,7 → Cl⁻: 2,8,8', proses: 'Na melepas 1 e⁻ kepada Cl. Terbentuk Na⁺ dan Cl⁻.', ikatanDetail: 'Ikatan ion (serah terima elektron)' },
   'Mg-O':      { nama: 'Magnesium Oksida', rumus: 'MgO', jenis: 'Ikatan Ion', lewis: 'Mg²⁺ [:O:]²⁻', pei: 0, peb: 0, bentuk: 'Kisi Kristal', sudut: '-', konfig: 'Mg: 2,8,2 → Mg²⁺: 2,8 | O: 2,6 → O²⁻: 2,8', proses: 'Mg melepas 2 e⁻ kepada O. Terbentuk Mg²⁺ dan O²⁻.', ikatanDetail: 'Ikatan ion' },
-  'Ca-O':      { nama: 'Kalsium Oksida', rumus: 'CaO', jenis: 'Ikatan Ion', lewis: 'Ca²⁺ [:O:]²⁻', pei: 0, peb: 0, bentuk: 'Kisi Kristal', sudut: '-', konfig: 'Ca: 2,8,8,2 → Ca²⁺ | O: 2,6 → O²⁻', proses: 'Ca melepas 2 e⁻ kepada O.', ikatanDetail: 'Ikatan ion' }
+  'Ca-O':      { name: 'Kalsium Oksida', rumus: 'CaO', jenis: 'Ikatan Ion', lewis: 'Ca²⁺ [:O:]²⁻', pei: 0, peb: 0, bentuk: 'Kisi Kristal', sudut: '-', konfig: 'Ca: 2,8,8,2 → Ca²⁺ | O: 2,6 → O²⁻', proses: 'Ca melepas 2 e⁻ kepada O.', ikatanDetail: 'Ikatan ion' }
 };
 
 // State lab
-let labAtoms = [];       // { sym, x, y }
+let labAtoms = [];
 let labSelected = null;
 let labShowElectrons = false;
 let labAutoRotate = false;
 let labRotAngle = 0;
-let labZoom = 1;
-let labViewOffset = { x: 0, y: 0 };
+let labZoom = 1; // zoom untuk MOLEKUL saja (background tetap)
 let labDraggingAtom = null;
-let labDraggingView = false;
 let labLastMouse = { x: 0, y: 0 };
 
 // Build periodic table
 const periodicMini = document.getElementById('periodicMini');
-// Create 4 rows x 8 cols grid
 const grid = Array.from({ length: 4 }, () => Array(8).fill(null));
 periodicLayout.forEach(p => { grid[p.row - 1][p.col - 1] = p.sym; });
+const atomicNums = { H:1, He:2, Li:3, Be:4, B:5, C:6, N:7, O:8, F:9, Ne:10, Na:11, Mg:12, Al:13, Si:14, P:15, S:16, Cl:17, Ar:18, K:19, Ca:20 };
 for (let r = 0; r < 4; r++) {
   for (let c = 0; c < 8; c++) {
     const sym = grid[r][c];
@@ -1001,7 +965,7 @@ for (let r = 0; r < 4; r++) {
       const b = document.createElement('button');
       b.className = 'periodic-cell';
       b.style.background = d.color;
-      b.innerHTML = `<span class="symbol">${sym}</span><span class="num">${periodicLayout.find(p => p.sym === sym) ? (Object.keys(atomData).indexOf(sym) + 1) : ''}</span>`;
+      b.innerHTML = `<span class="symbol">${sym}</span><span class="num">${atomicNums[sym]}</span>`;
       b.title = `${d.nama} — ${d.valensi} e⁻ valensi — Konfigurasi: ${d.konfig}`;
       b.onclick = () => {
         labSelected = sym;
@@ -1033,42 +997,52 @@ function loadSenyawa(s) {
   const centerX = labCanvas.width / 2;
   const centerY = labCanvas.height / 2;
   const n = s.atoms.length;
-  const baseRadius = Math.min(labCanvas.width, labCanvas.height) * 0.28;
+  // Jarak lebih lebar & proporsional
+  const baseRadius = Math.min(labCanvas.width, labCanvas.height) * 0.32;
   
-  // Cari atom pusat (yang bukan H dan muncul 1x) atau atom pertama
   const counts = {};
   s.atoms.forEach(a => counts[a] = (counts[a] || 0) + 1);
   let centerSym = s.atoms.find(a => a !== 'H' && counts[a] === 1);
   if (!centerSym) centerSym = s.atoms[0];
   let centerIdx = s.atoms.indexOf(centerSym);
   
-  // Posisikan atom pusat di tengah
   labAtoms.push({ sym: centerSym, x: centerX, y: centerY });
   
-  // Atom lain di sekeliling
   const others = s.atoms.filter((_, i) => i !== centerIdx);
   const m = others.length;
   const angles = [];
-  if (m === 1) angles.push(0);
-  else if (m === 2) { 
-    if (s.rumus === 'H₂O' || s.rumus === 'H₂S') { angles.push(-Math.PI/4, Math.PI/4); } // bentuk V
+  // Bentuk sesuai teori VSEPR
+  if (m === 1) {
+    angles.push(0); // linear 2 atom
+  } else if (m === 2) {
+    if (s.rumus === 'H₂O') { angles.push(-Math.PI/2.6, Math.PI/2.6); } // V shape 104.5°
+    else if (s.rumus === 'H₂S') { angles.push(-Math.PI/2.8, Math.PI/2.8); } // V shape ~92°
     else { angles.push(0, Math.PI); } // linear
+  } else if (m === 3) {
+    // Trigonal planar / piramida
+    if (s.rumus === 'NH₃') {
+      // Piramida trigonal - proyeksikan sebagai 3 di bawah
+      angles.push(-Math.PI/2, Math.PI/6, Math.PI*5/6);
+    } else {
+      angles.push(-Math.PI/2, Math.PI/6, Math.PI*5/6);
+    }
+  } else if (m === 4) {
+    // Tetrahedral - 4 sudut 109.5°
+    angles.push(Math.PI/4, 3*Math.PI/4, 5*Math.PI/4, 7*Math.PI/4);
+  } else {
+    for (let i = 0; i < m; i++) angles.push((i / m) * Math.PI * 2 - Math.PI/2);
   }
-  else if (m === 3) { angles.push(-Math.PI/2, Math.PI/6, Math.PI*5/6); } // trigonal
-  else if (m === 4) { angles.push(Math.PI/4, 3*Math.PI/4, 5*Math.PI/4, 7*Math.PI/4); }
-  else { for (let i = 0; i < m; i++) angles.push((i / m) * Math.PI * 2); }
   
   others.forEach((sym, i) => {
     const ang = angles[i] || (i / m * Math.PI * 2);
     labAtoms.push({
       sym,
       x: centerX + Math.cos(ang) * baseRadius,
-      y: centerY + Math.sin(ang) * baseRadius * 0.85
+      y: centerY + Math.sin(ang) * baseRadius
     });
   });
   
   labZoom = 1;
-  labViewOffset = { x: 0, y: 0 };
   labDraw();
   setTimeout(() => labAnalyze(), 100);
   SFX.click();
@@ -1082,22 +1056,15 @@ function labResize() {
   labDraw();
 }
 
-// Helper: screen to world coords
-function screenToWorld(sx, sy) {
+function getAtomAtScreen(sx, sy) {
+  // Konversi screen ke world coords menggunakan zoom molekul
   const cx = labCanvas.width / 2, cy = labCanvas.height / 2;
-  return {
-    x: (sx - cx - labViewOffset.x) / labZoom + cx,
-    y: (sy - cy - labViewOffset.y) / labZoom + cy
-  };
-}
-
-// Helper: get atom at position
-function getAtomAt(sx, sy) {
-  const w = screenToWorld(sx, sy);
+  const wx = (sx - cx) / labZoom + cx;
+  const wy = (sy - cy) / labZoom + cy;
   for (let i = labAtoms.length - 1; i >= 0; i--) {
     const a = labAtoms[i];
     const d = atomData[a.sym];
-    if (Math.hypot(a.x - w.x, a.y - w.y) < d.radius * labZoom + 5) return { atom: a, index: i };
+    if (Math.hypot(a.x - wx, a.y - wy) < d.radius + 5) return { atom: a, index: i };
   }
   return null;
 }
@@ -1107,29 +1074,27 @@ function labDraw() {
   const W = labCanvas.width, H = labCanvas.height;
   labCtx.clearRect(0, 0, W, H);
   
-  // Background grid
+  // === BACKGROUND TETAP (tidak ikut zoom) ===
   labCtx.save();
-  labCtx.strokeStyle = 'rgba(168,216,240,0.06)';
+  labCtx.strokeStyle = 'rgba(168,216,240,0.08)';
   labCtx.lineWidth = 1;
-  const gridStep = 40 * labZoom;
-  const offX = ((W/2 + labViewOffset.x) % gridStep + gridStep) % gridStep;
-  const offY = ((H/2 + labViewOffset.y) % gridStep + gridStep) % gridStep;
-  for (let x = offX; x < W; x += gridStep) {
+  const gridStep = 40;
+  for (let x = 0; x < W; x += gridStep) {
     labCtx.beginPath(); labCtx.moveTo(x, 0); labCtx.lineTo(x, H); labCtx.stroke();
   }
-  for (let y = offY; y < H; y += gridStep) {
+  for (let y = 0; y < H; y += gridStep) {
     labCtx.beginPath(); labCtx.moveTo(0, y); labCtx.lineTo(W, y); labCtx.stroke();
   }
   labCtx.restore();
   
-  // Apply zoom & pan
+  // === MOLEKUL DENGAN ZOOM ===
   labCtx.save();
-  labCtx.translate(W/2 + labViewOffset.x, H/2 + labViewOffset.y);
+  const cx = W / 2, cy = H / 2;
+  labCtx.translate(cx, cy);
   labCtx.scale(labZoom, labZoom);
-  labCtx.translate(-W/2, -H/2);
+  labCtx.translate(-cx, -cy);
   
   // Draw bonds
-  const drawnBonds = [];
   for (let i = 0; i < labAtoms.length; i++) {
     for (let j = i + 1; j < labAtoms.length; j++) {
       const a = labAtoms[i], b = labAtoms[j];
@@ -1137,12 +1102,10 @@ function labDraw() {
       const dx = b.x - a.x, dy = b.y - a.y;
       const dist = Math.hypot(dx, dy);
       const rSum = da.radius + db.radius;
-      // Bond if within ~1.8x sum of radii (jarak diperpanjang)
+      
+      // Auto-snap: jika atom di dekatkan, tampilkan ikatan
       if (dist < rSum * 1.9) {
-        drawnBonds.push({ a, b, i, j });
         const bondType = getBondType(a.sym, b.sym);
-        
-        // Determine bond lines count
         let lines = 1;
         if (bondType.type === 'double') lines = 2;
         if (bondType.type === 'triple') lines = 3;
@@ -1162,14 +1125,12 @@ function labDraw() {
           labCtx.stroke();
         }
         
-        // Elektron pairs (jika ditampilkan)
         if (labShowElectrons) {
           const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
           const numPairs = lines;
           for (let p = 0; p < numPairs; p++) {
             const off = (p - (numPairs - 1) / 2) * 14;
             const ex = mx + perpX * off, ey = my + perpY * off;
-            // 2 electron dots
             labCtx.fillStyle = '#ffd54f';
             labCtx.beginPath(); labCtx.arc(ex - 4, ey - 4, 3, 0, Math.PI * 2); labCtx.fill();
             labCtx.beginPath(); labCtx.arc(ex + 4, ey + 4, 3, 0, Math.PI * 2); labCtx.fill();
@@ -1186,14 +1147,12 @@ function labDraw() {
     const d = atomData[a.sym];
     const r = d.radius;
     
-    // Outer glow
     const glowGrad = labCtx.createRadialGradient(a.x, a.y, r * 0.8, a.x, a.y, r * 1.5);
     glowGrad.addColorStop(0, hexToRgba(d.color, 0.3));
     glowGrad.addColorStop(1, hexToRgba(d.color, 0));
     labCtx.fillStyle = glowGrad;
     labCtx.beginPath(); labCtx.arc(a.x, a.y, r * 1.5, 0, Math.PI * 2); labCtx.fill();
     
-    // Sphere gradient (3D look)
     const grad = labCtx.createRadialGradient(a.x - r * 0.35, a.y - r * 0.35, r * 0.1, a.x, a.y, r);
     grad.addColorStop(0, lighten(d.color, 30));
     grad.addColorStop(0.5, d.color);
@@ -1201,18 +1160,15 @@ function labDraw() {
     labCtx.fillStyle = grad;
     labCtx.beginPath(); labCtx.arc(a.x, a.y, r, 0, Math.PI * 2); labCtx.fill();
     
-    // Shine highlight
     labCtx.fillStyle = 'rgba(255,255,255,0.4)';
     labCtx.beginPath();
     labCtx.ellipse(a.x - r * 0.3, a.y - r * 0.4, r * 0.25, r * 0.15, -Math.PI/4, 0, Math.PI * 2);
     labCtx.fill();
     
-    // Outline
     labCtx.strokeStyle = darken(d.color, 40);
     labCtx.lineWidth = 1.5;
     labCtx.beginPath(); labCtx.arc(a.x, a.y, r, 0, Math.PI * 2); labCtx.stroke();
     
-    // Label
     const fontSize = Math.max(11, r * 0.85);
     labCtx.fillStyle = '#0f2847';
     labCtx.font = `bold ${fontSize}px 'Segoe UI', sans-serif`;
@@ -1223,9 +1179,7 @@ function labDraw() {
   labCtx.restore();
 }
 
-// Determine bond type between two elements
 function getBondType(sym1, sym2) {
-  // Ionic
   const metals = ['Li','Na','K','Mg','Ca','Be','Al'];
   const nonmetals = ['H','C','N','O','F','Cl','S','P','B','Si','He','Ne','Ar'];
   const isMetal1 = metals.includes(sym1), isMetal2 = metals.includes(sym2);
@@ -1235,12 +1189,10 @@ function getBondType(sym1, sym2) {
     return { type: 'ionic', color: '#d4b3ff', label: 'Ion' };
   }
   
-  // Covalent - determine order
   const d1 = atomData[sym1], d2 = atomData[sym2];
   const en1 = d1.en || 2.5, en2 = d2.en || 2.5;
   const diff = Math.abs(en1 - en2);
   
-  // Determine bond order based on valence electrons needed
   const need1 = sym1 === 'H' ? 1 : (8 - d1.valensi);
   const need2 = sym2 === 'H' ? 1 : (8 - d2.valensi);
   const order = Math.min(need1, need2);
@@ -1250,7 +1202,6 @@ function getBondType(sym1, sym2) {
   else if (order >= 2 && sym1 === sym2) { type = 'double'; color = '#ffb3ba'; }
   else if ((sym1 === 'C' && sym2 === 'O') || (sym1 === 'O' && sym2 === 'C')) { type = 'double'; color = '#ffb3ba'; }
   
-  // Polarity for color
   let polarColor = color;
   if (diff > 0.4 && type === 'single') polarColor = '#ffc9de';
   else if (diff < 0.4 && type === 'single') polarColor = '#b3f0ff';
@@ -1274,16 +1225,16 @@ function darken(hex, pct) {
 }
 
 // ===== MOUSE INTERACTION =====
+let mousedownPos = null;
 if (labCanvas) {
   labCanvas.addEventListener('mousedown', e => {
     const rect = labCanvas.getBoundingClientRect();
     const sx = e.clientX - rect.left, sy = e.clientY - rect.top;
-    const hit = getAtomAt(sx, sy);
+    mousedownPos = { x: e.clientX, y: e.clientY, sx, sy };
+    
+    const hit = getAtomAtScreen(sx, sy);
     if (hit) {
       labDraggingAtom = hit.index;
-      labLastMouse = { x: sx, y: sy };
-    } else {
-      labDraggingView = true;
       labLastMouse = { x: sx, y: sy };
     }
   });
@@ -1292,43 +1243,33 @@ if (labCanvas) {
     const rect = labCanvas.getBoundingClientRect();
     const sx = e.clientX - rect.left, sy = e.clientY - rect.top;
     if (labDraggingAtom !== null) {
-      const w = screenToWorld(sx, sy);
-      labAtoms[labDraggingAtom].x = w.x;
-      labAtoms[labDraggingAtom].y = w.y;
-      labDraw();
-    } else if (labDraggingView) {
-      labViewOffset.x += sx - labLastMouse.x;
-      labViewOffset.y += sy - labLastMouse.y;
+      // Konversi delta screen ke world (dibagi zoom)
+      const dx = (sx - labLastMouse.x) / labZoom;
+      const dy = (sy - labLastMouse.y) / labZoom;
+      labAtoms[labDraggingAtom].x += dx;
+      labAtoms[labDraggingAtom].y += dy;
       labLastMouse = { x: sx, y: sy };
       labDraw();
     }
   });
   
-  window.addEventListener('mouseup', e => {
-    if (labDraggingAtom !== null || labDraggingView) {
-      labDraggingAtom = null;
-      labDraggingView = false;
-    }
+  window.addEventListener('mouseup', () => {
+    labDraggingAtom = null;
   });
   
+  // Zoom MOLEKUL saja (background tetap)
   labCanvas.addEventListener('wheel', e => {
     e.preventDefault();
-    const rect = labCanvas.getBoundingClientRect();
-    const sx = e.clientX - rect.left, sy = e.clientY - rect.top;
-    const before = screenToWorld(sx, sy);
     const delta = e.deltaY > 0 ? 0.9 : 1.1;
     labZoom = Math.max(0.3, Math.min(3, labZoom * delta));
-    const after = screenToWorld(sx, sy);
-    labViewOffset.x += (after.x - before.x) * labZoom;
-    labViewOffset.y += (after.y - before.y) * labZoom;
     labDraw();
   }, { passive: false });
   
-  // Double-click to delete
+  // Double click to delete
   labCanvas.addEventListener('dblclick', e => {
     const rect = labCanvas.getBoundingClientRect();
     const sx = e.clientX - rect.left, sy = e.clientY - rect.top;
-    const hit = getAtomAt(sx, sy);
+    const hit = getAtomAtScreen(sx, sy);
     if (hit) {
       labAtoms.splice(hit.index, 1);
       labDraw();
@@ -1336,47 +1277,30 @@ if (labCanvas) {
     }
   });
   
-  // Click empty area = add atom (only if not dragging)
-  let clickStart = null;
-  labCanvas.addEventListener('click', e => {
-    // handled via mousedown/up - skip if dragging occurred
-  });
-  
-  // Use mouseup to determine placement
-  labCanvas.addEventListener('mouseup', e => {
-    // Handled in window mouseup
-  });
-}
-
-// Simple click-to-place (if user didn't drag)
-let mousedownPos = null;
-if (labCanvas) {
-  labCanvas.addEventListener('mousedown', e => {
-    mousedownPos = { x: e.clientX, y: e.clientY };
-  });
+  // Click to place new atom
   labCanvas.addEventListener('click', e => {
     if (!mousedownPos) return;
     const moved = Math.hypot(e.clientX - mousedownPos.x, e.clientY - mousedownPos.y);
-    if (moved > 5) return; // was drag
+    if (moved > 5) { mousedownPos = null; return; }
     
     const rect = labCanvas.getBoundingClientRect();
     const sx = e.clientX - rect.left, sy = e.clientY - rect.top;
     
-    // Check if clicked on atom - handled by dblclick for delete
-    const hit = getAtomAt(sx, sy);
-    if (hit) return;
+    const hit = getAtomAtScreen(sx, sy);
+    if (hit) { mousedownPos = null; return; }
     
-    // Place new atom
     if (labSelected && labAtoms.length < 10) {
-      const w = screenToWorld(sx, sy);
-      labAtoms.push({ sym: labSelected, x: w.x, y: w.y });
+      const cx = labCanvas.width / 2, cy = labCanvas.height / 2;
+      const wx = (sx - cx) / labZoom + cx;
+      const wy = (sy - cy) / labZoom + cy;
+      labAtoms.push({ sym: labSelected, x: wx, y: wy });
       labDraw();
       SFX.click();
     }
+    mousedownPos = null;
   });
 }
 
-// ===== LAB CONTROLS =====
 function labClear() {
   labAtoms = [];
   labSelected = null;
@@ -1384,7 +1308,6 @@ function labClear() {
   labAutoRotate = false;
   labRotAngle = 0;
   labZoom = 1;
-  labViewOffset = { x: 0, y: 0 };
   document.querySelectorAll('.periodic-cell').forEach(x => x.classList.remove('selected'));
   document.getElementById('btnElectron').classList.remove('active');
   document.getElementById('btnRotate').classList.remove('active');
@@ -1395,7 +1318,6 @@ function labClear() {
 
 function labResetView() {
   labZoom = 1;
-  labViewOffset = { x: 0, y: 0 };
   labDraw();
   SFX.click();
 }
@@ -1416,11 +1338,10 @@ function labToggleRotate() {
 
 function animateRotate() {
   if (!labAutoRotate) return;
-  labRotAngle += 0.008;
   const cx = labCanvas.width / 2, cy = labCanvas.height / 2;
   labAtoms.forEach(a => {
     const dx = a.x - cx, dy = a.y - cy;
-    const angle = 0.008;
+    const angle = 0.012;
     a.x = cx + dx * Math.cos(angle) - dy * Math.sin(angle);
     a.y = cy + dx * Math.sin(angle) + dy * Math.cos(angle);
   });
@@ -1438,19 +1359,11 @@ function labShowLewis() {
 function getSenyawaKey() {
   const counts = {};
   labAtoms.forEach(a => counts[a.sym] = (counts[a.sym] || 0) + 1);
-  const parts = [];
-  Object.keys(counts).sort().forEach(s => {
-    parts.push(s + (counts[s] > 1 ? counts[s] : ''));
-  });
-  // Try various keys
   const allSyms = labAtoms.map(a => a.sym);
   const tries = [];
-  
-  // Direct count-based
   const sortedSyms = [...allSyms].sort();
   tries.push(sortedSyms.join('-'));
   
-  // Specific keys
   if (counts.H === 2 && counts.O === 1 && allSyms.length === 3) tries.push('H-O-H');
   if (counts.H === 2 && counts.S === 1) tries.push('H-H-S');
   if (counts.N === 1 && counts.H === 3) tries.push('H-H-H-N');
@@ -1475,17 +1388,12 @@ function analyzeBonds() {
   }
   
   const r = getSenyawaKey();
-  if (r.data) {
-    return { ...r.data, valid: true };
-  }
+  if (r.data) return { ...r.data, valid: true };
   
-  // Unknown combination - analyze manually
   const syms = labAtoms.map(a => a.sym);
   const counts = {};
   syms.forEach(s => counts[s] = (counts[s] || 0) + 1);
   
-  // Determine bond types
-  const bondTypes = new Set();
   let hasIonic = false, hasPolar = false, hasNonpolar = false;
   const metals = ['Li','Na','K','Mg','Ca','Be','Al'];
   for (let i = 0; i < labAtoms.length; i++) {
@@ -1513,14 +1421,11 @@ function analyzeBonds() {
   
   return {
     nama: 'Kombinasi Kustom',
-    rumus: rumus,
-    jenis: jenis,
-    lewis: syms.join(' — '),
+    rumus, jenis, lewis: syms.join(' — '),
     pei: 0, peb: 0, bentuk: 'Tidak terdefinisi', sudut: '-',
     konfig: konfigLines,
     proses: 'Kombinasi atom ini belum terdaftar dalam database. Coba rekomendasi senyawa di panel kiri untuk analisis lengkap.',
-    ikatanDetail: jenis,
-    valid: false
+    ikatanDetail: jenis, valid: false
   };
 }
 
@@ -1528,7 +1433,6 @@ function labAnalyze() {
   if (labAtoms.length === 0) { alert('Tambahkan atom terlebih dahulu!'); return; }
   const a = analyzeBonds();
   
-  // Determine badge class
   let badgeClass = 'badge-kov', badgeText = a.jenis;
   if (a.jenis.includes('Ion')) { badgeClass = 'badge-ion'; badgeText = 'ION'; }
   else if (a.jenis.includes('Koordinasi')) { badgeClass = 'badge-koord'; badgeText = 'KOORDINASI'; }
@@ -1549,7 +1453,6 @@ function labAnalyze() {
   }
   html += `<div class="row"><span>Konfigurasi e⁻</span><span style="font-size:0.72rem;">${a.konfig}</span></div>`;
   
-  // Atom details
   const counts = {};
   labAtoms.forEach(a => counts[a.sym] = (counts[a.sym] || 0) + 1);
   html += `<div class="explain" style="margin-top:8px;"><strong>Atom dalam molekul:</strong><br>`;
@@ -1566,50 +1469,43 @@ function labAnalyze() {
 }
 
 /* ============================================================
-   KUIS BATTLE — UPGRADED
+   KUIS ROBLOX RACE — Benar maju, salah diam
    ============================================================ */
 const questions = [
   { q: 'Ikatan yang terjadi karena serah terima elektron disebut ikatan...', opts: ['Kovalen', 'Ion', 'Logam', 'Hidrogen'], ans: 1, exp: 'Serah terima elektron → ikatan ion.' },
-  { q: 'Atom dengan konfigurasi 2, 8, 1 akan membentuk ion...', opts: ['X²⁻', 'X⁻', 'X⁺', 'X²⁺'], ans: 2, exp: 'Melepas 1 elektron → X⁺ (kation).' },
-  { q: 'Ikatan kovalen terjadi karena...', opts: ['Serah terima elektron', 'Pemakaian bersama pasangan elektron', 'Gaya tarik ion', 'Lautan elektron'], ans: 1, exp: 'Kovalen = pemakaian bersama pasangan elektron.' },
+  { q: 'Atom dengan konfigurasi 2, 8, 1 akan membentuk ion...', opts: ['X²⁻', 'X⁻', 'X⁺', 'X²⁺'], ans: 2, exp: 'Melepas 1 elektron → X⁺.' },
+  { q: 'Ikatan kovalen terjadi karena...', opts: ['Serah terima elektron', 'Pemakaian bersama pasangan elektron', 'Gaya tarik ion', 'Lautan elektron'], ans: 1, exp: 'Kovalen = pemakaian bersama pasangan e⁻.' },
   { q: 'Molekul O₂ memiliki ikatan kovalen...', opts: ['Tunggal', 'Rangkap dua', 'Rangkap tiga', 'Koordinasi'], ans: 1, exp: 'O=O adalah rangkap dua.' },
   { q: 'Ikatan pada N₂ (N≡N) adalah...', opts: ['Tunggal', 'Rangkap dua', 'Rangkap tiga', 'Ion'], ans: 2, exp: 'N≡N = rangkap tiga.' },
-  { q: 'Ikatan kovalen koordinasi terjadi bila...', opts: ['Pasangan elektron berasal dari satu atom', 'Elektron dibagi rata', 'Terjadi serah terima', 'Atom logam berikatan'], ans: 0, exp: 'Pasangan elektron hanya dari satu atom (donor).' },
+  { q: 'Ikatan kovalen koordinasi terjadi bila...', opts: ['Pasangan elektron berasal dari satu atom', 'Elektron dibagi rata', 'Terjadi serah terima', 'Atom logam berikatan'], ans: 0, exp: 'Pasangan e⁻ hanya dari satu atom (donor).' },
   { q: 'Senyawa yang berikatan kovalen polar adalah...', opts: ['Cl₂', 'O₂', 'HCl', 'CH₄'], ans: 2, exp: 'HCl memiliki beda keelektronegatifan → polar.' },
   { q: 'Molekul CH₄ memiliki bentuk...', opts: ['Linear', 'Segitiga datar', 'Tetrahedral', 'Piramida'], ans: 2, exp: 'CH₄ → AX₄ → tetrahedral.' },
   { q: 'Molekul H₂O memiliki jumlah PEB pada atom pusat sebanyak...', opts: ['0', '1', '2', '3'], ans: 2, exp: 'O memiliki 2 PEB pada H₂O.' },
   { q: 'Molekul yang bersifat nonpolar meskipun memiliki ikatan polar adalah...', opts: ['H₂O', 'NH₃', 'HCl', 'CH₄'], ans: 3, exp: 'CH₄ simetris → momen dipol nol → nonpolar.' },
   { q: 'Jumlah elektron valensi atom klorin (₁₇Cl) adalah...', opts: ['5', '6', '7', '8'], ans: 2, exp: 'Cl: 2,8,7 → 7 elektron valensi.' },
-  { q: 'Ikatan pada molekul HCl termasuk...', opts: ['Kovalen nonpolar', 'Kovalen polar', 'Ion', 'Koordinasi'], ans: 1, exp: 'Beda keelektronegatifan H dan Cl besar → polar.' },
+  { q: 'Ikatan pada molekul HCl termasuk...', opts: ['Kovalen nonpolar', 'Kovalen polar', 'Ion', 'Koordinasi'], ans: 1, exp: 'Beda keelektonegatifan H dan Cl besar → polar.' },
   { q: 'Bentuk molekul NH₃ adalah...', opts: ['Linear', 'Segitiga datar', 'Tetrahedral', 'Piramida trigonal'], ans: 3, exp: 'NH₃: 3 PEI + 1 PEB → piramida trigonal.' },
   { q: 'Senyawa MgCl₂ terbentuk melalui ikatan...', opts: ['Kovalen', 'Ion', 'Koordinasi', 'Hidrogen'], ans: 1, exp: 'Mg (logam) + Cl (nonlogam) → ikatan ion.' },
   { q: 'Molekul yang memiliki bentuk linear adalah...', opts: ['H₂O', 'NH₃', 'CO₂', 'CH₄'], ans: 2, exp: 'CO₂: O=C=O → linear 180°.' }
 ];
 
-// State kuis
+const TOTAL_SOAL = 10;
+const RACE_STEPS = TOTAL_SOAL; // jumlah langkah untuk sampai finish
+
+// Race state
 let kuis = {
   mode: 'individu',
-  // Individu: player vs AI
-  playerHp: 100, aiHp: 100,
-  playerIdx: 0, aiIdx: 0,
-  playerCorrect: 0, playerWrong: 0,
-  aiCorrect: 0, aiWrong: 0,
-  playerAnswered: [],
-  aiAnswered: [],
-  playerTimer: null, aiTimer: null,
-  playerTimeLeft: 30, aiTimeLeft: 30,
-  playerFinished: false, aiFinished: false,
-  playerQuestions: [], aiQuestions: [],
-  // Tim: 2 tim
-  hpBlue: 100, hpYellow: 100,
-  blueIdx: 0, yellowIdx: 0,
-  blueCorrect: 0, yellowCorrect: 0, blueWrong: 0, yellowWrong: 0,
+  blueProgress: 0, // jumlah jawaban benar = langkah maju
+  yellowProgress: 0,
+  blueCorrect: 0, blueWrong: 0,
+  yellowCorrect: 0, yellowWrong: 0,
   blueAnswered: [], yellowAnswered: [],
+  blueIdx: 0, yellowIdx: 0,
+  blueQuestions: [], yellowQuestions: [],
   blueTimer: null, yellowTimer: null,
   blueTimeLeft: 30, yellowTimeLeft: 30,
   blueFinished: false, yellowFinished: false,
-  blueQuestions: [], yellowQuestions: [],
-  allAnswers: []
+  aiTimeout: null, aiRunning: false
 };
 
 function shuffle(arr) {
@@ -1626,125 +1522,132 @@ function startKuis(mode) {
   document.getElementById('kuisGame').style.display = 'block';
   document.getElementById('kuisResult').style.display = 'none';
   
-  const shuffled = shuffle(questions).slice(0, 10);
+  const blueQs = shuffle(questions).slice(0, TOTAL_SOAL);
+  const yellowQs = shuffle(questions).slice(0, TOTAL_SOAL);
   
   kuis = {
     mode,
-    playerHp: 100, aiHp: 100,
-    playerIdx: 0, aiIdx: 0,
-    playerCorrect: 0, playerWrong: 0, aiCorrect: 0, aiWrong: 0,
-    playerAnswered: [], aiAnswered: [],
-    playerTimer: null, aiTimer: null,
-    playerTimeLeft: 30, aiTimeLeft: 30,
-    playerFinished: false, aiFinished: false,
-    playerQuestions: shuffled, aiQuestions: shuffle(questions).slice(0, 10),
-    hpBlue: 100, hpYellow: 100,
-    blueIdx: 0, yellowIdx: 0,
-    blueCorrect: 0, yellowCorrect: 0, blueWrong: 0, yellowWrong: 0,
+    blueProgress: 0, yellowProgress: 0,
+    blueCorrect: 0, blueWrong: 0,
+    yellowCorrect: 0, yellowWrong: 0,
     blueAnswered: [], yellowAnswered: [],
+    blueIdx: 0, yellowIdx: 0,
+    blueQuestions: blueQs, yellowQuestions: yellowQs,
     blueTimer: null, yellowTimer: null,
     blueTimeLeft: 30, yellowTimeLeft: 30,
     blueFinished: false, yellowFinished: false,
-    blueQuestions: shuffled, yellowQuestions: shuffle(questions).slice(0, 10),
-    allAnswers: []
+    aiTimeout: null, aiRunning: false
   };
   
-  // Setup names
+  // Reset panels
+  document.getElementById('panelBlue').classList.remove('finished');
+  document.getElementById('panelYellow').classList.remove('finished');
+  
   if (mode === 'individu') {
-    document.getElementById('nameBlue').textContent = 'KAMU';
-    document.getElementById('nameYellow').textContent = '🤖 KOMPUTER';
-    document.getElementById('avatarYellow').textContent = '🤖';
+    document.getElementById('legendBlue').textContent = 'KAMU';
+    document.getElementById('legendYellow').textContent = '🤖 KOMPUTER';
   } else {
-    document.getElementById('nameBlue').textContent = 'TIM BIRU';
-    document.getElementById('nameYellow').textContent = 'TIM KUNING';
-    document.getElementById('avatarYellow').textContent = '🟡';
+    document.getElementById('legendBlue').textContent = 'TIM BIRU';
+    document.getElementById('legendYellow').textContent = 'TIM KUNING';
   }
   
-  updateHPBars();
+  drawRace();
   loadQuestionForLane('blue');
   loadQuestionForLane('yellow');
   
-  if (mode === 'individu') {
-    // AI answers automatically with delay
-    startAIAutoPlay();
-  }
+  if (mode === 'individu') startAIAutoPlay();
   
   SFX.click();
 }
 
 function startAIAutoPlay() {
-  // AI answers each question after 8-20 seconds delay
+  kuis.aiRunning = true;
   const aiAnswerNext = () => {
-    if (kuis.aiFinished || kuis.aiIdx >= kuis.aiQuestions.length) return;
-    const delay = 6000 + Math.random() * 10000; // 6-16 detik
-    setTimeout(() => {
-      if (kuis.aiFinished) return;
-      // AI picks random or correct with 65% probability
-      const q = kuis.aiQuestions[kuis.aiIdx];
-      const correct = Math.random() < 0.65;
+    if (!kuis.aiRunning) return;
+    if (kuis.yellowFinished || kuis.yellowIdx >= kuis.yellowQuestions.length) return;
+    
+    const delay = 4000 + Math.random() * 8000; // 4-12 detik
+    kuis.aiTimeout = setTimeout(() => {
+      if (!kuis.aiRunning) return;
+      if (kuis.yellowFinished) return;
+      
+      const q = kuis.yellowQuestions[kuis.yellowIdx];
+      const correct = Math.random() < 0.6; // 60% akurasi
       const chosen = correct ? q.ans : Math.floor(Math.random() * 4);
       aiAnswer(chosen);
     }, delay);
   };
-  // Start first
   aiAnswerNext();
-  // Set up recurring
-  const interval = setInterval(() => {
-    if (kuis.aiFinished || kuis.aiIdx >= kuis.aiQuestions.length) { clearInterval(interval); return; }
-    aiAnswerNext();
-  }, 5000);
 }
 
 function aiAnswer(idx) {
-  if (kuis.aiFinished) return;
-  const q = kuis.aiQuestions[kuis.aiIdx];
+  if (kuis.yellowFinished) return;
+  const q = kuis.yellowQuestions[kuis.yellowIdx];
   const benar = idx === q.ans;
   
+  const optsEl = document.getElementById('optionsYellow');
+  if (optsEl.querySelectorAll('.quiz-option[disabled]').length > 0) return;
+  
+  kuis.yellowAnswered[kuis.yellowIdx] = idx;
+  
+  optsEl.querySelectorAll('.quiz-option').forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.ans) b.classList.add('correct');
+    if (i === idx && i !== q.ans) b.classList.add('wrong');
+  });
+  
+  const fb = document.getElementById('feedbackYellow');
   if (benar) {
-    kuis.aiCorrect++;
-    kuis.playerHp = Math.max(0, kuis.playerHp - 10);
-    document.getElementById('teamYellow').classList.add('attack');
-    document.getElementById('teamBlue').classList.add('hit');
-    setTimeout(() => {
-      document.getElementById('teamYellow').classList.remove('attack');
-      document.getElementById('teamBlue').classList.remove('hit');
-    }, 600);
+    kuis.yellowCorrect++;
+    kuis.yellowProgress++;
+    fb.className = 'feedback-box ok show';
+    fb.textContent = '🤖 Komputer BENAR! Mobil kuning maju. ' + q.exp;
+    SFX.benar();
+    drawRace();
   } else {
-    kuis.aiWrong++;
-    kuis.aiHp = Math.max(0, kuis.aiHp - 5);
+    kuis.yellowWrong++;
+    fb.className = 'feedback-box no show';
+    fb.textContent = '🤖 Komputer salah. Mobil kuning diam. Jawaban: ' + q.opts[q.ans];
+    SFX.salah();
   }
   
-  kuis.aiAnswered.push(idx);
-  updateHPBars();
-  kuis.aiIdx++;
+  const statusEl = document.getElementById('statusYellow');
+  statusEl.textContent = benar ? '✓ MAJU' : '✗ DIAM';
+  statusEl.className = 'lane-status answered';
   
-  if (kuis.aiIdx >= kuis.aiQuestions.length) {
-    kuis.aiFinished = true;
-    // Update yellow panel
-    const panel = document.getElementById('panelYellow');
-    panel.classList.add('finished');
-    document.getElementById('questionYellow').textContent = '✓ Komputer selesai menjawab!';
-    document.getElementById('optionsYellow').innerHTML = '';
-    document.getElementById('feedbackYellow').className = 'feedback-box ok show';
-    document.getElementById('feedbackYellow').textContent = `Komputer: ${kuis.aiCorrect} benar, ${kuis.aiWrong} salah`;
+  kuis.yellowIdx++;
+  
+  // Cek finish
+  if (kuis.yellowProgress >= RACE_STEPS) {
+    kuis.yellowFinished = true;
+    endKuis();
+    return;
+  }
+  
+  if (kuis.yellowIdx >= kuis.yellowQuestions.length) {
+    kuis.yellowFinished = true;
+    document.getElementById('panelYellow').classList.add('finished');
     document.getElementById('statusYellow').textContent = 'SELESAI';
     document.getElementById('statusYellow').className = 'lane-status done';
-    clearInterval(kuis.aiTimer);
-    if (kuis.playerFinished) endKuis();
-    else checkKuisEnd();
+    checkKuisEnd();
+    return;
   }
+  
+  // Load next AI question after delay
+  setTimeout(() => {
+    if (!kuis.aiRunning || kuis.yellowFinished) return;
+    loadQuestionForLane('yellow');
+    startAIAutoPlay();
+  }, 2000);
 }
 
 function loadQuestionForLane(lane) {
   const isBlue = lane === 'blue';
-  const qs = isBlue ? (kuis.mode === 'individu' ? kuis.playerQuestions : kuis.blueQuestions) : (kuis.mode === 'individu' ? kuis.aiQuestions : kuis.yellowQuestions);
-  const idx = isBlue ? (kuis.mode === 'individu' ? kuis.playerIdx : kuis.blueIdx) : (kuis.mode === 'individu' ? kuis.aiIdx : kuis.yellowIdx);
-  const finished = isBlue ? kuis.playerFinished : kuis.aiFinished;
+  const qs = isBlue ? kuis.blueQuestions : kuis.yellowQuestions;
+  const idx = isBlue ? kuis.blueIdx : kuis.yellowIdx;
+  const finished = isBlue ? kuis.blueFinished : kuis.yellowFinished;
   
-  // For mode tim, both tracks are active
-  const actualFinished = kuis.mode === 'tim' ? (isBlue ? kuis.blueFinished : kuis.yellowFinished) : finished;
-  
-  if (actualFinished || idx >= qs.length) return;
+  if (finished || idx >= qs.length) return;
   
   const q = qs[idx];
   const prefix = isBlue ? 'Blue' : 'Yellow';
@@ -1762,192 +1665,258 @@ function loadQuestionForLane(lane) {
     const b = document.createElement('button');
     b.className = 'quiz-option';
     b.innerHTML = `<span class="letter">${letters[i]}</span><span>${o}</span>`;
-    b.onclick = () => answerLane(lane, i, b);
+    // AI lane tidak bisa diklik manual (hanya individu mode)
+    if (!isBlue) {
+      b.style.cursor = 'default';
+      b.disabled = true;
+    } else {
+      b.onclick = () => answerLane(lane, i, b);
+    }
     opts.appendChild(b);
   });
   
-  // Timer for this lane
-  const timerKey = (isBlue ? (kuis.mode === 'individu' ? 'playerTimer' : 'blueTimer') : (kuis.mode === 'individu' ? 'aiTimer' : 'yellowTimer'));
-  if (kuis[timerKey]) clearInterval(kuis[timerKey]);
-  
-  const timeKey = isBlue ? (kuis.mode === 'individu' ? 'playerTimeLeft' : 'blueTimeLeft') : (kuis.mode === 'individu' ? 'aiTimeLeft' : 'yellowTimeLeft');
-  kuis[timeKey] = 30;
-  updateTimerForLane(lane);
-  
-  kuis[timerKey] = setInterval(() => {
-    kuis[timeKey]--;
-    updateTimerForLane(lane);
-    if (kuis[timeKey] <= 0) {
-      clearInterval(kuis[timerKey]);
-      if (isBlue && kuis.mode === 'tim') {
+  // Timer hanya untuk player/blue
+  if (isBlue) {
+    if (kuis.blueTimer) clearInterval(kuis.blueTimer);
+    kuis.blueTimeLeft = 30;
+    updateTimerForLane('blue');
+    kuis.blueTimer = setInterval(() => {
+      kuis.blueTimeLeft--;
+      updateTimerForLane('blue');
+      if (kuis.blueTimeLeft <= 0) {
+        clearInterval(kuis.blueTimer);
         answerLane('blue', -1, null);
-      } else if (isBlue) {
-        answerLane('blue', -1, null);
-      } else if (kuis.mode === 'tim') {
-        answerLane('yellow', -1, null);
       }
-    }
-  }, 1000);
+    }, 1000);
+  }
 }
 
 function updateTimerForLane(lane) {
   const prefix = lane === 'blue' ? 'Blue' : 'Yellow';
   const isBlue = lane === 'blue';
-  const timeKey = isBlue ? (kuis.mode === 'individu' ? 'playerTimeLeft' : 'blueTimeLeft') : (kuis.mode === 'individu' ? 'aiTimeLeft' : 'yellowTimeLeft');
+  if (!isBlue) return;
   const t = document.getElementById('timer' + prefix);
   if (t) {
-    t.textContent = Math.max(0, kuis[timeKey]) + 's';
-    t.classList.toggle('danger', kuis[timeKey] <= 10);
+    t.textContent = Math.max(0, kuis.blueTimeLeft) + 's';
+    t.classList.toggle('danger', kuis.blueTimeLeft <= 10);
   }
 }
 
 function answerLane(lane, idx, btn) {
-  const isBlue = lane === 'blue';
+  if (lane !== 'blue') return;
+  if (kuis.blueFinished) return;
   
-  // For individu mode, AI lane handled separately
-  if (kuis.mode === 'individu' && !isBlue) return;
-  
-  const timerKey = isBlue ? (kuis.mode === 'individu' ? 'playerTimer' : 'blueTimer') : 'yellowTimer';
-  const answeredKey = isBlue ? (kuis.mode === 'individu' ? 'playerAnswered' : 'blueAnswered') : 'yellowAnswered';
-  const qs = isBlue ? (kuis.mode === 'individu' ? kuis.playerQuestions : kuis.blueQuestions) : kuis.yellowQuestions;
-  const idxKey = isBlue ? (kuis.mode === 'individu' ? 'playerIdx' : 'blueIdx') : 'yellowIdx';
-  const finishedKey = isBlue ? (kuis.mode === 'individu' ? 'playerFinished' : 'blueFinished') : 'yellowFinished';
-  
-  // Check if already answered
-  const prefix = isBlue ? 'Blue' : 'Yellow';
-  const optsEl = document.getElementById('options' + prefix);
+  const optsEl = document.getElementById('optionsBlue');
   if (optsEl.querySelectorAll('.quiz-option[disabled]').length > 0) return;
   
-  if (kuis[finishedKey]) return;
+  if (kuis.blueTimer) clearInterval(kuis.blueTimer);
   
-  if (kuis[timerKey]) clearInterval(kuis[timerKey]);
-  
-  const q = qs[kuis[idxKey]];
+  const q = kuis.blueQuestions[kuis.blueIdx];
   const benar = idx === q.ans;
-  kuis[answeredKey][kuis[idxKey]] = idx;
+  kuis.blueAnswered[kuis.blueIdx] = idx;
   
-  // Disable and mark options
   optsEl.querySelectorAll('.quiz-option').forEach((b, i) => {
     b.disabled = true;
     if (i === q.ans) b.classList.add('correct');
     if (i === idx && i !== q.ans) b.classList.add('wrong');
   });
   
-  const fb = document.getElementById('feedback' + prefix);
+  const fb = document.getElementById('feedbackBlue');
   if (benar) {
-    if (isBlue) kuis.playerCorrect++; else kuis.blueCorrect++;
+    kuis.blueCorrect++;
+    kuis.blueProgress++;
     fb.className = 'feedback-box ok show';
-    fb.textContent = '✓ Benar! ' + q.exp;
+    fb.textContent = '✓ BENAR! Mobil biru maju. ' + q.exp;
     SFX.benar();
-    
-    // Damage opponent
-    if (kuis.mode === 'individu') {
-      kuis.aiHp = Math.max(0, kuis.aiHp - 12);
-      document.getElementById('teamBlue').classList.add('attack');
-      document.getElementById('teamYellow').classList.add('hit');
-      setTimeout(() => {
-        document.getElementById('teamBlue').classList.remove('attack');
-        document.getElementById('teamYellow').classList.remove('hit');
-      }, 600);
-    } else {
-      kuis.hpYellow = Math.max(0, kuis.hpYellow - 12);
-      document.getElementById('teamBlue').classList.add('attack');
-      document.getElementById('teamYellow').classList.add('hit');
-      setTimeout(() => {
-        document.getElementById('teamBlue').classList.remove('attack');
-        document.getElementById('teamYellow').classList.remove('hit');
-      }, 600);
-    }
+    drawRace();
   } else {
-    if (isBlue) kuis.playerWrong++; else kuis.blueWrong++;
+    kuis.blueWrong++;
     fb.className = 'feedback-box no show';
-    fb.textContent = '✗ Salah. Jawaban benar: ' + q.opts[q.ans] + '. ' + q.exp;
+    fb.textContent = '✗ Salah. Mobil biru diam. Jawaban benar: ' + q.opts[q.ans] + '. ' + q.exp;
     SFX.salah();
-    if (kuis.mode === 'individu') {
-      kuis.playerHp = Math.max(0, kuis.playerHp - 8);
-    } else {
-      kuis.hpBlue = Math.max(0, kuis.hpBlue - 10);
-    }
   }
-  updateHPBars();
   
-  // Status
-  const statusEl = document.getElementById('status' + prefix);
-  statusEl.textContent = benar ? '✓ BENAR' : '✗ SALAH';
+  const statusEl = document.getElementById('statusBlue');
+  statusEl.textContent = benar ? '✓ MAJU' : '✗ DIAM';
   statusEl.className = 'lane-status answered';
   
-  // Increment
-  kuis[idxKey]++;
+  kuis.blueIdx++;
   
-  // Check if finished
-  if (kuis[idxKey] >= qs.length) {
-    kuis[finishedKey] = true;
-    setTimeout(() => {
-      document.getElementById('panel' + prefix).classList.add('finished');
-      document.getElementById('question' + prefix).textContent = '✓ Selesai!';
-      document.getElementById('options' + prefix).innerHTML = '';
-      document.getElementById('status' + prefix).textContent = 'SELESAI';
-      document.getElementById('status' + prefix).className = 'lane-status done';
-    }, 1500);
-    
-    if (kuis.mode === 'individu') {
-      if (kuis.playerFinished && kuis.aiFinished) endKuis();
-    } else {
-      if (kuis.blueFinished && kuis.yellowFinished) endKuis();
-    }
-    // Don't stop other lane
+  // Cek finish
+  if (kuis.blueProgress >= RACE_STEPS) {
+    kuis.blueFinished = true;
+    endKuis();
     return;
   }
   
-  // Load next question after delay
+  if (kuis.blueIdx >= kuis.blueQuestions.length) {
+    kuis.blueFinished = true;
+    document.getElementById('panelBlue').classList.add('finished');
+    document.getElementById('statusBlue').textContent = 'SELESAI';
+    document.getElementById('statusBlue').className = 'lane-status done';
+    checkKuisEnd();
+    return;
+  }
+  
   setTimeout(() => {
-    loadQuestionForLane(lane);
+    if (kuis.blueFinished) return;
+    loadQuestionForLane('blue');
   }, 1500);
 }
 
-function updateHPBars() {
-  if (kuis.mode === 'individu') {
-    document.getElementById('hpBlue').style.width = kuis.playerHp + '%';
-    document.getElementById('hpYellow').style.width = kuis.aiHp + '%';
-    document.getElementById('hpBlueText').textContent = kuis.playerHp + ' HP';
-    document.getElementById('hpYellowText').textContent = kuis.aiHp + ' HP';
-  } else {
-    document.getElementById('hpBlue').style.width = kuis.hpBlue + '%';
-    document.getElementById('hpYellow').style.width = kuis.hpYellow + '%';
-    document.getElementById('hpBlueText').textContent = kuis.hpBlue + ' HP';
-    document.getElementById('hpYellowText').textContent = kuis.hpYellow + ' HP';
+function checkKuisEnd() {
+  if (kuis.blueFinished && kuis.yellowFinished) {
+    // keduanya selesai (tidak ada yang finish duluan)
+    endKuis();
   }
-  drawTug();
 }
 
-function checkKuisEnd() {
-  if (kuis.mode === 'individu' && kuis.playerFinished && kuis.aiFinished) endKuis();
-  if (kuis.mode === 'tim' && kuis.blueFinished && kuis.yellowFinished) endKuis();
+function drawRace() {
+  const canvas = document.getElementById('raceCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0, 0, W, H);
+  
+  const startX = 60;
+  const finishX = W - 60;
+  const trackTop = 50;
+  const trackBottom = H - 50;
+  const trackHeight = (trackBottom - trackTop) / 2;
+  
+  // === Track 1 (Biru - atas) ===
+  const blueLaneY = trackTop + trackHeight * 0.5;
+  // === Track 2 (Kuning - bawah) ===
+  const yellowLaneY = trackTop + trackHeight * 1.5;
+  
+  // Draw lane backgrounds
+  ctx.fillStyle = 'rgba(90,168,212,0.15)';
+  ctx.fillRect(startX - 20, blueLaneY - trackHeight * 0.4, finishX - startX + 40, trackHeight * 0.8);
+  ctx.fillStyle = 'rgba(255,213,79,0.2)';
+  ctx.fillRect(startX - 20, yellowLaneY - trackHeight * 0.4, finishX - startX + 40, trackHeight * 0.8);
+  
+  // Draw start line
+  ctx.strokeStyle = '#2e7d32';
+  ctx.lineWidth = 4;
+  ctx.setLineDash([8, 6]);
+  ctx.beginPath();
+  ctx.moveTo(startX, trackTop - 10);
+  ctx.lineTo(startX, trackBottom + 10);
+  ctx.stroke();
+  ctx.setLineDash([]);
+  
+  // Draw finish line (checkerboard)
+  const checkSize = 8;
+  for (let i = 0; i < (trackBottom - trackTop + 20) / checkSize; i++) {
+    for (let j = 0; j < 3; j++) {
+      ctx.fillStyle = (i + j) % 2 === 0 ? '#0f2847' : '#ffffff';
+      ctx.fillRect(finishX + j * checkSize, trackTop - 10 + i * checkSize, checkSize, checkSize);
+    }
+  }
+  
+  // Label START & FINISH
+  ctx.fillStyle = '#2e7d32';
+  ctx.font = 'bold 11px sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('START', startX, trackTop - 15);
+  ctx.fillStyle = '#0f2847';
+  ctx.fillText('FINISH', finishX + 12, trackTop - 15);
+  
+  // Step markers (garis tiap langkah benar)
+  for (let i = 0; i <= RACE_STEPS; i++) {
+    const x = startX + (finishX - startX) * (i / RACE_STEPS);
+    ctx.strokeStyle = 'rgba(15,40,71,0.1)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x, trackTop);
+    ctx.lineTo(x, trackBottom);
+    ctx.stroke();
+  }
+  
+  // === Mobil Biru ===
+  const bluePos = kuis.blueProgress / RACE_STEPS;
+  const blueX = startX + (finishX - startX) * bluePos;
+  drawRobloxCar(ctx, blueX, blueLaneY, '#5aa8d2', '#1a6ba0', '🚗');
+  
+  // === Mobil Kuning ===
+  const yellowPos = kuis.yellowProgress / RACE_STEPS;
+  const yellowX = startX + (finishX - startX) * yellowPos;
+  drawRobloxCar(ctx, yellowX, yellowLaneY, '#ffd54f', '#b8900a', '🚙');
+  
+  // Progress text
+  ctx.fillStyle = '#1a6ba0';
+  ctx.font = 'bold 12px sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText(`${kuis.blueProgress}/${RACE_STEPS} langkah`, startX, blueLaneY - trackHeight * 0.5);
+  ctx.fillStyle = '#b8900a';
+  ctx.textAlign = 'right';
+  ctx.fillText(`${kuis.yellowProgress}/${RACE_STEPS} langkah`, finishX, yellowLaneY - trackHeight * 0.5);
+}
+
+function drawRobloxCar(ctx, x, y, color, darkColor, emoji) {
+  // Roblox-style blocky car
+  const w = 50, h = 32;
+  
+  // Body
+  ctx.fillStyle = color;
+  ctx.fillRect(x - w/2, y - h/2, w, h);
+  
+  // Top cabin
+  ctx.fillStyle = color;
+  ctx.fillRect(x - w/4, y - h/2 - 10, w/2, 10);
+  
+  // Border
+  ctx.strokeStyle = darkColor;
+  ctx.lineWidth = 2;
+  ctx.strokeRect(x - w/2, y - h/2, w, h);
+  ctx.strokeRect(x - w/4, y - h/2 - 10, w/2, 10);
+  
+  // Windows
+  ctx.fillStyle = 'rgba(168,216,240,0.7)';
+  ctx.fillRect(x - w/4 + 3, y - h/2 - 7, w/2 - 6, 6);
+  
+  // Wheels
+  ctx.fillStyle = '#0f2847';
+  ctx.beginPath(); ctx.arc(x - w/2 + 10, y + h/2, 6, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(x + w/2 - 10, y + h/2, 6, 0, Math.PI * 2); ctx.fill();
+  
+  // Wheel hubs
+  ctx.fillStyle = '#90a4ae';
+  ctx.beginPath(); ctx.arc(x - w/2 + 10, y + h/2, 3, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.arc(x + w/2 - 10, y + h/2, 3, 0, Math.PI * 2); ctx.fill();
 }
 
 function endKuis() {
+  if (kuis.aiRunning) {
+    kuis.aiRunning = false;
+    if (kuis.aiTimeout) clearTimeout(kuis.aiTimeout);
+  }
+  if (kuis.blueTimer) clearInterval(kuis.blueTimer);
+  if (kuis.yellowTimer) clearInterval(kuis.yellowTimer);
+  
   document.getElementById('kuisGame').style.display = 'none';
   const res = document.getElementById('kuisResult');
   res.style.display = 'block';
   state.quizDone = true;
   updateProgress();
   
-  let totalBenar, totalSalah, totalQ;
-  if (kuis.mode === 'individu') {
-    totalBenar = kuis.playerCorrect;
-    totalSalah = kuis.playerWrong;
-    totalQ = kuis.playerQuestions.length;
+  // Tentukan pemenang berdasarkan progress
+  let pemenang, deskripsi;
+  if (kuis.blueProgress > kuis.yellowProgress) {
+    pemenang = kuis.mode === 'individu' ? 'KAMU MENANG! 🎉' : 'TIM BIRU MENANG! 🎉';
+  } else if (kuis.yellowProgress > kuis.blueProgress) {
+    pemenang = kuis.mode === 'individu' ? 'KOMPUTER MENANG 🤖' : 'TIM KUNING MENANG! 🎉';
   } else {
-    totalBenar = kuis.blueCorrect;
-    totalSalah = kuis.blueWrong;
-    totalQ = kuis.blueQuestions.length;
+    pemenang = 'SERI! 🤝';
   }
   
-  const persen = totalQ > 0 ? Math.round((totalBenar / totalQ) * 100) : 0;
+  const blueAcc = kuis.blueQuestions.length > 0 ? Math.round((kuis.blueCorrect / kuis.blueQuestions.length) * 100) : 0;
+  const yellowAcc = kuis.yellowQuestions.length > 0 ? Math.round((kuis.yellowCorrect / kuis.yellowQuestions.length) * 100) : 0;
+  
   let kategori, warna, pesan;
-  if (persen >= 90) { kategori = 'EMAS'; warna = 'emas'; pesan = 'Luar biasa! Kamu master ikatan kimia! 🏆'; }
-  else if (persen >= 75) { kategori = 'PERAK'; warna = 'perak'; pesan = 'Hebat! Pemahamanmu sangat baik. 🌟'; }
-  else if (persen >= 60) { kategori = 'PERUNGGU'; warna = 'perunggu'; pesan = 'Bagus! Terus tingkatkan ya. 💪'; }
+  if (blueAcc >= 90) { kategori = 'EMAS'; warna = 'emas'; pesan = 'Luar biasa! Kamu master ikatan kimia! 🏆'; }
+  else if (blueAcc >= 75) { kategori = 'PERAK'; warna = 'perak'; pesan = 'Hebat! Pemahamanmu sangat baik. 🌟'; }
+  else if (blueAcc >= 60) { kategori = 'PERUNGGU'; warna = 'perunggu'; pesan = 'Bagus! Terus tingkatkan ya. 💪'; }
   else { kategori = 'PERLU BELAJAR'; warna = 'belajar'; pesan = 'Jangan menyerah! Baca ulang materi dan coba lagi. 📚'; }
   
   SFX.win();
@@ -1955,30 +1924,50 @@ function endKuis() {
   let html = `
     <div class="result-screen">
       <div class="trophy">🏆</div>
-      <h2>Kuis Selesai!</h2>
-      <div class="final-score">${persen}%</div>
+      <h2>${pemenang}</h2>
+      <div class="final-score">${kuis.blueProgress} - ${kuis.yellowProgress}</div>
       <div class="kategori ${warna}">GELAR: ${kategori}</div>
       <p style="color:var(--text-dim); margin-bottom:20px;">${pesan}</p>
       <div class="result-stats">
-        <div class="stat-box"><div class="val">${totalBenar}</div><div class="lbl">Benar</div></div>
-        <div class="stat-box"><div class="val">${totalSalah}</div><div class="lbl">Salah</div></div>
-        <div class="stat-box"><div class="val">${totalQ}</div><div class="lbl">Total Soal</div></div>
-        <div class="stat-box"><div class="val">${persen}%</div><div class="lbl">Penguasaan</div></div>
+        <div class="stat-box" style="border-top:3px solid #5aa8d2;">
+          <div class="val" style="color:#1a6ba0;">${kuis.blueProgress}</div>
+          <div class="lbl">Langkah Biru</div>
+        </div>
+        <div class="stat-box" style="border-top:3px solid #ffd54f;">
+          <div class="val" style="color:#b8900a;">${kuis.yellowProgress}</div>
+          <div class="lbl">Langkah Kuning</div>
+        </div>
+        <div class="stat-box">
+          <div class="val">${kuis.blueCorrect}</div>
+          <div class="lbl">Benar Biru</div>
+        </div>
+        <div class="stat-box">
+          <div class="val">${kuis.blueWrong}</div>
+          <div class="lbl">Salah Biru</div>
+        </div>
+        <div class="stat-box">
+          <div class="val">${kuis.yellowCorrect}</div>
+          <div class="lbl">Benar Kuning</div>
+        </div>
+        <div class="stat-box">
+          <div class="val">${kuis.yellowWrong}</div>
+          <div class="lbl">Salah Kuning</div>
+        </div>
+        <div class="stat-box">
+          <div class="val">${blueAcc}%</div>
+          <div class="lbl">Akurasi Biru</div>
+        </div>
+        <div class="stat-box">
+          <div class="val">${yellowAcc}%</div>
+          <div class="lbl">Akurasi Kuning</div>
+        </div>
       </div>
   `;
   
-  if (kuis.mode === 'tim') {
-    html += `<div class="result-stats" style="margin-top:12px;">
-      <div class="stat-box"><div class="val" style="color:#2a7bb0;">${kuis.blueCorrect}</div><div class="lbl">Benar Tim Biru</div></div>
-      <div class="stat-box"><div class="val" style="color:#c9a227;">${kuis.yellowCorrect}</div><div class="lbl">Benar Tim Kuning</div></div>
-    </div>`;
-  }
-  
-  html += `<div class="pembahasan"><h3>📖 Pembahasan Soal</h3>`;
-  const qs = kuis.mode === 'individu' ? kuis.playerQuestions : kuis.blueQuestions;
-  const answered = kuis.mode === 'individu' ? kuis.playerAnswered : kuis.blueAnswered;
-  qs.forEach((q, i) => {
-    const userAns = answered[i];
+  // Pembahasan - hanya soal biru (player)
+  html += `<div class="pembahasan"><h3>📖 Pembahasan Soal Kamu (Tim Biru)</h3>`;
+  kuis.blueQuestions.forEach((q, i) => {
+    const userAns = kuis.blueAnswered[i];
     const benar = userAns === q.ans;
     html += `<div class="item">
       <div class="q">${i + 1}. ${q.q}</div>
@@ -1989,7 +1978,7 @@ function endKuis() {
   });
   html += `</div>
       <div class="result-actions">
-        <button class="btn btn-primary" onclick="ulangiKuis()">🔄 ULANGI KUIS</button>
+        <button class="btn btn-primary" onclick="ulangiKuis()">🔄 ULANGI RACE</button>
         <button class="btn btn-sky" onclick="showPage('materi')">📖 KEMBALI KE MATERI</button>
         <button class="btn btn-outline" onclick="showPage('home')">🏠 KEMBALI KE HOME</button>
       </div>
@@ -1998,69 +1987,14 @@ function endKuis() {
 }
 
 function ulangiKuis() {
+  if (kuis.aiTimeout) clearTimeout(kuis.aiTimeout);
+  if (kuis.blueTimer) clearInterval(kuis.blueTimer);
+  if (kuis.yellowTimer) clearInterval(kuis.yellowTimer);
+  kuis.aiRunning = false;
+  
   document.getElementById('kuisResult').style.display = 'none';
   document.getElementById('kuisIntro').style.display = 'block';
   document.getElementById('kuisGame').style.display = 'none';
-  // Clear timers
-  ['playerTimer', 'aiTimer', 'blueTimer', 'yellowTimer'].forEach(k => { if (kuis[k]) clearInterval(kuis[k]); });
-}
-
-/* Tug canvas */
-const tugCanvas = document.getElementById('tugCanvas');
-let tugCtx = tugCanvas ? tugCanvas.getContext('2d') : null;
-function drawTug() {
-  if (!tugCtx) return;
-  const w = tugCanvas.width, h = tugCanvas.height;
-  tugCtx.clearRect(0, 0, w, h);
-  
-  // Ground
-  tugCtx.fillStyle = 'rgba(15,40,71,0.1)';
-  tugCtx.fillRect(0, h - 25, w, 25);
-  
-  let blueHp, yellowHp;
-  if (kuis.mode === 'individu') {
-    blueHp = kuis.playerHp; yellowHp = kuis.aiHp;
-  } else {
-    blueHp = kuis.hpBlue; yellowHp = kuis.hpYellow;
-  }
-  
-  const diff = yellowHp - blueHp;
-  const offset = Math.max(-180, Math.min(180, diff * 2));
-  const midX = w / 2 + offset;
-  
-  // Center line
-  tugCtx.strokeStyle = 'rgba(15,40,71,0.3)';
-  tugCtx.setLineDash([6, 6]);
-  tugCtx.beginPath(); tugCtx.moveTo(w / 2, 10); tugCtx.lineTo(w / 2, h - 25); tugCtx.stroke();
-  tugCtx.setLineDash([]);
-  
-  // Rope
-  tugCtx.strokeStyle = '#8d6e63';
-  tugCtx.lineWidth = 5;
-  tugCtx.beginPath();
-  tugCtx.moveTo(60, h / 2);
-  tugCtx.lineTo(w - 60, h / 2);
-  tugCtx.stroke();
-  
-  // Center ribbon
-  tugCtx.fillStyle = '#e0a800';
-  tugCtx.beginPath(); tugCtx.arc(midX, h / 2, 12, 0, Math.PI * 2); tugCtx.fill();
-  tugCtx.strokeStyle = '#0f2847'; tugCtx.lineWidth = 2; tugCtx.stroke();
-  
-  // Blue team
-  tugCtx.fillStyle = '#2a7bb0';
-  for (let i = 0; i < 3; i++) {
-    const x = 70 + i * 45;
-    const y = h / 2 + (i === 1 ? -5 : 5);
-    tugCtx.beginPath(); tugCtx.arc(x, y, 14, 0, Math.PI * 2); tugCtx.fill();
-  }
-  // Yellow team
-  tugCtx.fillStyle = '#e0a800';
-  for (let i = 0; i < 3; i++) {
-    const x = w - 70 - i * 45;
-    const y = h / 2 + (i === 1 ? -5 : 5);
-    tugCtx.beginPath(); tugCtx.arc(x, y, 14, 0, Math.PI * 2); tugCtx.fill();
-  }
 }
 
 /* ============================================================
@@ -2071,10 +2005,12 @@ window.addEventListener('DOMContentLoaded', () => {
   updateProgress();
   openMateri(0);
   labResize();
-  drawTug();
   window.addEventListener('resize', () => {
     if (state.currentPage === 'simulasi') labResize();
     if (state.currentPage === 'home') initHero();
+    if (state.currentPage === 'kuis' && document.getElementById('kuisGame').style.display !== 'none') {
+      drawRace();
+    }
   });
 });
 </script>
