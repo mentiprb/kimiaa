@@ -185,6 +185,72 @@ body::before {
 .badge-nonpolar { background: #b3f0ff; color: #00838f; }
 
 /* ==================== KUIS ROBLOX RACE ==================== */
+.race-controls {
+  display: flex; justify-content: center; gap: 12px;
+  margin-bottom: 14px; flex-wrap: wrap;
+  position: relative; z-index: 2;
+}
+.race-controls button {
+  padding: 12px 28px; border-radius: 12px; border: 2px solid transparent;
+  font-family: inherit; font-weight: 800; font-size: 0.95rem;
+  cursor: pointer; transition: all 0.2s; letter-spacing: 0.5px;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.race-controls .btn-start {
+  background: linear-gradient(135deg, #4caf50, #2e7d32);
+  color: white; box-shadow: 0 6px 18px rgba(46,125,50,0.4);
+}
+.race-controls .btn-start:hover:not(:disabled) {
+  transform: translateY(-2px); box-shadow: 0 10px 24px rgba(46,125,50,0.5);
+}
+.race-controls .btn-stop {
+  background: linear-gradient(135deg, #ef5350, #c62828);
+  color: white; box-shadow: 0 6px 18px rgba(198,40,40,0.4);
+}
+.race-controls .btn-stop:hover:not(:disabled) {
+  transform: translateY(-2px); box-shadow: 0 10px 24px rgba(198,40,40,0.5);
+}
+.race-controls .btn-restart {
+  background: linear-gradient(135deg, #ffd54f, #e0a800);
+  color: var(--navy); box-shadow: 0 6px 18px rgba(224,168,0,0.4);
+}
+.race-controls .btn-restart:hover:not(:disabled) {
+  transform: translateY(-2px); box-shadow: 0 10px 24px rgba(224,168,0,0.5);
+}
+.race-controls button:disabled {
+  opacity: 0.4; cursor: not-allowed; transform: none !important;
+  box-shadow: none !important;
+}
+
+.race-status-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border-radius: 20px;
+  font-weight: 800; font-size: 0.85rem;
+  background: rgba(255,255,255,0.9);
+  border: 2px solid rgba(15,40,71,0.15);
+  box-shadow: var(--shadow-sm);
+  margin: 0 auto 14px;
+  position: relative; z-index: 2;
+}
+.race-status-badge .dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #90a4ae;
+}
+.race-status-badge.running .dot {
+  background: #4caf50; box-shadow: 0 0 10px #4caf50;
+  animation: pulseDot 1.2s infinite;
+}
+.race-status-badge.paused .dot {
+  background: #ff9800; box-shadow: 0 0 10px #ff9800;
+}
+.race-status-badge.finished .dot {
+  background: #2196f3; box-shadow: 0 0 10px #2196f3;
+}
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.7; }
+}
+
 .race-track-wrap {
   background: linear-gradient(135deg, #eaf6fd, #fff8e0);
   border-radius: 20px; padding: 14px; border: 1px solid var(--glass-border);
@@ -221,6 +287,7 @@ body::before {
 .quiz-panel.lane-yellow.active-lane { box-shadow: 0 0 0 3px rgba(255,213,79,0.4), var(--shadow-md); }
 .quiz-panel.finished { opacity: 0.6; }
 .quiz-panel.ai-lane .quiz-option { cursor: default; }
+.quiz-panel.disabled { opacity: 0.5; pointer-events: none; filter: grayscale(0.5); }
 
 .quiz-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
 .quiz-meta { display: flex; gap: 10px; align-items: center; font-weight: 700; font-size: 0.8rem; color: var(--text-dim); flex-wrap: wrap; }
@@ -295,6 +362,7 @@ body::before {
   .lab-layout { grid-template-columns: 1fr; }
   .periodic-mini { grid-template-columns: repeat(6, 1fr); }
   #raceCanvas { height: 180px; }
+  .race-controls button { padding: 10px 18px; font-size: 0.85rem; }
 }
 </style>
 </head>
@@ -327,7 +395,7 @@ body::before {
         <div class="hero-features">
           <div class="feature"><div class="icon">📚</div><h3>6 Subbab Materi</h3><p>Konsep dasar, ion, kovalen, koordinasi, kepolaran, bentuk molekul.</p></div>
           <div class="feature"><div class="icon">🧪</div><h3>Lab Maya 3D Interaktif</h3><p>Tabel periodik, drag & drop, rotasi 360°, rekomendasi senyawa.</p></div>
-          <div class="feature"><div class="icon">🏁</div><h3>Roblox Race Battle</h3><p>2 mobil balapan bersamaan! Benar maju, salah diam.</p></div>
+          <div class="feature"><div class="icon">🏁</div><h3>Roblox Race Battle</h3><p>2 mobil balapan bersamaan dengan tombol MULAI & BERHENTI.</p></div>
           <div class="feature"><div class="icon">🎵</div><h3>Musik & Efek Suara</h3><p>Suasana belajar yang menyenangkan.</p></div>
         </div>
         <div class="tagline">"DISCOVER THE ATOMS, CONNECT THE BONDS, MASTER THE CHEMISTRY!"</div>
@@ -377,7 +445,7 @@ body::before {
   <section class="page" id="page-kuis">
     <div id="kuisIntro" style="text-align:center; padding: 40px 20px;">
       <h2 style="color:var(--navy); font-size:1.8rem; margin-bottom:10px;">🏁 ROBLOX RACE BATTLE</h2>
-      <p style="color:var(--text-dim); margin-bottom:24px;">Balapan mobil! <strong>Kedua mobil bergerak bersamaan</strong> sesuai jawaban benar. Jawab cepat & tepat untuk finish duluan!</p>
+      <p style="color:var(--text-dim); margin-bottom:24px;">Balapan mobil! <strong>Kedua mobil bergerak bersamaan</strong> sesuai jawaban benar. Gunakan tombol <strong>MULAI</strong> dan <strong>BERHENTI</strong> untuk mengontrol jalannya balapan!</p>
       <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:24px;">
         <button class="btn btn-primary btn-lg" onclick="startKuis('individu')">👤 MODE INDIVIDU<br><small style="font-weight:400;font-size:0.8rem;">Melawan Komputer</small></button>
         <button class="btn btn-gold btn-lg" onclick="startKuis('tim')">👥 MODE DUA TIM<br><small style="font-weight:400;font-size:0.8rem;">Cepat-cepatan 2 mobil</small></button>
@@ -385,6 +453,19 @@ body::before {
     </div>
 
     <div id="kuisGame" style="display:none;">
+      <!-- Race Controls -->
+      <div class="race-controls">
+        <button class="btn-start" id="btnStartRace" onclick="startRace()">▶️ MULAI BALAPAN</button>
+        <button class="btn-stop" id="btnStopRace" onclick="stopRace()" disabled>⏸️ BERHENTI</button>
+        <button class="btn-restart" id="btnRestartRace" onclick="restartRace()" style="display:none;">🔄 ULANGI</button>
+      </div>
+      <div style="text-align:center;">
+        <div class="race-status-badge" id="raceStatusBadge">
+          <span class="dot"></span>
+          <span id="raceStatusText">SIAP DIMULAI</span>
+        </div>
+      </div>
+
       <div class="race-track-wrap">
         <canvas id="raceCanvas" width="900" height="220"></canvas>
         <div class="race-legend">
@@ -398,13 +479,13 @@ body::before {
           <div class="quiz-top">
             <div class="quiz-meta">
               <span class="q-num" id="qNumBlue">Soal 1/10</span>
-              <span class="lane-status waiting" id="statusBlue">MENJAWAB</span>
+              <span class="lane-status waiting" id="statusBlue">MENUNGGU</span>
             </div>
             <div class="quiz-meta">
               <span class="timer" id="timerBlue">30s</span>
             </div>
           </div>
-          <div class="quiz-question" id="questionBlue">Memuat soal...</div>
+          <div class="quiz-question" id="questionBlue">Tekan MULAI BALAPAN untuk memulai...</div>
           <div class="quiz-options" id="optionsBlue"></div>
           <div class="feedback-box" id="feedbackBlue"></div>
         </div>
@@ -413,13 +494,13 @@ body::before {
           <div class="quiz-top">
             <div class="quiz-meta">
               <span class="q-num" id="qNumYellow">Soal 1/10</span>
-              <span class="lane-status waiting" id="statusYellow">MENJAWAB</span>
+              <span class="lane-status waiting" id="statusYellow">MENUNGGU</span>
             </div>
             <div class="quiz-meta">
               <span class="timer" id="timerYellow">30s</span>
             </div>
           </div>
-          <div class="quiz-question" id="questionYellow">Memuat soal...</div>
+          <div class="quiz-question" id="questionYellow">Tekan MULAI BALAPAN untuk memulai...</div>
           <div class="quiz-options" id="optionsYellow"></div>
           <div class="feedback-box" id="feedbackYellow"></div>
         </div>
@@ -1451,7 +1532,7 @@ function labAnalyze() {
 }
 
 /* ============================================================
-   KUIS ROBLOX RACE — KEDUA MOBIL BERGERAK BERSAMAAN
+   KUIS ROBLOX RACE — DENGAN TOMBOL MULAI & BERHENTI
    ============================================================ */
 const questions = [
   { q: 'Ikatan yang terjadi karena serah terima elektron disebut ikatan...', opts: ['Kovalen', 'Ion', 'Logam', 'Hidrogen'], ans: 1, exp: 'Serah terima elektron → ikatan ion.' },
@@ -1490,6 +1571,8 @@ let kuis = {
   gameOver: false
 };
 
+let raceState = { status: 'idle' };
+
 function shuffle(arr) {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -1523,6 +1606,8 @@ function startKuis(mode) {
     gameOver: false
   };
   
+  raceState.status = 'idle';
+  
   document.getElementById('panelBlue').classList.remove('finished');
   document.getElementById('panelYellow').classList.remove('finished');
   document.getElementById('panelYellow').classList.toggle('ai-lane', mode === 'individu');
@@ -1536,13 +1621,145 @@ function startKuis(mode) {
   }
   updateLegendProgress();
   
+  // Reset semua tampilan ke kondisi awal
+  document.getElementById('questionBlue').textContent = 'Tekan MULAI BALAPAN untuk memulai...';
+  document.getElementById('questionYellow').textContent = 'Tekan MULAI BALAPAN untuk memulai...';
+  document.getElementById('optionsBlue').innerHTML = '';
+  document.getElementById('optionsYellow').innerHTML = '';
+  document.getElementById('feedbackBlue').className = 'feedback-box';
+  document.getElementById('feedbackYellow').className = 'feedback-box';
+  document.getElementById('statusBlue').textContent = 'MENUNGGU';
+  document.getElementById('statusBlue').className = 'lane-status waiting';
+  document.getElementById('statusYellow').textContent = 'MENUNGGU';
+  document.getElementById('statusYellow').className = 'lane-status waiting';
+  document.getElementById('qNumBlue').textContent = 'Soal 1/10';
+  document.getElementById('qNumYellow').textContent = 'Soal 1/10';
+  document.getElementById('timerBlue').textContent = '30s';
+  document.getElementById('timerBlue').classList.remove('danger');
+  document.getElementById('timerYellow').textContent = '30s';
+  document.getElementById('timerYellow').classList.remove('danger');
+  
   drawRace();
-  loadQuestionForLane('blue');
-  loadQuestionForLane('yellow');
-  
-  if (mode === 'individu') startAIAutoPlay();
-  
+  updateRaceButtons();
   SFX.click();
+}
+
+/* ============ RACE CONTROL FUNCTIONS ============ */
+function updateRaceButtons() {
+  const btnStart = document.getElementById('btnStartRace');
+  const btnStop = document.getElementById('btnStopRace');
+  const btnRestart = document.getElementById('btnRestartRace');
+  const badge = document.getElementById('raceStatusBadge');
+  const statusText = document.getElementById('raceStatusText');
+  
+  badge.classList.remove('running', 'paused', 'finished');
+  
+  switch (raceState.status) {
+    case 'idle':
+      btnStart.disabled = false;
+      btnStart.textContent = '▶️ MULAI BALAPAN';
+      btnStop.disabled = true;
+      btnRestart.style.display = 'none';
+      statusText.textContent = 'SIAP DIMULAI';
+      break;
+    case 'running':
+      btnStart.disabled = true;
+      btnStart.textContent = '▶️ BERJALAN...';
+      btnStop.disabled = false;
+      btnRestart.style.display = 'none';
+      badge.classList.add('running');
+      statusText.textContent = 'BALAPAN BERJALAN';
+      break;
+    case 'paused':
+      btnStart.disabled = false;
+      btnStart.textContent = '▶️ LANJUTKAN';
+      btnStop.disabled = true;
+      btnRestart.style.display = 'inline-flex';
+      badge.classList.add('paused');
+      statusText.textContent = 'BALAPAN DIJEDA';
+      break;
+    case 'finished':
+      btnStart.disabled = true;
+      btnStart.textContent = '✓ SELESAI';
+      btnStop.disabled = true;
+      btnRestart.style.display = 'inline-flex';
+      badge.classList.add('finished');
+      statusText.textContent = 'BALAPAN SELESAI';
+      break;
+  }
+}
+
+function startRace() {
+  if (raceState.status === 'idle') {
+    raceState.status = 'running';
+    SFX.click();
+    loadQuestionForLane('blue');
+    loadQuestionForLane('yellow');
+    if (kuis.mode === 'individu') startAIAutoPlay();
+  } else if (raceState.status === 'paused') {
+    raceState.status = 'running';
+    SFX.click();
+    resumeRace();
+  }
+  updateRaceButtons();
+}
+
+function stopRace() {
+  if (raceState.status !== 'running') return;
+  raceState.status = 'paused';
+  SFX.click();
+  
+  if (kuis.blueTimer) { clearInterval(kuis.blueTimer); kuis.blueTimer = null; }
+  if (kuis.yellowTimer) { clearInterval(kuis.yellowTimer); kuis.yellowTimer = null; }
+  if (kuis.aiTimeout) { clearTimeout(kuis.aiTimeout); kuis.aiTimeout = null; }
+  kuis.aiRunning = false;
+  
+  updateRaceButtons();
+}
+
+function resumeRace() {
+  const isBlueActive = !kuis.blueFinished && kuis.blueIdx < kuis.blueQuestions.length;
+  const isYellowActive = !kuis.yellowFinished && kuis.yellowIdx < kuis.yellowQuestions.length;
+  
+  if (isBlueActive) {
+    if (kuis.blueTimeLeft <= 0) kuis.blueTimeLeft = 30;
+    if (kuis.blueTimer) clearInterval(kuis.blueTimer);
+    kuis.blueTimer = setInterval(() => {
+      kuis.blueTimeLeft--;
+      updateTimerForLane('blue');
+      if (kuis.blueTimeLeft <= 0) {
+        clearInterval(kuis.blueTimer);
+        if (raceState.status === 'running') answerLane('blue', -1, null);
+      }
+    }, 1000);
+  }
+  
+  if (isYellowActive) {
+    if (kuis.yellowTimeLeft <= 0) kuis.yellowTimeLeft = 30;
+    if (kuis.yellowTimer) clearInterval(kuis.yellowTimer);
+    kuis.yellowTimer = setInterval(() => {
+      kuis.yellowTimeLeft--;
+      updateTimerForLane('yellow');
+      if (kuis.yellowTimeLeft <= 0) {
+        clearInterval(kuis.yellowTimer);
+        if (raceState.status === 'running') {
+          if (kuis.mode === 'individu') aiAnswer(-1);
+          else answerLane('yellow', -1, null);
+        }
+      }
+    }, 1000);
+  }
+  
+  if (kuis.mode === 'individu' && !kuis.yellowFinished) {
+    kuis.aiRunning = true;
+    startAIAutoPlay();
+  }
+}
+
+function restartRace() {
+  if (raceState.status === 'running') return;
+  SFX.click();
+  startKuis(kuis.mode);
 }
 
 function updateLegendProgress() {
@@ -1555,11 +1772,13 @@ function startAIAutoPlay() {
   const aiAnswerNext = () => {
     if (!kuis.aiRunning || kuis.gameOver) return;
     if (kuis.yellowFinished) return;
+    if (raceState.status !== 'running') return;
     
     const delay = 3500 + Math.random() * 7000;
     kuis.aiTimeout = setTimeout(() => {
       if (!kuis.aiRunning || kuis.gameOver) return;
       if (kuis.yellowFinished) return;
+      if (raceState.status !== 'running') return;
       
       const q = kuis.yellowQuestions[kuis.yellowIdx];
       const correct = Math.random() < 0.6;
@@ -1573,6 +1792,7 @@ function startAIAutoPlay() {
 function aiAnswer(idx) {
   if (kuis.yellowFinished || kuis.gameOver) return;
   if (kuis.yellowLocked) return;
+  if (raceState.status !== 'running') return;
   kuis.yellowLocked = true;
   
   const q = kuis.yellowQuestions[kuis.yellowIdx];
@@ -1628,6 +1848,7 @@ function aiAnswer(idx) {
   
   setTimeout(() => {
     if (!kuis.aiRunning || kuis.gameOver || kuis.yellowFinished) return;
+    if (raceState.status !== 'running') return;
     loadQuestionForLane('yellow');
     startAIAutoPlay();
   }, 1800);
@@ -1640,6 +1861,7 @@ function loadQuestionForLane(lane) {
   const finished = isBlue ? kuis.blueFinished : kuis.yellowFinished;
   
   if (finished || idx >= qs.length) return;
+  if (raceState.status !== 'running') return;
   
   const q = qs[idx];
   const prefix = isBlue ? 'Blue' : 'Yellow';
@@ -1667,7 +1889,6 @@ function loadQuestionForLane(lane) {
     opts.appendChild(b);
   });
   
-  // Timer untuk kedua lane (mode tim) atau hanya blue (mode individu)
   const timerKey = isBlue ? 'blueTimer' : 'yellowTimer';
   if (kuis[timerKey]) clearInterval(kuis[timerKey]);
   
@@ -1680,8 +1901,8 @@ function loadQuestionForLane(lane) {
     updateTimerForLane(lane);
     if (kuis[timeKey] <= 0) {
       clearInterval(kuis[timerKey]);
+      if (raceState.status !== 'running') return;
       if (isAILane) {
-        // AI timeout - anggap salah
         aiAnswer(-1);
       } else {
         answerLane(lane, -1, null);
@@ -1702,6 +1923,7 @@ function updateTimerForLane(lane) {
 }
 
 function answerLane(lane, idx, btn) {
+  if (raceState.status !== 'running') return;
   if (kuis.gameOver) return;
   const isBlue = lane === 'blue';
   const lockedKey = isBlue ? 'blueLocked' : 'yellowLocked';
@@ -1774,6 +1996,7 @@ function answerLane(lane, idx, btn) {
   
   setTimeout(() => {
     if (kuis[finishedKey] || kuis.gameOver) return;
+    if (raceState.status !== 'running') return;
     loadQuestionForLane(lane);
   }, 1400);
 }
@@ -1783,10 +2006,8 @@ function checkKuisEnd() {
 }
 
 function animateCarMove(which) {
-  // Animasi singkat: flag sederhana via requestAnimationFrame
   let start = null;
   const dur = 400;
-  const origDraw = drawRace;
   const anim = (t) => {
     if (!start) start = t;
     const p = Math.min(1, (t - start) / dur);
@@ -1817,7 +2038,6 @@ function drawRace(animP = 1, animWhich = null) {
   ctx.fillStyle = 'rgba(255,213,79,0.2)';
   ctx.fillRect(startX - 20, yellowLaneY - trackHeight * 0.4, finishX - startX + 40, trackHeight * 0.8);
   
-  // Start line
   ctx.strokeStyle = '#2e7d32';
   ctx.lineWidth = 4;
   ctx.setLineDash([8, 6]);
@@ -1827,7 +2047,6 @@ function drawRace(animP = 1, animWhich = null) {
   ctx.stroke();
   ctx.setLineDash([]);
   
-  // Finish line
   const checkSize = 8;
   for (let i = 0; i < (trackBottom - trackTop + 20) / checkSize; i++) {
     for (let j = 0; j < 3; j++) {
@@ -1843,7 +2062,6 @@ function drawRace(animP = 1, animWhich = null) {
   ctx.fillStyle = '#0f2847';
   ctx.fillText('FINISH', finishX + 12, trackTop - 15);
   
-  // Step markers
   for (let i = 0; i <= RACE_STEPS; i++) {
     const x = startX + (finishX - startX) * (i / RACE_STEPS);
     ctx.strokeStyle = 'rgba(15,40,71,0.1)';
@@ -1854,9 +2072,7 @@ function drawRace(animP = 1, animWhich = null) {
     ctx.stroke();
   }
   
-  // === Mobil Biru ===
   let bluePos = kuis.blueProgress / RACE_STEPS;
-  // Animasi jika mobil biru yang maju
   if (animWhich === 'blue' && animP < 1) {
     const prevPos = (kuis.blueProgress - 1) / RACE_STEPS;
     bluePos = prevPos + (bluePos - prevPos) * animP;
@@ -1864,7 +2080,6 @@ function drawRace(animP = 1, animWhich = null) {
   const blueX = startX + (finishX - startX) * bluePos;
   drawRobloxCar(ctx, blueX, blueLaneY, '#5aa8d2', '#1a6ba0');
   
-  // === Mobil Kuning ===
   let yellowPos = kuis.yellowProgress / RACE_STEPS;
   if (animWhich === 'yellow' && animP < 1) {
     const prevPos = (kuis.yellowProgress - 1) / RACE_STEPS;
@@ -1873,7 +2088,6 @@ function drawRace(animP = 1, animWhich = null) {
   const yellowX = startX + (finishX - startX) * yellowPos;
   drawRobloxCar(ctx, yellowX, yellowLaneY, '#ffd54f', '#b8900a');
   
-  // Progress text
   ctx.fillStyle = '#1a6ba0';
   ctx.font = 'bold 12px sans-serif';
   ctx.textAlign = 'left';
@@ -1914,6 +2128,9 @@ function endKuis(winner) {
   if (kuis.aiTimeout) clearTimeout(kuis.aiTimeout);
   if (kuis.blueTimer) clearInterval(kuis.blueTimer);
   if (kuis.yellowTimer) clearInterval(kuis.yellowTimer);
+  
+  raceState.status = 'finished';
+  updateRaceButtons();
   
   document.getElementById('kuisGame').style.display = 'none';
   const res = document.getElementById('kuisResult');
@@ -1986,7 +2203,6 @@ function endKuis(winner) {
       </div>
   `;
   
-  // Pembahasan kedua lane
   html += `<div class="pembahasan"><h3>📖 Pembahasan — Tim Biru / Kamu</h3>`;
   kuis.blueQuestions.forEach((q, i) => {
     const userAns = kuis.blueAnswered[i];
@@ -2030,6 +2246,7 @@ function ulangiKuis() {
   if (kuis.yellowTimer) clearInterval(kuis.yellowTimer);
   kuis.aiRunning = false;
   kuis.gameOver = true;
+  raceState.status = 'idle';
   
   document.getElementById('kuisResult').style.display = 'none';
   document.getElementById('kuisIntro').style.display = 'block';
