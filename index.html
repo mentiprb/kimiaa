@@ -220,6 +220,7 @@ body::before {
 .quiz-panel.lane-blue.active-lane { box-shadow: 0 0 0 3px rgba(90,168,212,0.4), var(--shadow-md); }
 .quiz-panel.lane-yellow.active-lane { box-shadow: 0 0 0 3px rgba(255,213,79,0.4), var(--shadow-md); }
 .quiz-panel.finished { opacity: 0.6; }
+.quiz-panel.ai-lane .quiz-option { cursor: default; }
 
 .quiz-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
 .quiz-meta { display: flex; gap: 10px; align-items: center; font-weight: 700; font-size: 0.8rem; color: var(--text-dim); flex-wrap: wrap; }
@@ -260,7 +261,7 @@ body::before {
 .kategori.perak { background: linear-gradient(135deg, #cfd8dc, #90a4ae); color: white; }
 .kategori.perunggu { background: linear-gradient(135deg, #ffcc80, #ef6c00); color: white; }
 .kategori.belajar { background: linear-gradient(135deg, #90caf9, #1976d2); color: white; }
-.result-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; max-width: 620px; margin: 0 auto 26px; }
+.result-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px; max-width: 720px; margin: 0 auto 26px; }
 .stat-box { background: rgba(255,255,255,0.8); border-radius: 14px; padding: 14px; border: 1px solid rgba(15,40,71,0.1); }
 .stat-box .val { font-size: 1.5rem; font-weight: 900; color: var(--navy); }
 .stat-box .lbl { font-size: 0.78rem; color: var(--text-dim); font-weight: 700; margin-top: 2px; }
@@ -326,7 +327,7 @@ body::before {
         <div class="hero-features">
           <div class="feature"><div class="icon">📚</div><h3>6 Subbab Materi</h3><p>Konsep dasar, ion, kovalen, koordinasi, kepolaran, bentuk molekul.</p></div>
           <div class="feature"><div class="icon">🧪</div><h3>Lab Maya 3D Interaktif</h3><p>Tabel periodik, drag & drop, rotasi 360°, rekomendasi senyawa.</p></div>
-          <div class="feature"><div class="icon">🏁</div><h3>Roblox Race Battle</h3><p>Balapan 2 mobil sesuai warna tim! Benar maju, salah diam.</p></div>
+          <div class="feature"><div class="icon">🏁</div><h3>Roblox Race Battle</h3><p>2 mobil balapan bersamaan! Benar maju, salah diam.</p></div>
           <div class="feature"><div class="icon">🎵</div><h3>Musik & Efek Suara</h3><p>Suasana belajar yang menyenangkan.</p></div>
         </div>
         <div class="tagline">"DISCOVER THE ATOMS, CONNECT THE BONDS, MASTER THE CHEMISTRY!"</div>
@@ -376,10 +377,10 @@ body::before {
   <section class="page" id="page-kuis">
     <div id="kuisIntro" style="text-align:center; padding: 40px 20px;">
       <h2 style="color:var(--navy); font-size:1.8rem; margin-bottom:10px;">🏁 ROBLOX RACE BATTLE</h2>
-      <p style="color:var(--text-dim); margin-bottom:24px;">Balapan mobil! Jawab benar = maju, salah = tetap di tempat. Siapa cepat sampai finish menang!</p>
+      <p style="color:var(--text-dim); margin-bottom:24px;">Balapan mobil! <strong>Kedua mobil bergerak bersamaan</strong> sesuai jawaban benar. Jawab cepat & tepat untuk finish duluan!</p>
       <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:24px;">
         <button class="btn btn-primary btn-lg" onclick="startKuis('individu')">👤 MODE INDIVIDU<br><small style="font-weight:400;font-size:0.8rem;">Melawan Komputer</small></button>
-        <button class="btn btn-gold btn-lg" onclick="startKuis('tim')">👥 MODE DUA TIM<br><small style="font-weight:400;font-size:0.8rem;">2 mobil balapan</small></button>
+        <button class="btn btn-gold btn-lg" onclick="startKuis('tim')">👥 MODE DUA TIM<br><small style="font-weight:400;font-size:0.8rem;">Cepat-cepatan 2 mobil</small></button>
       </div>
     </div>
 
@@ -387,8 +388,8 @@ body::before {
       <div class="race-track-wrap">
         <canvas id="raceCanvas" width="900" height="220"></canvas>
         <div class="race-legend">
-          <div class="legend-item legend-blue">🔵 <span id="legendBlue">KAMU / TIM BIRU</span></div>
-          <div class="legend-item legend-yellow">🟡 <span id="legendYellow">KOMPUTER / TIM KUNING</span></div>
+          <div class="legend-item legend-blue">🔵 <span id="legendBlue">KAMU / TIM BIRU</span> <span id="legendProgBlue" style="font-weight:900;">0/10</span></div>
+          <div class="legend-item legend-yellow">🟡 <span id="legendYellow">KOMPUTER / TIM KUNING</span> <span id="legendProgYellow" style="font-weight:900;">0/10</span></div>
         </div>
       </div>
 
@@ -939,20 +940,18 @@ const senyawaDB = {
   'Be-Cl-Cl':  { nama: 'Berilium Klorida', rumus: 'BeCl₂', jenis: 'Kovalen Nonpolar', lewis: 'Cl—Be—Cl', pei: 2, peb: 0, bentuk: 'Linear', sudut: '180°', konfig: 'Be: 2,2 | Cl: 2,8,7', proses: 'Be berbagi 2 pasang e⁻ dengan 2 Cl.', ikatanDetail: '2 ikatan kovalen tunggal polar (molekul nonpolar)' },
   'Cl-Na':     { nama: 'Natrium Klorida', rumus: 'NaCl', jenis: 'Ikatan Ion', lewis: 'Na⁺ [:Cl:]⁻', pei: 0, peb: 0, bentuk: 'Kisi Kristal', sudut: '-', konfig: 'Na: 2,8,1 → Na⁺: 2,8 | Cl: 2,8,7 → Cl⁻: 2,8,8', proses: 'Na melepas 1 e⁻ kepada Cl. Terbentuk Na⁺ dan Cl⁻.', ikatanDetail: 'Ikatan ion (serah terima elektron)' },
   'Mg-O':      { nama: 'Magnesium Oksida', rumus: 'MgO', jenis: 'Ikatan Ion', lewis: 'Mg²⁺ [:O:]²⁻', pei: 0, peb: 0, bentuk: 'Kisi Kristal', sudut: '-', konfig: 'Mg: 2,8,2 → Mg²⁺: 2,8 | O: 2,6 → O²⁻: 2,8', proses: 'Mg melepas 2 e⁻ kepada O. Terbentuk Mg²⁺ dan O²⁻.', ikatanDetail: 'Ikatan ion' },
-  'Ca-O':      { name: 'Kalsium Oksida', rumus: 'CaO', jenis: 'Ikatan Ion', lewis: 'Ca²⁺ [:O:]²⁻', pei: 0, peb: 0, bentuk: 'Kisi Kristal', sudut: '-', konfig: 'Ca: 2,8,8,2 → Ca²⁺ | O: 2,6 → O²⁻', proses: 'Ca melepas 2 e⁻ kepada O.', ikatanDetail: 'Ikatan ion' }
+  'Ca-O':      { nama: 'Kalsium Oksida', rumus: 'CaO', jenis: 'Ikatan Ion', lewis: 'Ca²⁺ [:O:]²⁻', pei: 0, peb: 0, bentuk: 'Kisi Kristal', sudut: '-', konfig: 'Ca: 2,8,8,2 → Ca²⁺ | O: 2,6 → O²⁻', proses: 'Ca melepas 2 e⁻ kepada O.', ikatanDetail: 'Ikatan ion' }
 };
 
-// State lab
 let labAtoms = [];
 let labSelected = null;
 let labShowElectrons = false;
 let labAutoRotate = false;
 let labRotAngle = 0;
-let labZoom = 1; // zoom untuk MOLEKUL saja (background tetap)
+let labZoom = 1;
 let labDraggingAtom = null;
 let labLastMouse = { x: 0, y: 0 };
 
-// Build periodic table
 const periodicMini = document.getElementById('periodicMini');
 const grid = Array.from({ length: 4 }, () => Array(8).fill(null));
 periodicLayout.forEach(p => { grid[p.row - 1][p.col - 1] = p.sym; });
@@ -982,7 +981,6 @@ for (let r = 0; r < 4; r++) {
   }
 }
 
-// Build rekomendasi
 const rekomendasiGrid = document.getElementById('rekomendasiGrid');
 rekomendasiSenyawa.forEach(s => {
   const b = document.createElement('button');
@@ -997,7 +995,6 @@ function loadSenyawa(s) {
   const centerX = labCanvas.width / 2;
   const centerY = labCanvas.height / 2;
   const n = s.atoms.length;
-  // Jarak lebih lebar & proporsional
   const baseRadius = Math.min(labCanvas.width, labCanvas.height) * 0.32;
   
   const counts = {};
@@ -1011,23 +1008,19 @@ function loadSenyawa(s) {
   const others = s.atoms.filter((_, i) => i !== centerIdx);
   const m = others.length;
   const angles = [];
-  // Bentuk sesuai teori VSEPR
   if (m === 1) {
-    angles.push(0); // linear 2 atom
+    angles.push(0);
   } else if (m === 2) {
-    if (s.rumus === 'H₂O') { angles.push(-Math.PI/2.6, Math.PI/2.6); } // V shape 104.5°
-    else if (s.rumus === 'H₂S') { angles.push(-Math.PI/2.8, Math.PI/2.8); } // V shape ~92°
-    else { angles.push(0, Math.PI); } // linear
+    if (s.rumus === 'H₂O') { angles.push(-Math.PI/2.6, Math.PI/2.6); }
+    else if (s.rumus === 'H₂S') { angles.push(-Math.PI/2.8, Math.PI/2.8); }
+    else { angles.push(0, Math.PI); }
   } else if (m === 3) {
-    // Trigonal planar / piramida
     if (s.rumus === 'NH₃') {
-      // Piramida trigonal - proyeksikan sebagai 3 di bawah
       angles.push(-Math.PI/2, Math.PI/6, Math.PI*5/6);
     } else {
       angles.push(-Math.PI/2, Math.PI/6, Math.PI*5/6);
     }
   } else if (m === 4) {
-    // Tetrahedral - 4 sudut 109.5°
     angles.push(Math.PI/4, 3*Math.PI/4, 5*Math.PI/4, 7*Math.PI/4);
   } else {
     for (let i = 0; i < m; i++) angles.push((i / m) * Math.PI * 2 - Math.PI/2);
@@ -1057,7 +1050,6 @@ function labResize() {
 }
 
 function getAtomAtScreen(sx, sy) {
-  // Konversi screen ke world coords menggunakan zoom molekul
   const cx = labCanvas.width / 2, cy = labCanvas.height / 2;
   const wx = (sx - cx) / labZoom + cx;
   const wy = (sy - cy) / labZoom + cy;
@@ -1074,7 +1066,6 @@ function labDraw() {
   const W = labCanvas.width, H = labCanvas.height;
   labCtx.clearRect(0, 0, W, H);
   
-  // === BACKGROUND TETAP (tidak ikut zoom) ===
   labCtx.save();
   labCtx.strokeStyle = 'rgba(168,216,240,0.08)';
   labCtx.lineWidth = 1;
@@ -1087,14 +1078,12 @@ function labDraw() {
   }
   labCtx.restore();
   
-  // === MOLEKUL DENGAN ZOOM ===
   labCtx.save();
   const cx = W / 2, cy = H / 2;
   labCtx.translate(cx, cy);
   labCtx.scale(labZoom, labZoom);
   labCtx.translate(-cx, -cy);
   
-  // Draw bonds
   for (let i = 0; i < labAtoms.length; i++) {
     for (let j = i + 1; j < labAtoms.length; j++) {
       const a = labAtoms[i], b = labAtoms[j];
@@ -1103,7 +1092,6 @@ function labDraw() {
       const dist = Math.hypot(dx, dy);
       const rSum = da.radius + db.radius;
       
-      // Auto-snap: jika atom di dekatkan, tampilkan ikatan
       if (dist < rSum * 1.9) {
         const bondType = getBondType(a.sym, b.sym);
         let lines = 1;
@@ -1142,7 +1130,6 @@ function labDraw() {
     }
   }
   
-  // Draw atoms
   labAtoms.forEach(a => {
     const d = atomData[a.sym];
     const r = d.radius;
@@ -1224,7 +1211,6 @@ function darken(hex, pct) {
   return `rgb(${R},${G},${B})`;
 }
 
-// ===== MOUSE INTERACTION =====
 let mousedownPos = null;
 if (labCanvas) {
   labCanvas.addEventListener('mousedown', e => {
@@ -1243,7 +1229,6 @@ if (labCanvas) {
     const rect = labCanvas.getBoundingClientRect();
     const sx = e.clientX - rect.left, sy = e.clientY - rect.top;
     if (labDraggingAtom !== null) {
-      // Konversi delta screen ke world (dibagi zoom)
       const dx = (sx - labLastMouse.x) / labZoom;
       const dy = (sy - labLastMouse.y) / labZoom;
       labAtoms[labDraggingAtom].x += dx;
@@ -1257,7 +1242,6 @@ if (labCanvas) {
     labDraggingAtom = null;
   });
   
-  // Zoom MOLEKUL saja (background tetap)
   labCanvas.addEventListener('wheel', e => {
     e.preventDefault();
     const delta = e.deltaY > 0 ? 0.9 : 1.1;
@@ -1265,7 +1249,6 @@ if (labCanvas) {
     labDraw();
   }, { passive: false });
   
-  // Double click to delete
   labCanvas.addEventListener('dblclick', e => {
     const rect = labCanvas.getBoundingClientRect();
     const sx = e.clientX - rect.left, sy = e.clientY - rect.top;
@@ -1277,7 +1260,6 @@ if (labCanvas) {
     }
   });
   
-  // Click to place new atom
   labCanvas.addEventListener('click', e => {
     if (!mousedownPos) return;
     const moved = Math.hypot(e.clientX - mousedownPos.x, e.clientY - mousedownPos.y);
@@ -1469,7 +1451,7 @@ function labAnalyze() {
 }
 
 /* ============================================================
-   KUIS ROBLOX RACE — Benar maju, salah diam
+   KUIS ROBLOX RACE — KEDUA MOBIL BERGERAK BERSAMAAN
    ============================================================ */
 const questions = [
   { q: 'Ikatan yang terjadi karena serah terima elektron disebut ikatan...', opts: ['Kovalen', 'Ion', 'Logam', 'Hidrogen'], ans: 1, exp: 'Serah terima elektron → ikatan ion.' },
@@ -1490,13 +1472,11 @@ const questions = [
 ];
 
 const TOTAL_SOAL = 10;
-const RACE_STEPS = TOTAL_SOAL; // jumlah langkah untuk sampai finish
+const RACE_STEPS = TOTAL_SOAL;
 
-// Race state
 let kuis = {
   mode: 'individu',
-  blueProgress: 0, // jumlah jawaban benar = langkah maju
-  yellowProgress: 0,
+  blueProgress: 0, yellowProgress: 0,
   blueCorrect: 0, blueWrong: 0,
   yellowCorrect: 0, yellowWrong: 0,
   blueAnswered: [], yellowAnswered: [],
@@ -1505,7 +1485,9 @@ let kuis = {
   blueTimer: null, yellowTimer: null,
   blueTimeLeft: 30, yellowTimeLeft: 30,
   blueFinished: false, yellowFinished: false,
-  aiTimeout: null, aiRunning: false
+  blueLocked: false, yellowLocked: false,
+  aiTimeout: null, aiRunning: false,
+  gameOver: false
 };
 
 function shuffle(arr) {
@@ -1536,12 +1518,14 @@ function startKuis(mode) {
     blueTimer: null, yellowTimer: null,
     blueTimeLeft: 30, yellowTimeLeft: 30,
     blueFinished: false, yellowFinished: false,
-    aiTimeout: null, aiRunning: false
+    blueLocked: false, yellowLocked: false,
+    aiTimeout: null, aiRunning: false,
+    gameOver: false
   };
   
-  // Reset panels
   document.getElementById('panelBlue').classList.remove('finished');
   document.getElementById('panelYellow').classList.remove('finished');
+  document.getElementById('panelYellow').classList.toggle('ai-lane', mode === 'individu');
   
   if (mode === 'individu') {
     document.getElementById('legendBlue').textContent = 'KAMU';
@@ -1550,6 +1534,7 @@ function startKuis(mode) {
     document.getElementById('legendBlue').textContent = 'TIM BIRU';
     document.getElementById('legendYellow').textContent = 'TIM KUNING';
   }
+  updateLegendProgress();
   
   drawRace();
   loadQuestionForLane('blue');
@@ -1560,19 +1545,24 @@ function startKuis(mode) {
   SFX.click();
 }
 
+function updateLegendProgress() {
+  document.getElementById('legendProgBlue').textContent = `${kuis.blueProgress}/${RACE_STEPS}`;
+  document.getElementById('legendProgYellow').textContent = `${kuis.yellowProgress}/${RACE_STEPS}`;
+}
+
 function startAIAutoPlay() {
-  kuis.aiRunning = true;
+  if (!kuis.aiRunning) kuis.aiRunning = true;
   const aiAnswerNext = () => {
-    if (!kuis.aiRunning) return;
-    if (kuis.yellowFinished || kuis.yellowIdx >= kuis.yellowQuestions.length) return;
+    if (!kuis.aiRunning || kuis.gameOver) return;
+    if (kuis.yellowFinished) return;
     
-    const delay = 4000 + Math.random() * 8000; // 4-12 detik
+    const delay = 3500 + Math.random() * 7000;
     kuis.aiTimeout = setTimeout(() => {
-      if (!kuis.aiRunning) return;
+      if (!kuis.aiRunning || kuis.gameOver) return;
       if (kuis.yellowFinished) return;
       
       const q = kuis.yellowQuestions[kuis.yellowIdx];
-      const correct = Math.random() < 0.6; // 60% akurasi
+      const correct = Math.random() < 0.6;
       const chosen = correct ? q.ans : Math.floor(Math.random() * 4);
       aiAnswer(chosen);
     }, delay);
@@ -1581,29 +1571,32 @@ function startAIAutoPlay() {
 }
 
 function aiAnswer(idx) {
-  if (kuis.yellowFinished) return;
+  if (kuis.yellowFinished || kuis.gameOver) return;
+  if (kuis.yellowLocked) return;
+  kuis.yellowLocked = true;
+  
   const q = kuis.yellowQuestions[kuis.yellowIdx];
   const benar = idx === q.ans;
   
   const optsEl = document.getElementById('optionsYellow');
-  if (optsEl.querySelectorAll('.quiz-option[disabled]').length > 0) return;
-  
-  kuis.yellowAnswered[kuis.yellowIdx] = idx;
-  
   optsEl.querySelectorAll('.quiz-option').forEach((b, i) => {
     b.disabled = true;
     if (i === q.ans) b.classList.add('correct');
     if (i === idx && i !== q.ans) b.classList.add('wrong');
   });
   
+  kuis.yellowAnswered[kuis.yellowIdx] = idx;
+  
   const fb = document.getElementById('feedbackYellow');
   if (benar) {
     kuis.yellowCorrect++;
     kuis.yellowProgress++;
     fb.className = 'feedback-box ok show';
-    fb.textContent = '🤖 Komputer BENAR! Mobil kuning maju. ' + q.exp;
+    fb.textContent = '🤖 Komputer BENAR! Mobil kuning maju →';
     SFX.benar();
+    animateCarMove('yellow');
     drawRace();
+    updateLegendProgress();
   } else {
     kuis.yellowWrong++;
     fb.className = 'feedback-box no show';
@@ -1616,11 +1609,11 @@ function aiAnswer(idx) {
   statusEl.className = 'lane-status answered';
   
   kuis.yellowIdx++;
+  kuis.yellowLocked = false;
   
-  // Cek finish
   if (kuis.yellowProgress >= RACE_STEPS) {
     kuis.yellowFinished = true;
-    endKuis();
+    endKuis('yellow');
     return;
   }
   
@@ -1633,12 +1626,11 @@ function aiAnswer(idx) {
     return;
   }
   
-  // Load next AI question after delay
   setTimeout(() => {
-    if (!kuis.aiRunning || kuis.yellowFinished) return;
+    if (!kuis.aiRunning || kuis.gameOver || kuis.yellowFinished) return;
     loadQuestionForLane('yellow');
     startAIAutoPlay();
-  }, 2000);
+  }, 1800);
 }
 
 function loadQuestionForLane(lane) {
@@ -1661,13 +1653,13 @@ function loadQuestionForLane(lane) {
   const opts = document.getElementById('options' + prefix);
   opts.innerHTML = '';
   const letters = ['A', 'B', 'C', 'D'];
+  const isAILane = (lane === 'yellow' && kuis.mode === 'individu');
+  
   q.opts.forEach((o, i) => {
     const b = document.createElement('button');
     b.className = 'quiz-option';
     b.innerHTML = `<span class="letter">${letters[i]}</span><span>${o}</span>`;
-    // AI lane tidak bisa diklik manual (hanya individu mode)
-    if (!isBlue) {
-      b.style.cursor = 'default';
+    if (isAILane) {
       b.disabled = true;
     } else {
       b.onclick = () => answerLane(lane, i, b);
@@ -1675,45 +1667,62 @@ function loadQuestionForLane(lane) {
     opts.appendChild(b);
   });
   
-  // Timer hanya untuk player/blue
-  if (isBlue) {
-    if (kuis.blueTimer) clearInterval(kuis.blueTimer);
-    kuis.blueTimeLeft = 30;
-    updateTimerForLane('blue');
-    kuis.blueTimer = setInterval(() => {
-      kuis.blueTimeLeft--;
-      updateTimerForLane('blue');
-      if (kuis.blueTimeLeft <= 0) {
-        clearInterval(kuis.blueTimer);
-        answerLane('blue', -1, null);
+  // Timer untuk kedua lane (mode tim) atau hanya blue (mode individu)
+  const timerKey = isBlue ? 'blueTimer' : 'yellowTimer';
+  if (kuis[timerKey]) clearInterval(kuis[timerKey]);
+  
+  const timeKey = isBlue ? 'blueTimeLeft' : 'yellowTimeLeft';
+  kuis[timeKey] = 30;
+  updateTimerForLane(lane);
+  
+  kuis[timerKey] = setInterval(() => {
+    kuis[timeKey]--;
+    updateTimerForLane(lane);
+    if (kuis[timeKey] <= 0) {
+      clearInterval(kuis[timerKey]);
+      if (isAILane) {
+        // AI timeout - anggap salah
+        aiAnswer(-1);
+      } else {
+        answerLane(lane, -1, null);
       }
-    }, 1000);
-  }
+    }
+  }, 1000);
 }
 
 function updateTimerForLane(lane) {
   const prefix = lane === 'blue' ? 'Blue' : 'Yellow';
   const isBlue = lane === 'blue';
-  if (!isBlue) return;
+  const timeKey = isBlue ? 'blueTimeLeft' : 'yellowTimeLeft';
   const t = document.getElementById('timer' + prefix);
   if (t) {
-    t.textContent = Math.max(0, kuis.blueTimeLeft) + 's';
-    t.classList.toggle('danger', kuis.blueTimeLeft <= 10);
+    t.textContent = Math.max(0, kuis[timeKey]) + 's';
+    t.classList.toggle('danger', kuis[timeKey] <= 10);
   }
 }
 
 function answerLane(lane, idx, btn) {
-  if (lane !== 'blue') return;
-  if (kuis.blueFinished) return;
+  if (kuis.gameOver) return;
+  const isBlue = lane === 'blue';
+  const lockedKey = isBlue ? 'blueLocked' : 'yellowLocked';
+  if (kuis[lockedKey]) return;
+  if (isBlue && kuis.blueFinished) return;
+  if (!isBlue && kuis.yellowFinished) return;
   
-  const optsEl = document.getElementById('optionsBlue');
+  const optsEl = document.getElementById('options' + (isBlue ? 'Blue' : 'Yellow'));
   if (optsEl.querySelectorAll('.quiz-option[disabled]').length > 0) return;
   
-  if (kuis.blueTimer) clearInterval(kuis.blueTimer);
+  kuis[lockedKey] = true;
   
-  const q = kuis.blueQuestions[kuis.blueIdx];
+  const timerKey = isBlue ? 'blueTimer' : 'yellowTimer';
+  if (kuis[timerKey]) clearInterval(kuis[timerKey]);
+  
+  const qs = isBlue ? kuis.blueQuestions : kuis.yellowQuestions;
+  const idxKey = isBlue ? 'blueIdx' : 'yellowIdx';
+  const answeredKey = isBlue ? 'blueAnswered' : 'yellowAnswered';
+  const q = qs[kuis[idxKey]];
   const benar = idx === q.ans;
-  kuis.blueAnswered[kuis.blueIdx] = idx;
+  kuis[answeredKey][kuis[idxKey]] = idx;
   
   optsEl.querySelectorAll('.quiz-option').forEach((b, i) => {
     b.disabled = true;
@@ -1721,57 +1730,73 @@ function answerLane(lane, idx, btn) {
     if (i === idx && i !== q.ans) b.classList.add('wrong');
   });
   
-  const fb = document.getElementById('feedbackBlue');
+  const fb = document.getElementById('feedback' + (isBlue ? 'Blue' : 'Yellow'));
   if (benar) {
-    kuis.blueCorrect++;
-    kuis.blueProgress++;
+    if (isBlue) { kuis.blueCorrect++; kuis.blueProgress++; }
+    else { kuis.yellowCorrect++; kuis.yellowProgress++; }
     fb.className = 'feedback-box ok show';
-    fb.textContent = '✓ BENAR! Mobil biru maju. ' + q.exp;
+    fb.textContent = `✓ BENAR! Mobil ${isBlue ? 'biru' : 'kuning'} maju → ` + q.exp;
     SFX.benar();
+    animateCarMove(isBlue ? 'blue' : 'yellow');
     drawRace();
+    updateLegendProgress();
   } else {
-    kuis.blueWrong++;
+    if (isBlue) kuis.blueWrong++; else kuis.yellowWrong++;
     fb.className = 'feedback-box no show';
-    fb.textContent = '✗ Salah. Mobil biru diam. Jawaban benar: ' + q.opts[q.ans] + '. ' + q.exp;
+    fb.textContent = '✗ Salah. Mobil diam. Jawaban benar: ' + q.opts[q.ans] + '. ' + q.exp;
     SFX.salah();
   }
   
-  const statusEl = document.getElementById('statusBlue');
+  const statusEl = document.getElementById('status' + (isBlue ? 'Blue' : 'Yellow'));
   statusEl.textContent = benar ? '✓ MAJU' : '✗ DIAM';
   statusEl.className = 'lane-status answered';
   
-  kuis.blueIdx++;
+  kuis[idxKey]++;
+  kuis[lockedKey] = false;
   
-  // Cek finish
-  if (kuis.blueProgress >= RACE_STEPS) {
-    kuis.blueFinished = true;
-    endKuis();
+  const finishedKey = isBlue ? 'blueFinished' : 'yellowFinished';
+  const progressKey = isBlue ? 'blueProgress' : 'yellowProgress';
+  
+  if (kuis[progressKey] >= RACE_STEPS) {
+    kuis[finishedKey] = true;
+    endKuis(isBlue ? 'blue' : 'yellow');
     return;
   }
   
-  if (kuis.blueIdx >= kuis.blueQuestions.length) {
-    kuis.blueFinished = true;
-    document.getElementById('panelBlue').classList.add('finished');
-    document.getElementById('statusBlue').textContent = 'SELESAI';
-    document.getElementById('statusBlue').className = 'lane-status done';
+  if (kuis[idxKey] >= qs.length) {
+    kuis[finishedKey] = true;
+    document.getElementById('panel' + (isBlue ? 'Blue' : 'Yellow')).classList.add('finished');
+    document.getElementById('status' + (isBlue ? 'Blue' : 'Yellow')).textContent = 'SELESAI';
+    document.getElementById('status' + (isBlue ? 'Blue' : 'Yellow')).className = 'lane-status done';
     checkKuisEnd();
     return;
   }
   
   setTimeout(() => {
-    if (kuis.blueFinished) return;
-    loadQuestionForLane('blue');
-  }, 1500);
+    if (kuis[finishedKey] || kuis.gameOver) return;
+    loadQuestionForLane(lane);
+  }, 1400);
 }
 
 function checkKuisEnd() {
-  if (kuis.blueFinished && kuis.yellowFinished) {
-    // keduanya selesai (tidak ada yang finish duluan)
-    endKuis();
-  }
+  if (kuis.blueFinished && kuis.yellowFinished) endKuis(null);
 }
 
-function drawRace() {
+function animateCarMove(which) {
+  // Animasi singkat: flag sederhana via requestAnimationFrame
+  let start = null;
+  const dur = 400;
+  const origDraw = drawRace;
+  const anim = (t) => {
+    if (!start) start = t;
+    const p = Math.min(1, (t - start) / dur);
+    drawRace(p, which);
+    if (p < 1) requestAnimationFrame(anim);
+  };
+  requestAnimationFrame(anim);
+}
+
+function drawRace(animP = 1, animWhich = null) {
   const canvas = document.getElementById('raceCanvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
@@ -1784,18 +1809,15 @@ function drawRace() {
   const trackBottom = H - 50;
   const trackHeight = (trackBottom - trackTop) / 2;
   
-  // === Track 1 (Biru - atas) ===
   const blueLaneY = trackTop + trackHeight * 0.5;
-  // === Track 2 (Kuning - bawah) ===
   const yellowLaneY = trackTop + trackHeight * 1.5;
   
-  // Draw lane backgrounds
   ctx.fillStyle = 'rgba(90,168,212,0.15)';
   ctx.fillRect(startX - 20, blueLaneY - trackHeight * 0.4, finishX - startX + 40, trackHeight * 0.8);
   ctx.fillStyle = 'rgba(255,213,79,0.2)';
   ctx.fillRect(startX - 20, yellowLaneY - trackHeight * 0.4, finishX - startX + 40, trackHeight * 0.8);
   
-  // Draw start line
+  // Start line
   ctx.strokeStyle = '#2e7d32';
   ctx.lineWidth = 4;
   ctx.setLineDash([8, 6]);
@@ -1805,7 +1827,7 @@ function drawRace() {
   ctx.stroke();
   ctx.setLineDash([]);
   
-  // Draw finish line (checkerboard)
+  // Finish line
   const checkSize = 8;
   for (let i = 0; i < (trackBottom - trackTop + 20) / checkSize; i++) {
     for (let j = 0; j < 3; j++) {
@@ -1814,7 +1836,6 @@ function drawRace() {
     }
   }
   
-  // Label START & FINISH
   ctx.fillStyle = '#2e7d32';
   ctx.font = 'bold 11px sans-serif';
   ctx.textAlign = 'center';
@@ -1822,7 +1843,7 @@ function drawRace() {
   ctx.fillStyle = '#0f2847';
   ctx.fillText('FINISH', finishX + 12, trackTop - 15);
   
-  // Step markers (garis tiap langkah benar)
+  // Step markers
   for (let i = 0; i <= RACE_STEPS; i++) {
     const x = startX + (finishX - startX) * (i / RACE_STEPS);
     ctx.strokeStyle = 'rgba(15,40,71,0.1)';
@@ -1834,14 +1855,23 @@ function drawRace() {
   }
   
   // === Mobil Biru ===
-  const bluePos = kuis.blueProgress / RACE_STEPS;
+  let bluePos = kuis.blueProgress / RACE_STEPS;
+  // Animasi jika mobil biru yang maju
+  if (animWhich === 'blue' && animP < 1) {
+    const prevPos = (kuis.blueProgress - 1) / RACE_STEPS;
+    bluePos = prevPos + (bluePos - prevPos) * animP;
+  }
   const blueX = startX + (finishX - startX) * bluePos;
-  drawRobloxCar(ctx, blueX, blueLaneY, '#5aa8d2', '#1a6ba0', '🚗');
+  drawRobloxCar(ctx, blueX, blueLaneY, '#5aa8d2', '#1a6ba0');
   
   // === Mobil Kuning ===
-  const yellowPos = kuis.yellowProgress / RACE_STEPS;
+  let yellowPos = kuis.yellowProgress / RACE_STEPS;
+  if (animWhich === 'yellow' && animP < 1) {
+    const prevPos = (kuis.yellowProgress - 1) / RACE_STEPS;
+    yellowPos = prevPos + (yellowPos - prevPos) * animP;
+  }
   const yellowX = startX + (finishX - startX) * yellowPos;
-  drawRobloxCar(ctx, yellowX, yellowLaneY, '#ffd54f', '#b8900a', '🚙');
+  drawRobloxCar(ctx, yellowX, yellowLaneY, '#ffd54f', '#b8900a');
   
   // Progress text
   ctx.fillStyle = '#1a6ba0';
@@ -1853,44 +1883,35 @@ function drawRace() {
   ctx.fillText(`${kuis.yellowProgress}/${RACE_STEPS} langkah`, finishX, yellowLaneY - trackHeight * 0.5);
 }
 
-function drawRobloxCar(ctx, x, y, color, darkColor, emoji) {
-  // Roblox-style blocky car
+function drawRobloxCar(ctx, x, y, color, darkColor) {
   const w = 50, h = 32;
   
-  // Body
   ctx.fillStyle = color;
   ctx.fillRect(x - w/2, y - h/2, w, h);
-  
-  // Top cabin
-  ctx.fillStyle = color;
   ctx.fillRect(x - w/4, y - h/2 - 10, w/2, 10);
   
-  // Border
   ctx.strokeStyle = darkColor;
   ctx.lineWidth = 2;
   ctx.strokeRect(x - w/2, y - h/2, w, h);
   ctx.strokeRect(x - w/4, y - h/2 - 10, w/2, 10);
   
-  // Windows
   ctx.fillStyle = 'rgba(168,216,240,0.7)';
   ctx.fillRect(x - w/4 + 3, y - h/2 - 7, w/2 - 6, 6);
   
-  // Wheels
   ctx.fillStyle = '#0f2847';
   ctx.beginPath(); ctx.arc(x - w/2 + 10, y + h/2, 6, 0, Math.PI * 2); ctx.fill();
   ctx.beginPath(); ctx.arc(x + w/2 - 10, y + h/2, 6, 0, Math.PI * 2); ctx.fill();
   
-  // Wheel hubs
   ctx.fillStyle = '#90a4ae';
   ctx.beginPath(); ctx.arc(x - w/2 + 10, y + h/2, 3, 0, Math.PI * 2); ctx.fill();
   ctx.beginPath(); ctx.arc(x + w/2 - 10, y + h/2, 3, 0, Math.PI * 2); ctx.fill();
 }
 
-function endKuis() {
-  if (kuis.aiRunning) {
-    kuis.aiRunning = false;
-    if (kuis.aiTimeout) clearTimeout(kuis.aiTimeout);
-  }
+function endKuis(winner) {
+  if (kuis.gameOver) return;
+  kuis.gameOver = true;
+  kuis.aiRunning = false;
+  if (kuis.aiTimeout) clearTimeout(kuis.aiTimeout);
   if (kuis.blueTimer) clearInterval(kuis.blueTimer);
   if (kuis.yellowTimer) clearInterval(kuis.yellowTimer);
   
@@ -1900,8 +1921,7 @@ function endKuis() {
   state.quizDone = true;
   updateProgress();
   
-  // Tentukan pemenang berdasarkan progress
-  let pemenang, deskripsi;
+  let pemenang;
   if (kuis.blueProgress > kuis.yellowProgress) {
     pemenang = kuis.mode === 'individu' ? 'KAMU MENANG! 🎉' : 'TIM BIRU MENANG! 🎉';
   } else if (kuis.yellowProgress > kuis.blueProgress) {
@@ -1910,8 +1930,10 @@ function endKuis() {
     pemenang = 'SERI! 🤝';
   }
   
-  const blueAcc = kuis.blueQuestions.length > 0 ? Math.round((kuis.blueCorrect / kuis.blueQuestions.length) * 100) : 0;
-  const yellowAcc = kuis.yellowQuestions.length > 0 ? Math.round((kuis.yellowCorrect / kuis.yellowQuestions.length) * 100) : 0;
+  const blueTotal = kuis.blueQuestions.length;
+  const yellowTotal = kuis.yellowQuestions.length;
+  const blueAcc = blueTotal > 0 ? Math.round((kuis.blueCorrect / blueTotal) * 100) : 0;
+  const yellowAcc = yellowTotal > 0 ? Math.round((kuis.yellowCorrect / yellowTotal) * 100) : 0;
   
   let kategori, warna, pesan;
   if (blueAcc >= 90) { kategori = 'EMAS'; warna = 'emas'; pesan = 'Luar biasa! Kamu master ikatan kimia! 🏆'; }
@@ -1964,8 +1986,8 @@ function endKuis() {
       </div>
   `;
   
-  // Pembahasan - hanya soal biru (player)
-  html += `<div class="pembahasan"><h3>📖 Pembahasan Soal Kamu (Tim Biru)</h3>`;
+  // Pembahasan kedua lane
+  html += `<div class="pembahasan"><h3>📖 Pembahasan — Tim Biru / Kamu</h3>`;
   kuis.blueQuestions.forEach((q, i) => {
     const userAns = kuis.blueAnswered[i];
     const benar = userAns === q.ans;
@@ -1976,8 +1998,24 @@ function endKuis() {
       <div style="color:var(--text-dim); margin-top:4px; font-style:italic;">${q.exp}</div>
     </div>`;
   });
-  html += `</div>
-      <div class="result-actions">
+  html += `</div>`;
+  
+  if (kuis.mode === 'tim') {
+    html += `<div class="pembahasan" style="margin-top:16px;"><h3>📖 Pembahasan — Tim Kuning</h3>`;
+    kuis.yellowQuestions.forEach((q, i) => {
+      const userAns = kuis.yellowAnswered[i];
+      const benar = userAns === q.ans;
+      html += `<div class="item">
+        <div class="q">${i + 1}. ${q.q}</div>
+        <div class="ans ${benar ? 'benar' : 'salah'}">Jawaban: ${userAns >= 0 && userAns !== undefined ? q.opts[userAns] : '(tidak dijawab)'} ${benar ? '✓' : '✗'}</div>
+        <div class="ans" style="color:#0f2847;">Jawaban benar: <strong>${q.opts[q.ans]}</strong></div>
+        <div style="color:var(--text-dim); margin-top:4px; font-style:italic;">${q.exp}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+  
+  html += `<div class="result-actions">
         <button class="btn btn-primary" onclick="ulangiKuis()">🔄 ULANGI RACE</button>
         <button class="btn btn-sky" onclick="showPage('materi')">📖 KEMBALI KE MATERI</button>
         <button class="btn btn-outline" onclick="showPage('home')">🏠 KEMBALI KE HOME</button>
@@ -1991,6 +2029,7 @@ function ulangiKuis() {
   if (kuis.blueTimer) clearInterval(kuis.blueTimer);
   if (kuis.yellowTimer) clearInterval(kuis.yellowTimer);
   kuis.aiRunning = false;
+  kuis.gameOver = true;
   
   document.getElementById('kuisResult').style.display = 'none';
   document.getElementById('kuisIntro').style.display = 'block';
