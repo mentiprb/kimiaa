@@ -284,4 +284,1272 @@ body::before {
           <button class="btn btn-primary btn-lg" onclick="showPage('materi')">🚀 MULAI BELAJAR</button>
           <button class="btn btn-sky btn-lg" onclick="showPage('materi')">📖 MATERI</button>
           <button class="btn btn-gold btn-lg" onclick="showPage('simulasi')">🔬 SIMULASI LAB MAYA</button>
-          <button class
+          <button class="btn btn-outline btn-lg" onclick="showPage('kuis')">⚔️ KUIS BATTLE</button>
+        </div>
+        <div class="hero-features">
+          <div class="feature"><div class="icon">📚</div><h3>6 Subbab Materi</h3><p>Konsep dasar, ion, kovalen, koordinasi, kepolaran, bentuk molekul.</p></div>
+          <div class="feature"><div class="icon">🧪</div><h3>Lab Maya Interaktif</h3><p>Bangun molekul sendiri dengan drag & drop atom.</p></div>
+          <div class="feature"><div class="icon">⚔️</div><h3>Kuis Tarik Tambang</h3><p>Battle 10 soal melawan komputer atau 2 tim.</p></div>
+          <div class="feature"><div class="icon">🎵</div><h3>Musik & Efek Suara</h3><p>Suasana belajar yang menyenangkan.</p></div>
+        </div>
+        <div class="tagline">"DISCOVER THE ATOMS, CONNECT THE BONDS, MASTER THE CHEMISTRY!"</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MATERI ==================== -->
+  <section class="page" id="page-materi">
+    <div class="materi-layout">
+      <div class="materi-tabs" id="materiTabs"></div>
+      <div class="materi-content" id="materiContent"></div>
+    </div>
+  </section>
+
+  <!-- ==================== SIMULASI LAB ==================== -->
+  <section class="page" id="page-simulasi">
+    <div class="lab-layout">
+      <div class="lab-panel">
+        <h3 style="color:var(--navy); margin-bottom:8px;">🧪 Pilih Atom</h3>
+        <p style="font-size:0.85rem; color:var(--text-dim); margin-bottom:6px;">Klik atom, lalu klik area lab untuk menempatkannya.</p>
+        <div class="atom-palette" id="atomPalette"></div>
+        <div class="lab-controls" style="margin-top:16px;">
+          <button class="primary" onclick="labAnalyze()">🔍 ANALISIS IKATAN</button>
+          <button onclick="labToggleElectrons()">⚡ TAMPILKAN ELEKTRON</button>
+          <button onclick="labShowLewis()">📐 STRUKTUR LEWIS</button>
+          <button onclick="labRotate()">🔄 PUTAR MOLEKUL</button>
+          <button class="danger" onclick="labClear()">🗑️ RESET LAB</button>
+        </div>
+      </div>
+      <div class="lab-canvas-wrap">
+        <div class="lab-hint">Klik atom di kiri, lalu klik di sini untuk menempatkan</div>
+        <canvas id="labCanvas"></canvas>
+        <div class="lab-info-panel" id="labInfo"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== KUIS ==================== -->
+  <section class="page" id="page-kuis">
+    <div id="kuisIntro" style="text-align:center; padding: 40px 20px;" class="card">
+      <h2 class="section-title">⚔️ CHEMISTRY BATTLE</h2>
+      <p class="section-sub">Tarik Tambang Ikatan Kimia! Pilih mode permainan.</p>
+      <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:24px;">
+        <button class="btn btn-primary btn-lg" onclick="startKuis('individu')">👤 MODE INDIVIDU<br><small style="font-weight:400;font-size:0.8rem;">Melawan Komputer</small></button>
+        <button class="btn btn-gold btn-lg" onclick="startKuis('tim')">👥 MODE DUA TIM<br><small style="font-weight:400;font-size:0.8rem;">Bergantian di satu perangkat</small></button>
+      </div>
+    </div>
+
+    <div id="kuisGame" style="display:none;">
+      <div class="quiz-arena">
+        <div class="fighter team-blue" id="teamBlue">
+          <div class="avatar">🔵</div>
+          <div class="name">TIM ATOM BIRU</div>
+          <div class="hp-bar"><div class="hp-fill" id="hpBlue"></div></div>
+          <div class="hp-text" id="hpBlueText">100 HP</div>
+        </div>
+        <div class="vs-badge">VS</div>
+        <div class="fighter team-yellow" id="teamYellow">
+          <div class="avatar">🟡</div>
+          <div class="name">TIM ATOM KUNING</div>
+          <div class="hp-bar"><div class="hp-fill" id="hpYellow"></div></div>
+          <div class="hp-text" id="hpYellowText">100 HP</div>
+        </div>
+      </div>
+
+      <div class="tug-canvas-wrap">
+        <canvas id="tugCanvas" width="600" height="140"></canvas>
+      </div>
+
+      <div class="quiz-panel">
+        <div class="quiz-top">
+          <div class="quiz-meta">
+            <span class="q-num" id="qNum">Soal 1/10</span>
+            <span id="currentTeamLabel" style="color:#1a6ba0; font-weight:800;">Giliran: TIM BIRU</span>
+          </div>
+          <div class="quiz-meta">
+            <span class="timer" id="timer">30s</span>
+          </div>
+        </div>
+        <div class="quiz-question" id="questionText">Memuat soal...</div>
+        <div class="quiz-options" id="quizOptions"></div>
+        <div class="feedback-box" id="feedbackBox"></div>
+        <button class="quiz-next-btn" id="nextBtn" onclick="nextSoal()">Soal Berikutnya →</button>
+      </div>
+    </div>
+
+    <div id="kuisResult" style="display:none;"></div>
+  </section>
+
+</div>
+
+<!-- MUSIC -->
+<button class="music-toggle" id="musicToggle" title="Nyalakan Musik">🎵</button>
+<div class="volume-slider" id="volumeSlider">
+  <label>Volume</label>
+  <input type="range" id="volControl" min="0" max="100" value="30">
+</div>
+
+<script>
+/* ============================================================
+   DATA GLOBAL
+   ============================================================ */
+const state = {
+  currentPage: 'home',
+  materiRead: new Set(),
+  quizDone: false,
+  musicOn: false
+};
+
+/* ============================================================
+   NAVIGASI
+   ============================================================ */
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-links button').forEach(b => {
+    b.classList.toggle('active', b.dataset.page === name);
+  });
+  state.currentPage = name;
+  if (name === 'simulasi') setTimeout(labResize, 50);
+  if (name === 'home') drawHero();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.querySelectorAll('.nav-links button').forEach(b => {
+  b.addEventListener('click', () => showPage(b.dataset.page));
+});
+
+function updateProgress() {
+  const materiPct = (state.materiRead.size / 6) * 60;
+  const kuisPct = state.quizDone ? 40 : 0;
+  const total = Math.round(materiPct + kuisPct);
+  document.getElementById('progressText').textContent = `Progres: ${total}%`;
+}
+
+/* ============================================================
+   MUSIK LATAR (Web Audio API)
+   ============================================================ */
+const Music = (() => {
+  let ctx = null, playing = false, master = null, loopTimer = null, volume = 0.3;
+  const melody = [
+    { n: 261.63, d: 0.35 }, { n: 329.63, d: 0.35 }, { n: 392.00, d: 0.35 },
+    { n: 523.25, d: 0.5 }, { n: 392.00, d: 0.35 }, { n: 329.63, d: 0.35 },
+    { n: 261.63, d: 0.6 }, { n: 293.66, d: 0.35 }, { n: 349.23, d: 0.35 },
+    { n: 440.00, d: 0.5 }, { n: 349.23, d: 0.35 }, { n: 293.66, d: 0.35 },
+    { n: 261.63, d: 0.7 }, { n: 329.63, d: 0.35 }, { n: 392.00, d: 0.5 },
+    { n: 349.23, d: 0.35 }, { n: 329.63, d: 0.35 }, { n: 261.63, d: 0.8 }
+  ];
+  const bass = [
+    { n: 130.81, d: 0.7 }, { n: 130.81, d: 0.7 }, { n: 146.83, d: 0.7 },
+    { n: 146.83, d: 0.7 }, { n: 164.81, d: 0.7 }, { n: 164.81, d: 0.7 },
+    { n: 130.81, d: 1.4 }
+  ];
+  function tone(freq, type, gain, start, dur) {
+    const o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = type; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, start);
+    g.gain.linearRampToValueAtTime(gain, start + 0.04);
+    g.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+    o.connect(g); g.connect(master);
+    o.start(start); o.stop(start + dur);
+  }
+  function loop() {
+    if (!playing || !ctx) return;
+    const t0 = ctx.currentTime + 0.05;
+    let t = t0;
+    melody.forEach(m => { tone(m.n, 'sine', 0.09, t, m.d); t += m.d; });
+    let tb = t0;
+    bass.forEach(b => { tone(b.n, 'triangle', 0.06, tb, b.d); tb += b.d; });
+    const total = melody.reduce((s, m) => s + m.d, 0) * 1000;
+    loopTimer = setTimeout(loop, total);
+  }
+  return {
+    toggle(btn) {
+      if (!ctx) {
+        ctx = new (window.AudioContext || window.webkitAudioContext)();
+        master = ctx.createGain(); master.gain.value = volume;
+        master.connect(ctx.destination);
+      }
+      if (ctx.state === 'suspended') ctx.resume();
+      if (playing) {
+        playing = false;
+        btn.classList.remove('playing'); btn.textContent = '🎵';
+        clearTimeout(loopTimer);
+        master.gain.linearRampToValueAtTime(0.0001, ctx.currentTime + 0.2);
+      } else {
+        playing = true;
+        btn.classList.add('playing'); btn.textContent = '🔊';
+        master.gain.cancelScheduledValues(ctx.currentTime);
+        master.gain.setValueAtTime(volume, ctx.currentTime);
+        loop();
+      }
+      state.musicOn = playing;
+    },
+    setVolume(v) {
+      volume = v;
+      if (master && playing) master.gain.linearRampToValueAtTime(v, ctx.currentTime + 0.1);
+    }
+  };
+})();
+
+document.getElementById('musicToggle').addEventListener('click', function() {
+  Music.toggle(this);
+  document.getElementById('volumeSlider').classList.toggle('show');
+});
+document.getElementById('volControl').addEventListener('input', e => {
+  Music.setVolume(e.target.value / 100);
+});
+
+/* SFX */
+const SFX = (() => {
+  let ctx = null;
+  function c() {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  }
+  return {
+    click() {
+      const ac = c();
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.type = 'sine'; o.frequency.value = 800;
+      g.gain.setValueAtTime(0.05, ac.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.1);
+      o.connect(g); g.connect(ac.destination);
+      o.start(); o.stop(ac.currentTime + 0.1);
+    },
+    benar() {
+      const ac = c();
+      [523, 659, 784, 1047].forEach((f, i) => {
+        const o = ac.createOscillator(), g = ac.createGain();
+        o.type = 'sine'; o.frequency.value = f;
+        const t = ac.currentTime + i * 0.08;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.linearRampToValueAtTime(0.15, t + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.25);
+        o.connect(g); g.connect(ac.destination);
+        o.start(t); o.stop(t + 0.25);
+      });
+    },
+    salah() {
+      const ac = c();
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.type = 'sawtooth';
+      o.frequency.setValueAtTime(220, ac.currentTime);
+      o.frequency.exponentialRampToValueAtTime(80, ac.currentTime + 0.35);
+      g.gain.setValueAtTime(0.15, ac.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.4);
+      o.connect(g); g.connect(ac.destination);
+      o.start(); o.stop(ac.currentTime + 0.4);
+    },
+    win() {
+      const ac = c();
+      [523, 659, 784, 1047, 1319].forEach((f, i) => {
+        const o = ac.createOscillator(), g = ac.createGain();
+        o.type = 'triangle'; o.frequency.value = f;
+        const t = ac.currentTime + i * 0.12;
+        g.gain.setValueAtTime(0.0001, t);
+        g.gain.linearRampToValueAtTime(0.18, t + 0.03);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.4);
+        o.connect(g); g.connect(ac.destination);
+        o.start(t); o.stop(t + 0.4);
+      });
+    }
+  };
+})();
+
+/* ============================================================
+   HERO CANVAS — Animasi molekul
+   ============================================================ */
+const heroCanvas = document.getElementById('heroCanvas');
+let heroCtx = heroCanvas ? heroCanvas.getContext('2d') : null;
+let heroMolecules = [];
+let heroAnimId;
+
+function initHero() {
+  if (!heroCanvas) return;
+  const r = heroCanvas.parentElement.getBoundingClientRect();
+  heroCanvas.width = r.width;
+  heroCanvas.height = r.height;
+  heroMolecules = [];
+  const types = ['H2O', 'NaCl', 'CO2', 'NH3', 'O2', 'N2'];
+  for (let i = 0; i < 8; i++) {
+    heroMolecules.push({
+      x: Math.random() * heroCanvas.width,
+      y: Math.random() * heroCanvas.height,
+      r: 20 + Math.random() * 20,
+      angle: Math.random() * Math.PI * 2,
+      speed: 0.002 + Math.random() * 0.004,
+      type: types[i % types.length]
+    });
+  }
+  if (heroAnimId) cancelAnimationFrame(heroAnimId);
+  drawHero();
+}
+function drawHero() {
+  if (!heroCtx || !heroCanvas) return;
+  const w = heroCanvas.width, h = heroCanvas.height;
+  if (w === 0) { requestAnimationFrame(drawHero); return; }
+  heroCtx.clearRect(0, 0, w, h);
+  heroMolecules.forEach(m => {
+    m.angle += m.speed;
+    const x = m.x + Math.cos(m.angle) * 30;
+    const y = m.y + Math.sin(m.angle * 1.3) * 20;
+    heroCtx.save();
+    heroCtx.translate(x, y);
+    heroCtx.rotate(m.angle);
+    heroCtx.globalAlpha = 0.15;
+    if (m.type === 'H2O') {
+      heroCtx.fillStyle = '#c62828'; heroCtx.beginPath(); heroCtx.arc(0, 0, 10, 0, Math.PI * 2); heroCtx.fill();
+      heroCtx.fillStyle = '#1976d2';
+      heroCtx.beginPath(); heroCtx.arc(-16, 12, 7, 0, Math.PI * 2); heroCtx.fill();
+      heroCtx.beginPath(); heroCtx.arc(16, 12, 7, 0, Math.PI * 2); heroCtx.fill();
+    } else if (m.type === 'NaCl') {
+      heroCtx.fillStyle = '#7e57c2'; heroCtx.beginPath(); heroCtx.arc(-12, 0, 11, 0, Math.PI * 2); heroCtx.fill();
+      heroCtx.fillStyle = '#66bb6a'; heroCtx.beginPath(); heroCtx.arc(12, 0, 11, 0, Math.PI * 2); heroCtx.fill();
+    } else if (m.type === 'CO2') {
+      heroCtx.fillStyle = '#37474f'; heroCtx.beginPath(); heroCtx.arc(0, 0, 10, 0, Math.PI * 2); heroCtx.fill();
+      heroCtx.fillStyle = '#c62828';
+      heroCtx.beginPath(); heroCtx.arc(-18, 0, 8, 0, Math.PI * 2); heroCtx.fill();
+      heroCtx.beginPath(); heroCtx.arc(18, 0, 8, 0, Math.PI * 2); heroCtx.fill();
+    } else if (m.type === 'NH3') {
+      heroCtx.fillStyle = '#1976d2'; heroCtx.beginPath(); heroCtx.arc(0, 0, 11, 0, Math.PI * 2); heroCtx.fill();
+      heroCtx.fillStyle = '#90a4ae';
+      for (let i = 0; i < 3; i++) {
+        const a = i * 2 * Math.PI / 3;
+        heroCtx.beginPath(); heroCtx.arc(Math.cos(a) * 16, Math.sin(a) * 16, 6, 0, Math.PI * 2); heroCtx.fill();
+      }
+    } else if (m.type === 'O2') {
+      heroCtx.fillStyle = '#c62828';
+      heroCtx.beginPath(); heroCtx.arc(-9, 0, 11, 0, Math.PI * 2); heroCtx.fill();
+      heroCtx.beginPath(); heroCtx.arc(9, 0, 11, 0, Math.PI * 2); heroCtx.fill();
+    } else if (m.type === 'N2') {
+      heroCtx.fillStyle = '#1976d2';
+      heroCtx.beginPath(); heroCtx.arc(-9, 0, 11, 0, Math.PI * 2); heroCtx.fill();
+      heroCtx.beginPath(); heroCtx.arc(9, 0, 11, 0, Math.PI * 2); heroCtx.fill();
+    }
+    heroCtx.restore();
+  });
+  heroAnimId = requestAnimationFrame(drawHero);
+}
+window.addEventListener('resize', () => { if (state.currentPage === 'home') initHero(); });
+
+/* ============================================================
+   MATERI
+   ============================================================ */
+const materiData = [
+  {
+    id: 0, title: 'Konsep Dasar Ikatan',
+    html: `
+      <h2>📚 Subbab 1 — Konsep Dasar Ikatan Kimia</h2>
+      <h3>Apa itu ikatan kimia?</h3>
+      <p><strong>Ikatan kimia</strong> adalah gaya tarik-menarik antara atom-atom yang bergabung membentuk molekul atau senyawa. Atom membentuk ikatan untuk mencapai <strong>kestabilan</strong>.</p>
+      <h3>Mengapa atom membentuk ikatan?</h3>
+      <p>Atom-atom berusaha mencapai konfigurasi elektron seperti gas mulia (stabil). Menurut <strong>aturan oktet</strong>, atom stabil jika memiliki 8 elektron valensi. Khusus atom H dan He, stabil dengan <strong>2 elektron (duplet)</strong>.</p>
+      <div class="materi-visual">
+        <canvas id="vis1" width="400" height="160"></canvas>
+        <div class="caption">Ilustrasi atom sebelum dan sesudah berikatan</div>
+      </div>
+      <h3>Elektron valensi</h3>
+      <p>Elektron valensi adalah elektron pada kulit terluar yang berperan dalam pembentukan ikatan. Jumlahnya menentukan jenis ikatan yang terbentuk.</p>
+      <div class="contoh-soal">
+        <span class="label">CONTOH SOAL 1</span>
+        <p>Atom X memiliki konfigurasi elektron 2, 8, 1. Atom Y memiliki konfigurasi 2, 8, 7. Jika X dan Y berikatan, tentukan jenis ikatan yang terjadi!</p>
+        <button onclick="toggleJawab(this)">Lihat Pembahasan</button>
+        <div class="jawaban"><strong>Pembahasan:</strong><br>X (2,8,1) cenderung melepas 1 elektron → X⁺ (kation).<br>Y (2,8,7) cenderung menerima 1 elektron → Y⁻ (anion).<br>Terjadi serah terima elektron, maka ikatan yang terbentuk adalah <strong>ikatan ion</strong>.</div>
+      </div>
+      <div class="contoh-soal">
+        <span class="label">CONTOH SOAL 2</span>
+        <p>Atom ₆C memiliki elektron valensi 4. Berapa elektron yang perlu ditambah/dilepas agar mencapai oktet?</p>
+        <button onclick="toggleJawab(this)">Lihat Pembahasan</button>
+        <div class="jawaban"><strong>Pembahasan:</strong><br>C memiliki 4 elektron valensi. Untuk mencapai oktet (8), atom C perlu <strong>menambah 4 elektron</strong> dengan cara berbagi elektron (ikatan kovalen), karena melepas 4 elektron terlalu besar energinya.</div>
+      </div>
+    `
+  },
+  {
+    id: 1, title: 'Ikatan Ion',
+    html: `
+      <h2>🔗 Subbab 2 — Ikatan Ion</h2>
+      <h3>Pengertian ikatan ion</h3>
+      <p><strong>Ikatan ion</strong> terbentuk karena <strong>serah terima elektron</strong> dari atom logam (elektropositif) ke atom nonlogam (elektronegatif), menghasilkan kation (+) dan anion (−) yang saling tarik-menarik.</p>
+      <h3>Proses pembentukan</h3>
+      <p>Contoh pembentukan NaCl:</p>
+      <div class="materi-visual">
+        <canvas id="vis2" width="420" height="160"></canvas>
+        <div class="caption">Na melepas 1 elektron → Na⁺ ; Cl menerima 1 elektron → Cl⁻</div>
+      </div>
+      <ul>
+        <li><strong>Na</strong> (2,8,1) → melepas 1e⁻ → <strong>Na⁺</strong> (2,8)</li>
+        <li><strong>Cl</strong> (2,8,7) → menerima 1e⁻ → <strong>Cl⁻</strong> (2,8,8)</li>
+        <li>Na⁺ dan Cl⁻ membentuk senyawa ion <strong>NaCl</strong></li>
+      </ul>
+      <h3>Struktur kisi kristal</h3>
+      <p>Ion-ion tersusun rapi dalam kisi kristal 3D, sehingga senyawa ion memiliki titik leleh tinggi dan menghantarkan listrik saat larut/leleh.</p>
+      <div class="contoh-soal">
+        <span class="label">CONTOH SOAL 1</span>
+        <p>Mengapa MgCl₂ dapat terbentuk dari atom Mg (2,8,2) dan Cl (2,8,7)?</p>
+        <button onclick="toggleJawab(this)">Lihat Pembahasan</button>
+        <div class="jawaban"><strong>Pembahasan:</strong><br>Mg melepas 2 elektron → Mg²⁺ (2,8).<br>Setiap Cl menerima 1 elektron → Cl⁻.<br>Karena Mg melepas 2 elektron, dibutuhkan <strong>2 atom Cl</strong>. Jadi rumus senyawa: <strong>MgCl₂</strong>.</div>
+      </div>
+      <div class="contoh-soal">
+        <span class="label">CONTOH SOAL 2</span>
+        <p>Sebutkan sifat-sifat senyawa ion!</p>
+        <button onclick="toggleJawab(this)">Lihat Pembahasan</button>
+        <div class="jawaban"><strong>Pembahasan:</strong><br>• Titik leleh & didih tinggi<br>• Mudah larut dalam air<br>• Menghantarkan listrik dalam bentuk larutan/lelehan<br>• Keras tetapi rapuh</div>
+      </div>
+    `
+  },
+  {
+    id: 2, title: 'Ikatan Kovalen',
+    html: `
+      <h2>🤝 Subbab 3 — Ikatan Kovalen</h2>
+      <h3>Pengertian</h3>
+      <p><strong>Ikatan kovalen</strong> terbentuk karena <strong>pemakaian bersama pasangan elektron</strong> oleh dua atom nonlogam.</p>
+      <h3>Jenis ikatan kovalen</h3>
+      <ul>
+        <li><strong>Kovalen tunggal</strong>: 1 pasang elektron (contoh H₂: H—H)</li>
+        <li><strong>Kovalen rangkap dua</strong>: 2 pasang elektron (contoh O₂: O=O)</li>
+        <li><strong>Kovalen rangkap tiga</strong>: 3 pasang elektron (contoh N₂: N≡N)</li>
+      </ul>
+      <div class="materi-visual">
+        <canvas id="vis3" width="460" height="160"></canvas>
+        <div class="caption">Pasangan elektron bersama pada H₂, O₂, dan N₂</div>
+      </div>
+      <h3>Contoh senyawa kovalen</h3>
+      <p>H₂O, CH₄, NH₃, CO₂, HCl — semuanya terbentuk dari pemakaian bersama pasangan elektron.</p>
+      <div class="contoh-soal">
+        <span class="label">CONTOH SOAL 1</span>
+        <p>Berapa jumlah pasangan elektron bersama pada molekul N₂?</p>
+        <button onclick="toggleJawab(this)">Lihat Pembahasan</button>
+        <div class="jawaban"><strong>Pembahasan:</strong><br>N memiliki 5 elektron valensi (butuh 3 elektron).<br>Dua atom N saling berbagi 3 pasang elektron → membentuk <strong>ikatan kovalen rangkap tiga (N≡N)</strong>.</div>
+      </div>
+      <div class="contoh-soal">
+        <span class="label">CONTOH SOAL 2</span>
+        <p>Mengapa ikatan kovalen umumnya memiliki titik didih rendah?</p>
+        <button onclick="toggleJawab(this)">Lihat Pembahasan</button>
+        <div class="jawaban"><strong>Pembahasan:</strong><br>Karena ikatan kovalen antarmolekul berupa gaya tarik lemah (gaya London/dipol), sehingga mudah menguap dan titik didihnya rendah.</div>
+      </div>
+    `
+  },
+  {
+    id: 3, title: 'Ikatan Kovalen Koordinasi',
+    html: `
+      <h2>🎯 Subbab 4 — Ikatan Kovalen Koordinasi</h2>
+      <h3>Pengertian</h3>
+      <p><strong>Ikatan kovalen koordinasi</strong> adalah ikatan kovalen di mana <strong>pasangan elektron bersama hanya berasal dari satu atom</strong> (donor). Atom lain hanya menerima (akseptor).</p>
+      <h3>Contoh</h3>
+      <ul>
+        <li>Pembentukan ion <strong>NH₄⁺</strong> dari NH₃ + H⁺</li>
+        <li>Pembentukan ion <strong>H₃O⁺</strong> dari H₂O + H⁺</li>
+        <li>Pembentukan SO₃</li>
+      </ul>
+      <div class="materi-visual">
+        <canvas id="vis4" width="400" height="160"></canvas>
+        <div class="caption">NH₃ memberikan pasangan elektron kepada H⁺ → NH₄⁺</div>
+      </div>
+      <div class="contoh-soal">
+        <span class="label">CONTOH SOAL 1</span>
+        <p>Mengapa ikatan pada NH₄⁺ termasuk kovalen koordinasi?</p>
+        <button onclick="toggleJawab(this)">Lihat Pembahasan</button>
+        <div class="jawaban"><strong>Pembahasan:</strong><br>Pada NH₄⁺, atom N menyumbangkan <strong>pasangan elektron bebasnya</strong> kepada H⁺ yang tidak memiliki elektron. Karena pasangan elektron hanya berasal dari N (donor), ikatan ini disebut <strong>kovalen koordinasi</strong>.</div>
+      </div>
+      <div class="contoh-soal">
+        <span class="label">CONTOH SOAL 2</span>
+        <p>Apa perbedaan kovalen koordinasi dengan kovalen biasa?</p>
+        <button onclick="toggleJawab(this)">Lihat Pembahasan</button>
+        <div class="jawaban"><strong>Pembahasan:</strong><br>Kovalen biasa: pasangan elektron berasal dari <strong>kedua atom</strong>.<br>Kovalen koordinasi: pasangan elektron hanya berasal dari <strong>satu atom (donor)</strong>.</div>
+      </div>
+    `
+  },
+  {
+    id: 4, title: 'Kepolaran Ikatan',
+    html: `
+      <h2>⚡ Subbab 5 — Kepolaran Ikatan</h2>
+      <h3>Ikatan kovalen polar</h3>
+      <p>Terjadi jika pasangan elektron <strong>tertarik ke salah satu atom</strong> yang lebih elektronegatif, menimbulkan kutub parsial positif (δ⁺) dan negatif (δ⁻). Contoh: HCl, H₂O, NH₃.</p>
+      <h3>Ikatan kovalen nonpolar</h3>
+      <p>Terjadi jika elektron <strong>tersebar merata</strong>, tidak ada beda keelektronegatifan berarti. Contoh: Cl₂, O₂, CH₄.</p>
+      <div class="materi-visual">
+        <canvas id="vis5" width="420" height="140"></canvas>
+        <div class="caption">Distribusi elektron pada HCl (polar) dan Cl₂ (nonpolar)</div>
+      </div>
+      <h3>Momen dipol</h3>
+      <p>Momen dipol menunjukkan ukuran kepolaran. Semakin besar beda keelektronegatifan, semakin polar ikatan.</p>
+      <div class="contoh-soal">
+        <span class="label">CONTOH SOAL 1</span>
+        <p>Urutkan kepolaran ikatan: HF, HCl, HBr, HI!</p>
+        <button onclick="toggleJawab(this)">Lihat Pembahasan</button>
+        <div class="jawaban"><strong>Pembahasan:</strong><br>Keelektronegatifan: F > Cl > Br > I.<br>Jadi urutan kepolaran: <strong>HF > HCl > HBr > HI</strong>.</div>
+      </div>
+      <div class="contoh-soal">
+        <span class="label">CONTOH SOAL 2</span>
+        <p>Mengapa CH₄ bersifat nonpolar padahal ikatan C—H polar?</p>
+        <button onclick="toggleJawab(this)">Lihat Pembahasan</button>
+        <div class="jawaban"><strong>Pembahasan:</strong><br>Karena bentuk molekul CH₄ simetris (tetrahedral), momen dipol dari keempat ikatan C—H saling meniadakan sehingga total momen dipol = 0 → <strong>nonpolar</strong>.</div>
+      </div>
+    `
+  },
+  {
+    id: 5, title: 'Bentuk Molekul (VSEPR)',
+    html: `
+      <h2>📐 Subbab 6 — Bentuk Molekul (VSEPR)</h2>
+      <h3>Teori VSEPR</h3>
+      <p>Pasangan elektron (PEI + PEB) di sekitar atom pusat saling tolak-menolak, sehingga tersusun sejauh mungkin.</p>
+      <ul>
+        <li><strong>PEI</strong> = Pasangan Elektron Ikatan</li>
+        <li><strong>PEB</strong> = Pasangan Elektron Bebas</li>
+      </ul>
+      <h3>Bentuk molekul umum</h3>
+      <div class="materi-visual">
+        <canvas id="vis6" width="440" height="180"></canvas>
+        <div class="caption">BeCl₂ (linear), BF₃ (segitiga datar), CH₄ (tetrahedral), NH₃ (piramida trigonal), H₂O (bengkok)</div>
+      </div>
+      <ul>
+        <li>BeCl₂ → PEI 2, PEB 0 → linear (180°)</li>
+        <li>BF₃ → PEI 3, PEB 0 → segitiga datar (120°)</li>
+        <li>CH₄ → PEI 4, PEB 0 → tetrahedral (109,5°)</li>
+        <li>NH₃ → PEI 3, PEB 1 → piramida trigonal (107°)</li>
+        <li>H₂O → PEI 2, PEB 2 → bentuk V (104,5°)</li>
+      </ul>
+      <div class="contoh-soal">
+        <span class="label">CONTOH SOAL 1</span>
+        <p>Tentukan bentuk molekul H₂O dan jelaskan!</p>
+        <button onclick="toggleJawab(this)">Lihat Pembahasan</button>
+        <div class="jawaban"><strong>Pembahasan:</strong><br>Atom pusat O memiliki 6 elektron valensi. Dua PEI (dengan H) dan <strong>2 PEB</strong>. Notasi VSEPR: AX₂E₂ → bentuk <strong>V (bengkok)</strong>, sudut 104,5°.</div>
+      </div>
+      <div class="contoh-soal">
+        <span class="label">CONTOH SOAL 2</span>
+        <p>Mengapa sudut ikatan H₂O (104,5°) lebih kecil dari CH₄ (109,5°)?</p>
+        <button onclick="toggleJawab(this)">Lihat Pembahasan</button>
+        <div class="jawaban"><strong>Pembahasan:</strong><br>Pada H₂O terdapat <strong>2 PEB</strong> yang menolak pasangan ikatan lebih kuat daripada tolakan antar-PEI, sehingga sudut ikatan mengecil menjadi 104,5°.</div>
+      </div>
+    `
+  }
+];
+
+/* Render tab materi */
+const materiTabsEl = document.getElementById('materiTabs');
+const materiContentEl = document.getElementById('materiContent');
+materiData.forEach((m, i) => {
+  const btn = document.createElement('button');
+  btn.innerHTML = `<span class="num">${i + 1}</span>${m.title}`;
+  btn.addEventListener('click', () => openMateri(i));
+  materiTabsEl.appendChild(btn);
+});
+
+function openMateri(idx) {
+  document.querySelectorAll('.materi-tabs button').forEach((b, i) => b.classList.toggle('active', i === idx));
+  materiContentEl.innerHTML = materiData[idx].html;
+  state.materiRead.add(idx);
+  updateProgress();
+  SFX.click();
+  setTimeout(() => drawMateriVisual(idx), 50);
+  // tombol navigasi bawah
+  const nav = document.createElement('div');
+  nav.style.cssText = 'display:flex; justify-content:space-between; margin-top:28px; gap:12px; flex-wrap:wrap;';
+  if (idx > 0) {
+    const btnPrev = document.createElement('button');
+    btnPrev.className = 'btn btn-outline';
+    btnPrev.textContent = '← Subbab Sebelumnya';
+    btnPrev.onclick = () => openMateri(idx - 1);
+    nav.appendChild(btnPrev);
+  } else {
+    nav.appendChild(document.createElement('div'));
+  }
+  if (idx < materiData.length - 1) {
+    const btnNext = document.createElement('button');
+    btnNext.className = 'btn btn-primary';
+    btnNext.textContent = 'Subbab Berikutnya →';
+    btnNext.onclick = () => openMateri(idx + 1);
+    nav.appendChild(btnNext);
+  } else {
+    const btnQuiz = document.createElement('button');
+    btnQuiz.className = 'btn btn-gold';
+    btnQuiz.textContent = '⚔️ Lanjut ke Kuis Battle';
+    btnQuiz.onclick = () => showPage('kuis');
+    nav.appendChild(btnQuiz);
+  }
+  materiContentEl.appendChild(nav);
+}
+
+function toggleJawab(btn) {
+  const j = btn.nextElementSibling;
+  j.classList.toggle('show');
+  btn.textContent = j.classList.contains('show') ? 'Sembunyikan' : 'Lihat Pembahasan';
+}
+
+/* Gambar visual materi */
+function drawMateriVisual(idx) {
+  const canvasMap = { 0: 'vis1', 1: 'vis2', 2: 'vis3', 3: 'vis4', 4: 'vis5', 5: 'vis6' };
+  const id = canvasMap[idx];
+  const canvas = document.getElementById(id);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  const drawAtom = (x, y, r, color, label, textColor) => {
+    ctx.fillStyle = color; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = 'rgba(0,0,0,0.15)'; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.fillStyle = textColor || 'white'; ctx.font = `bold ${r}px sans-serif`;
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(label, x, y);
+  };
+
+  if (idx === 0) {
+    drawAtom(80, 80, 30, '#1976d2', 'X');
+    ctx.strokeStyle = '#5a7894'; ctx.setLineDash([4,4]);
+    ctx.beginPath(); ctx.moveTo(115, 80); ctx.lineTo(285, 80); ctx.stroke();
+    ctx.setLineDash([]);
+    drawAtom(320, 80, 30, '#e0a800', 'Y');
+    ctx.fillStyle = '#0f2847'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('Sebelum berikatan', 200, 140);
+    ctx.fillText('Sesudah berikatan (stabil)', 200, 25);
+  } else if (idx === 1) {
+    drawAtom(90, 80, 32, '#7e57c2', 'Na');
+    drawAtom(330, 80, 32, '#66bb6a', 'Cl');
+    ctx.strokeStyle = '#c62828'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(130, 60); ctx.lineTo(290, 60); ctx.stroke();
+    // panah
+    ctx.beginPath(); ctx.moveTo(290, 60); ctx.lineTo(280, 55); ctx.lineTo(280, 65); ctx.closePath(); ctx.fillStyle = '#c62828'; ctx.fill();
+    ctx.fillStyle = '#c62828'; ctx.font = 'bold 13px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('1 e⁻', 210, 50);
+    ctx.fillStyle = '#0f2847'; ctx.font = 'bold 14px sans-serif';
+    ctx.fillText('Na⁺', 90, 130);
+    ctx.fillText('Cl⁻', 330, 130);
+  } else if (idx === 2) {
+    drawAtom(80, 80, 28, '#90a4ae', 'H');
+    drawAtom(180, 80, 28, '#90a4ae', 'H');
+    ctx.strokeStyle = '#0f2847'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(108, 80); ctx.lineTo(152, 80); ctx.stroke();
+    ctx.fillStyle = '#0f2847'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('H₂', 130, 130);
+
+    drawAtom(270, 80, 30, '#c62828', 'O');
+    drawAtom(360, 80, 30, '#c62828', 'O');
+    ctx.strokeStyle = '#0f2847';
+    ctx.beginPath(); ctx.moveTo(300, 72); ctx.lineTo(330, 72); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(300, 88); ctx.lineTo(330, 88); ctx.stroke();
+    ctx.fillStyle = '#0f2847'; ctx.font = 'bold 12px sans-serif';
+    ctx.fillText('O₂', 315, 130);
+    ctx.fillText('N₂ (≡)', 130, 20);
+  } else if (idx === 3) {
+    drawAtom(150, 80, 32, '#1976d2', 'N');
+    drawAtom(260, 80, 26, '#90a4ae', 'H');
+    ctx.strokeStyle = '#0f2847'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(182, 80); ctx.lineTo(234, 80); ctx.stroke();
+    ctx.fillStyle = '#c62828'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('pasangan elektron bebas', 150, 130);
+    ctx.fillStyle = '#0f2847'; ctx.font = 'bold 14px sans-serif';
+    ctx.fillText('NH₃ + H⁺ → NH₄⁺', 200, 25);
+  } else if (idx === 4) {
+    drawAtom(110, 70, 30, '#90a4ae', 'H');
+    drawAtom(210, 70, 40, '#66bb6a', 'Cl');
+    ctx.fillStyle = '#c62828'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('δ⁺', 110, 30);
+    ctx.fillStyle = '#1976d2';
+    ctx.fillText('δ⁻', 210, 30);
+    ctx.fillStyle = '#0f2847'; ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('HCl (polar)', 160, 130);
+
+    drawAtom(320, 70, 34, '#66bb6a', 'Cl');
+    drawAtom(400, 70, 34, '#66bb6a', 'Cl');
+    ctx.fillStyle = '#0f2847'; ctx.font = 'bold 13px sans-serif';
+    ctx.fillText('Cl₂ (nonpolar)', 360, 130);
+  } else if (idx === 5) {
+    // BeCl2 linear
+    drawAtom(60, 90, 20, '#7e57c2', 'Be');
+    drawAtom(20, 90, 14, '#66bb6a', 'Cl');
+    drawAtom(100, 90, 14, '#66bb6a', 'Cl');
+    ctx.strokeStyle = '#0f2847'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(35, 90); ctx.lineTo(45, 90); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(75, 90); ctx.lineTo(85, 90); ctx.stroke();
+    ctx.fillStyle = '#0f2847'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('BeCl₂', 60, 140); ctx.fillText('Linear', 60, 152);
+
+    // BF3
+    drawAtom(180, 90, 20, '#e0a800', 'B');
+    const bf3Angles = [-Math.PI/2, Math.PI/6, Math.PI*5/6];
+    bf3Angles.forEach(a => {
+      const x = 180 + Math.cos(a) * 30, y = 90 + Math.sin(a) * 30;
+      ctx.strokeStyle = '#0f2847'; ctx.beginPath(); ctx.moveTo(180, 90); ctx.lineTo(x, y); ctx.stroke();
+      drawAtom(x, y, 12, '#90caf9', 'F');
+    });
+    ctx.fillStyle = '#0f2847'; ctx.font = 'bold 10px sans-serif';
+    ctx.fillText('BF₃', 180, 140); ctx.fillText('Trigonal planar', 180, 152);
+
+    // CH4
+    drawAtom(300, 90, 20, '#37474f', 'C');
+    for (let i = 0; i < 4; i++) {
+      const a = Math.PI/4 + i * Math.PI/2;
+      const x = 300 + Math.cos(a) * 32, y = 90 + Math.sin(a) * 32;
+      ctx.strokeStyle = '#0f2847'; ctx.beginPath(); ctx.moveTo(300, 90); ctx.lineTo(x, y); ctx.stroke();
+      drawAtom(x, y, 11, '#90a4ae', 'H');
+    }
+    ctx.fillStyle = '#0f2847'; ctx.font = 'bold 10px sans-serif';
+    ctx.fillText('CH₄', 300, 140); ctx.fillText('Tetrahedral', 300, 152);
+
+    // NH3
+    drawAtom(390, 90, 20, '#1976d2', 'N');
+    for (let i = 0; i < 3; i++) {
+      const a = -Math.PI/2 + i * 2 * Math.PI / 3;
+      const x = 390 + Math.cos(a) * 30, y = 90 + Math.sin(a) * 30;
+      ctx.strokeStyle = '#0f2847'; ctx.beginPath(); ctx.moveTo(390, 90); ctx.lineTo(x, y); ctx.stroke();
+      drawAtom(x, y, 11, '#90a4ae', 'H');
+    }
+    ctx.fillStyle = '#0f2847'; ctx.font = 'bold 10px sans-serif';
+    ctx.fillText('NH₃', 390, 140); ctx.fillText('Piramida', 390, 152);
+  }
+}
+
+/* ============================================================
+   LAB SIMULASI
+   ============================================================ */
+const labCanvas = document.getElementById('labCanvas');
+const labCtx = labCanvas ? labCanvas.getContext('2d') : null;
+const labInfo = document.getElementById('labInfo');
+
+const atomColors = {
+  H: '#90a4ae', Li: '#7e57c2', Na: '#7e57c2', Mg: '#5c6bc0',
+  Ca: '#5c6bc0', C: '#37474f', N: '#1976d2', O: '#c62828',
+  F: '#66bb6a', Cl: '#66bb6a', S: '#e0a800', P: '#ef6c00'
+};
+const atomRadii = {
+  H: 14, Li: 22, Na: 26, Mg: 24, Ca: 28, C: 20,
+  N: 20, O: 18, F: 16, Cl: 22, S: 24, P: 24
+};
+const atomValensi = {
+  H: 1, Li: 1, Na: 1, Mg: 2, Ca: 2, C: 4, N: 5, O: 6, F: 7, Cl: 7, S: 6, P: 5
+};
+
+let labAtoms = [];
+let labSelected = null;
+let labShowElectrons = false;
+let labRotating = false;
+let labRotAngle = 0;
+
+const palette = document.getElementById('atomPalette');
+Object.keys(atomColors).forEach(sym => {
+  const b = document.createElement('button');
+  b.className = 'atom-btn';
+  b.textContent = sym;
+  b.style.background = atomColors[sym];
+  b.title = `Atom ${sym} — ${atomValensi[sym]} elektron valensi`;
+  b.onclick = () => {
+    labSelected = sym;
+    document.querySelectorAll('.atom-btn').forEach(x => x.classList.remove('selected'));
+    b.classList.add('selected');
+    SFX.click();
+  };
+  palette.appendChild(b);
+});
+
+function labResize() {
+  if (!labCanvas) return;
+  const rect = labCanvas.parentElement.getBoundingClientRect();
+  labCanvas.width = rect.width;
+  labCanvas.height = 460;
+  labDraw();
+}
+
+function labDraw() {
+  if (!labCtx) return;
+  labCtx.clearRect(0, 0, labCanvas.width, labCanvas.height);
+  // grid subtle
+  labCtx.strokeStyle = 'rgba(168,216,240,0.08)';
+  labCtx.lineWidth = 1;
+  for (let x = 0; x < labCanvas.width; x += 40) {
+    labCtx.beginPath(); labCtx.moveTo(x, 0); labCtx.lineTo(x, labCanvas.height); labCtx.stroke();
+  }
+  for (let y = 0; y < labCanvas.height; y += 40) {
+    labCtx.beginPath(); labCtx.moveTo(0, y); labCtx.lineTo(labCanvas.width, y); labCtx.stroke();
+  }
+
+  // ikatan
+  for (let i = 0; i < labAtoms.length; i++) {
+    for (let j = i + 1; j < labAtoms.length; j++) {
+      const a = labAtoms[i], b = labAtoms[j];
+      const dx = b.x - a.x, dy = b.y - a.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const rSum = atomRadii[a.sym] + atomRadii[b.sym];
+      if (dist < rSum * 1.6) {
+        labCtx.strokeStyle = 'rgba(255,213,79,0.85)';
+        labCtx.lineWidth = 3;
+        labCtx.beginPath(); labCtx.moveTo(a.x, a.y); labCtx.lineTo(b.x, b.y); labCtx.stroke();
+        // pasangan elektron
+        if (labShowElectrons) {
+          const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+          labCtx.fillStyle = '#ffd54f';
+          labCtx.beginPath(); labCtx.arc(mx - 3, my - 3, 3, 0, Math.PI * 2); labCtx.fill();
+          labCtx.beginPath(); labCtx.arc(mx + 3, my + 3, 3, 0, Math.PI * 2); labCtx.fill();
+        }
+      }
+    }
+  }
+
+  // atom
+  labAtoms.forEach(a => {
+    const r = atomRadii[a.sym];
+    // glow
+    const grad = labCtx.createRadialGradient(a.x - r * 0.3, a.y - r * 0.3, r * 0.1, a.x, a.y, r);
+    grad.addColorStop(0, atomColors[a.sym]);
+    grad.addColorStop(1, shadeColor(atomColors[a.sym], -30));
+    labCtx.fillStyle = grad;
+    labCtx.beginPath(); labCtx.arc(a.x, a.y, r, 0, Math.PI * 2); labCtx.fill();
+    labCtx.strokeStyle = 'rgba(255,255,255,0.4)'; labCtx.lineWidth = 1.5; labCtx.stroke();
+    // label
+    labCtx.fillStyle = 'white'; labCtx.font = `bold ${Math.max(11, r * 0.8)}px sans-serif`;
+    labCtx.textAlign = 'center'; labCtx.textBaseline = 'middle';
+    labCtx.fillText(a.sym, a.x, a.y);
+  });
+}
+
+function shadeColor(hex, percent) {
+  const f = parseInt(hex.slice(1), 16);
+  const t = percent < 0 ? 0 : 255;
+  const p = Math.abs(percent) / 100;
+  const R = f >> 16, G = (f >> 8) & 0x00FF, B = f & 0x0000FF;
+  return '#' + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
+}
+
+if (labCanvas) {
+  labCanvas.addEventListener('click', e => {
+    const rect = labCanvas.getBoundingClientRect();
+    const x = e.clientX - rect.left, y = e.clientY - rect.top;
+
+    // cek klik pada atom (untuk hapus)
+    for (let i = labAtoms.length - 1; i >= 0; i--) {
+      const a = labAtoms[i];
+      const r = atomRadii[a.sym];
+      if (Math.hypot(a.x - x, a.y - y) < r + 5) {
+        labAtoms.splice(i, 1);
+        labDraw();
+        SFX.click();
+        return;
+      }
+    }
+
+    if (labSelected && labAtoms.length < 8) {
+      labAtoms.push({ sym: labSelected, x, y });
+      labDraw();
+      SFX.click();
+    }
+  });
+}
+
+function labClear() {
+  labAtoms = [];
+  labSelected = null;
+  document.querySelectorAll('.atom-btn').forEach(x => x.classList.remove('selected'));
+  labInfo.classList.remove('show');
+  labDraw();
+  SFX.click();
+}
+
+function labToggleElectrons() {
+  labShowElectrons = !labShowElectrons;
+  labDraw();
+  SFX.click();
+}
+
+function labShowLewis() {
+  if (labAtoms.length === 0) { alert('Tambahkan atom terlebih dahulu!'); return; }
+  const analysis = analyzeBonds();
+  alert('📐 STRUKTUR LEWIS:\n\n' + analysis.lewis);
+  SFX.click();
+}
+
+function labRotate() {
+  labRotating = !labRotating;
+  if (labRotating) animateRotate();
+}
+
+function animateRotate() {
+  if (!labRotating) return;
+  labRotAngle += 0.05;
+  labAtoms.forEach((a, i) => {
+    const cx = labCanvas.width / 2, cy = labCanvas.height / 2;
+    const dx = a.x - cx, dy = a.y - cy;
+    const angle = 0.02;
+    a.x = cx + dx * Math.cos(angle) - dy * Math.sin(angle);
+    a.y = cy + dx * Math.sin(angle) + dy * Math.cos(angle);
+  });
+  labDraw();
+  requestAnimationFrame(animateRotate);
+}
+
+function analyzeBonds() {
+  const symbols = labAtoms.map(a => a.sym).sort();
+  const key = symbols.join('-');
+  const counts = {};
+  symbols.forEach(s => counts[s] = (counts[s] || 0) + 1);
+
+  const databases = {
+    'Cl-Na': { nama: 'Natrium Klorida', rumus: 'NaCl', jenis: 'Ikatan Ion', lewis: 'Na⁺ [:Cl:]⁻', pei: 0, peb: 0, bentuk: 'Kisi Kristal', sudut: '-', konfig: 'Na: 2,8,1 → Na⁺: 2,8 | Cl: 2,8,7 → Cl⁻: 2,8,8', proses: 'Na melepas 1 elektron kepada Cl. Terbentuk Na⁺ dan Cl⁻ yang tarik-menarik secara elektrostatik.' },
+    'Mg-O': { nama: 'Magnesium Oksida', rumus: 'MgO', jenis: 'Ikatan Ion', lewis: 'Mg²⁺ [:O:]²⁻', pei: 0, peb: 0, bentuk: 'Kisi Kristal', sudut: '-', konfig: 'Mg: 2,8,2 → Mg²⁺: 2,8 | O: 2,6 → O²⁻: 2,8', proses: 'Mg melepas 2 elektron kepada O. Terbentuk Mg²⁺ dan O²⁻.' },
+    'H-H': { nama: 'Gas Hidrogen', rumus: 'H₂', jenis: 'Kovalen Nonpolar', lewis: 'H—H', pei: 1, peb: 0, bentuk: 'Linear', sudut: '180°', konfig: 'H: 1 (duplet)', proses: 'Dua atom H berbagi 1 pasang elektron untuk mencapai duplet.' },
+    'O-O': { nama: 'Gas Oksigen', rumus: 'O₂', jenis: 'Kovalen Nonpolar', lewis: 'O=O', pei: 2, peb: 2, bentuk: 'Linear', sudut: '180°', konfig: 'O: 2,6 (butuh 2 e⁻)', proses: 'Dua atom O berbagi 2 pasang elektron (rangkap dua).' },
+    'N-N': { nama: 'Gas Nitrogen', rumus: 'N₂', jenis: 'Kovalen Nonpolar', lewis: 'N≡N', pei: 3, peb: 1, bentuk: 'Linear', sudut: '180°', konfig: 'N: 2,5 (butuh 3 e⁻)', proses: 'Dua atom N berbagi 3 pasang elektron (rangkap tiga).' },
+    'H-O-H': { nama: 'Air', rumus: 'H₂O', jenis: 'Kovalen Polar', lewis: 'H—O—H (dengan 2 PEB pada O)', pei: 2, peb: 2, bentuk: 'V / Bengkok', sudut: '104,5°', konfig: 'O: 2,6 | H: 1', proses: 'O berbagi 2 pasang elektron dengan 2 atom H. O memiliki 2 PEB.' },
+    'H-H-H-N': { nama: 'Amonia', rumus: 'NH₃', jenis: 'Kovalen Polar', lewis: 'N dengan 3 PEI + 1 PEB', pei: 3, peb: 1, bentuk: 'Piramida Trigonal', sudut: '107°', konfig: 'N: 2,5 | H: 1', proses: 'N berbagi 3 pasang elektron dengan 3 atom H. N memiliki 1 PEB.' },
+    'C-H-H-H-H': { nama: 'Metana', rumus: 'CH₄', jenis: 'Kovalen Nonpolar', lewis: 'C dengan 4 PEI', pei: 4, peb: 0, bentuk: 'Tetrahedral', sudut: '109,5°', konfig: 'C: 2,4 | H: 1', proses: 'C berbagi 4 pasang elektron dengan 4 atom H.' },
+    'C-O-O': { nama: 'Karbon Dioksida', rumus: 'CO₂', jenis: 'Kovalen Polar (ikatan)', lewis: 'O=C=O', pei: 2, peb: 2, bentuk: 'Linear', sudut: '180°', konfig: 'C: 2,4 | O: 2,6', proses: 'C berbagi 2 pasang elektron dengan masing-masing O (rangkap dua).' }
+  };
+
+  // mapping nama berdasarkan jumlah atom
+  let lookup = '';
+  if (counts.Na && counts.Cl) lookup = 'Cl-Na';
+  else if (counts.Mg && counts.O) lookup = 'Mg-O';
+  else if (counts.H === 2) lookup = 'H-H';
+  else if (counts.O === 2) lookup = 'O-O';
+  else if (counts.N === 2) lookup = 'N-N';
+  else if (counts.H === 2 && counts.O === 1) lookup = 'H-O-H';
+  else if (counts.N === 1 && counts.H === 3) lookup = 'H-H-H-N';
+  else if (counts.C === 1 && counts.H === 4) lookup = 'C-H-H-H-H';
+  else if (counts.C === 1 && counts.O === 2) lookup = 'C-O-O';
+
+  if (databases[lookup]) {
+    const d = databases[lookup];
+    return {
+      nama: d.nama, rumus: d.rumus, jenis: d.jenis, lewis: d.lewis,
+      pei: d.pei, peb: d.peb, bentuk: d.bentuk, sudut: d.sudut,
+      konfig: d.konfig, proses: d.proses, valid: true
+    };
+  }
+
+  // cek kombinasi tidak valid
+  return {
+    nama: 'Kombinasi Tidak Dikenal',
+    rumus: labAtoms.map(a => a.sym).join(''),
+    jenis: '—',
+    lewis: '—',
+    pei: 0, peb: 0, bentuk: '—', sudut: '—',
+    konfig: '—',
+    proses: 'Kombinasi atom ini belum terdaftar atau tidak membentuk senyawa stabil. Coba kombinasi lain seperti Na + Cl, Mg + O, H + H, O + O, N + N, H + O + H, N + 3H, atau C + 4H.',
+    valid: false
+  };
+}
+
+function labAnalyze() {
+  if (labAtoms.length === 0) { alert('Tambahkan atom terlebih dahulu!'); return; }
+  const a = analyzeBonds();
+  let html = `<h4>🔍 Analisis: ${a.nama}</h4>`;
+  html += `<div class="row"><span>Rumus</span><span>${a.rumus}</span></div>`;
+  html += `<div class="row"><span>Jenis Ikatan</span><span>${a.jenis}</span></div>`;
+  html += `<div class="row"><span>Struktur Lewis</span><span>${a.lewis}</span></div>`;
+  if (a.valid) {
+    html += `<div class="row"><span>PEI</span><span>${a.pei}</span></div>`;
+    html += `<div class="row"><span>PEB</span><span>${a.peb}</span></div>`;
+    html += `<div class="row"><span>Bentuk</span><span>${a.bentuk}</span></div>`;
+    html += `<div class="row"><span>Sudut</span><span>${a.sudut}</span></div>`;
+    html += `<div class="row"><span>Elektron Valensi</span><span>${a.konfig}</span></div>`;
+  }
+  html += `<div class="explain">${a.proses}</div>`;
+  labInfo.innerHTML = html;
+  labInfo.classList.add('show');
+  if (a.valid) SFX.benar(); else SFX.salah();
+}
+
+/* ============================================================
+   KUIS BATTLE
+   ============================================================ */
+const questions = [
+  { q: 'Ikatan yang terjadi karena serah terima elektron disebut ikatan...', opts: ['Kovalen', 'Ion', 'Logam', 'Hidrogen'], ans: 1, exp: 'Serah terima elektron → ikatan ion.' },
+  { q: 'Atom dengan konfigurasi 2, 8, 1 akan membentuk ion...', opts: ['X²⁻', 'X⁻', 'X⁺', 'X²⁺'], ans: 2, exp: 'Melepas 1 elektron → X⁺ (kation).' },
+  { q: 'Ikatan kovalen terjadi karena...', opts: ['Serah terima elektron', 'Pemakaian bersama pasangan elektron', 'Gaya tarik ion', 'Lautan elektron'], ans: 1, exp: 'Kovalen = pemakaian bersama pasangan elektron.' },
+  { q: 'Molekul O₂ memiliki ikatan kovalen...', opts: ['Tunggal', 'Rangkap dua', 'Rangkap tiga', 'Koordinasi'], ans: 1, exp: 'O=O adalah rangkap dua.' },
+  { q: 'Ikatan pada N₂ (N≡N) adalah...', opts: ['Tunggal', 'Rangkap dua', 'Rangkap tiga', 'Ion'], ans: 2, exp: 'N≡N = rangkap tiga.' },
+  { q: 'Ikatan kovalen koordinasi terjadi bila...', opts: ['Pasangan elektron berasal dari satu atom', 'Elektron dibagi rata', 'Terjadi serah terima', 'Atom logam berikatan'], ans: 0, exp: 'Pasangan elektron hanya dari satu atom (donor).' },
+  { q: 'Senyawa yang berikatan kovalen polar adalah...', opts: ['Cl₂', 'O₂', 'HCl', 'CH₄'], ans: 2, exp: 'HCl memiliki beda keelektronegatifan → polar.' },
+  { q: 'Molekul CH₄ memiliki bentuk...', opts: ['Linear', 'Segitiga datar', 'Tetrahedral', 'Piramida'], ans: 2, exp: 'CH₄ → AX₄ → tetrahedral.' },
+  { q: 'Molekul H₂O memiliki jumlah PEB pada atom pusat sebanyak...', opts: ['0', '1', '2', '3'], ans: 2, exp: 'O memiliki 2 PEB pada H₂O.' },
+  { q: 'Molekul yang bersifat nonpolar meskipun memiliki ikatan polar adalah...', opts: ['H₂O', 'NH₃', 'HCl', 'CH₄'], ans: 3, exp: 'CH₄ simetris → momen dipol nol → nonpolar.' }
+];
+
+let kuis = {
+  mode: 'individu',
+  current: 0,
+  currentTeam: 'blue',
+  hpBlue: 100, hpYellow: 100,
+  skorBenar: 0, skorSalah: 0,
+  jawabanUser: [],
+  timer: null,
+  timeLeft: 30,
+  answered: false
+};
+
+function startKuis(mode) {
+  kuis = {
+    mode, current: 0, currentTeam: 'blue',
+    hpBlue: 100, hpYellow: 100,
+    skorBenar: 0, skorSalah: 0,
+    jawabanUser: [], timer: null, timeLeft: 30, answered: false
+  };
+  document.getElementById('kuisIntro').style.display = 'none';
+  document.getElementById('kuisGame').style.display = 'block';
+  document.getElementById('kuisResult').style.display = 'none';
+  updateHPBars();
+  updateTeamTurn();
+  loadSoal();
+  SFX.click();
+}
+
+function updateHPBars() {
+  document.getElementById('hpBlue').style.width = kuis.hpBlue + '%';
+  document.getElementById('hpYellow').style.width = kuis.hpYellow + '%';
+  document.getElementById('hpBlueText').textContent = kuis.hpBlue + ' HP';
+  document.getElementById('hpYellowText').textContent = kuis.hpYellow + ' HP';
+  drawTug();
+}
+
+function updateTeamTurn() {
+  const label = document.getElementById('currentTeamLabel');
+  const tb = document.getElementById('teamBlue'), ty = document.getElementById('teamYellow');
+  tb.classList.remove('active-turn'); ty.classList.remove('active-turn');
+  if (kuis.mode === 'tim') {
+    if (kuis.currentTeam === 'blue') {
+      label.textContent = 'Giliran: TIM BIRU'; label.style.color = '#1a6ba0';
+      tb.classList.add('active-turn');
+    } else {
+      label.textContent = 'Giliran: TIM KUNING'; label.style.color = '#c9a227';
+      ty.classList.add('active-turn');
+    }
+  } else {
+    label.textContent = 'Mode Individu'; label.style.color = '#5a7894';
+    tb.classList.add('active-turn');
+  }
+}
+
+function loadSoal() {
+  if (kuis.current >= questions.length) { endKuis(); return; }
+  kuis.answered = false;
+  const q = questions[kuis.current];
+  document.getElementById('qNum').textContent = `Soal ${kuis.current + 1}/${questions.length}`;
+  document.getElementById('questionText').textContent = q.q;
+  document.getElementById('feedbackBox').classList.remove('show');
+  document.getElementById('nextBtn').classList.remove('show');
+  updateTeamTurn();
+
+  const opts = document.getElementById('quizOptions');
+  opts.innerHTML = '';
+  const letters = ['A', 'B', 'C', 'D'];
+  q.opts.forEach((o, i) => {
+    const b = document.createElement('button');
+    b.className = 'quiz-option';
+    b.innerHTML = `<span class="letter">${letters[i]}</span><span>${o}</span>`;
+    b.onclick = () => jawab(i, b);
+    opts.appendChild(b);
+  });
+
+  // timer
+  kuis.timeLeft = 30;
+  updateTimerDisplay();
+  clearInterval(kuis.timer);
+  kuis.timer = setInterval(() => {
+    kuis.timeLeft--;
+    updateTimerDisplay();
+    if (kuis.timeLeft <= 0) {
+      clearInterval(kuis.timer);
+      jawab(-1, null);
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const t = document.getElementById('timer');
+  t.textContent = kuis.timeLeft + 's';
+  t.classList.toggle('danger', kuis.timeLeft <= 10);
+}
+
+function jawab(idx, btn) {
+  if (kuis.answered) return;
+  kuis.answered = true;
+  clearInterval(kuis.timer);
+  const q = questions[kuis.current];
+  const benar = idx === q.ans;
+  kuis.jawabanUser[kuis.current] = idx;
+
+  document.querySelectorAll('.quiz-option').forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.ans) b.classList.add('correct');
+    if (i === idx && i !== q.ans) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('feedbackBox');
+  if (benar) {
+    kuis.skorBenar++;
+    fb.className = 'feedback-box ok show';
+    fb.textContent = '✓ Benar! ' + q.exp;
+    SFX.benar();
+    if (kuis.mode === 'tim') {
+      if (kuis.currentTeam === 'blue') kuis.hpYellow = Math.max(0, kuis.hpYellow - 15);
+      else kuis.hpBlue = Math.max(0, kuis.hpBlue - 15);
+      document.getElementById(kuis.currentTeam === 'blue' ? 'teamBlue' : 'teamYellow').classList.add('attack');
+      setTimeout(() => document.getElementById(kuis.currentTeam === 'blue' ? 'teamBlue' : 'teamYellow').classList.remove('attack'), 600);
+      document.getElementById(kuis.currentTeam === 'blue' ? 'teamYellow' : 'teamBlue').classList.add('hit');
+      setTimeout(() => document.getElementById(kuis.currentTeam === 'blue' ? 'teamYellow' : 'teamBlue').classList.remove('hit'), 500);
+    } else {
+      kuis.hpYellow = Math.max(0, kuis.hpYellow - 12);
+      document.getElementById('teamBlue').classList.add('attack');
+      setTimeout(() => document.getElementById('teamBlue').classList.remove('attack'), 600);
+      document.getElementById('teamYellow').classList.add('hit');
+      setTimeout(() => document.getElementById('teamYellow').classList.remove('hit'), 500);
+    }
+  } else {
+    kuis.skorSalah++;
+    fb.className = 'feedback-box no show';
+    fb.textContent = '✗ Salah. Jawaban benar: ' + q.opts[q.ans] + '. ' + q.exp;
+    SFX.salah();
+    if (kuis.mode === 'tim') {
+      if (kuis.currentTeam === 'blue') kuis.hpBlue = Math.max(0, kuis.hpBlue - 10);
+      else kuis.hpYellow = Math.max(0, kuis.hpYellow - 10);
+    } else {
+      kuis.hpBlue = Math.max(0, kuis.hpBlue - 8);
+    }
+  }
+  updateHPBars();
+  document.getElementById('nextBtn').classList.add('show');
+  if (kuis.current === questions.length - 1) {
+    document.getElementById('nextBtn').textContent = 'Lihat Hasil →';
+  }
+}
+
+function nextSoal() {
+  kuis.current++;
+  if (kuis.mode === 'tim') kuis.currentTeam = kuis.currentTeam === 'blue' ? 'yellow' : 'blue';
+  if (kuis.current >= questions.length) {
+    endKuis();
+  } else {
+    loadSoal();
+  }
+}
+
+function endKuis() {
+  document.getElementById('kuisGame').style.display = 'none';
+  const res = document.getElementById('kuisResult');
+  res.style.display = 'block';
+  state.quizDone = true;
+  updateProgress();
+
+  const total = questions.length;
+  const persen = Math.round((kuis.skorBenar / total) * 100);
+  let kategori, warna, pesan;
+  if (persen >= 90) { kategori = 'EMAS'; warna = 'emas'; pesan = 'Luar biasa! Kamu master ikatan kimia! 🏆'; }
+  else if (persen >= 75) { kategori = 'PERAK'; warna = 'perak'; pesan = 'Hebat! Pemahamanmu sangat baik. 🌟'; }
+  else if (persen >= 60) { kategori = 'PERUNGGU'; warna = 'perunggu'; pesan = 'Bagus! Terus tingkatkan ya. 💪'; }
+  else { kategori = 'PERLU BELAJAR'; warna = 'belajar'; pesan = 'Jangan menyerah! Baca ulang materi dan coba lagi. 📚'; }
+
+  SFX.win();
+
+  let html = `
+    <div class="result-screen card">
+      <div class="trophy">🏆</div>
+      <h2>Kuis Selesai!</h2>
+      <div class="final-score">${persen}%</div>
+      <div class="kategori ${warna}">GELAR: ${kategori}</div>
+      <p style="color:var(--text-dim); margin-bottom:20px;">${pesan}</p>
+      <div class="result-stats">
+        <div class="stat-box"><div class="val">${kuis.skorBenar}</div><div class="lbl">Benar</div></div>
+        <div class="stat-box"><div class="val">${kuis.skorSalah}</div><div class="lbl">Salah</div></div>
+        <div class="stat-box"><div class="val">${total}</div><div class="lbl">Total Soal</div></div>
+        <div class="stat-box"><div class="val">${persen}%</div><div class="lbl">Penguasaan</div></div>
+      </div>
+      <div class="pembahasan">
+        <h3>📖 Pembahasan Soal</h3>
+  `;
+  questions.forEach((q, i) => {
+    const userAns = kuis.jawabanUser[i];
+    const benar = userAns === q.ans;
+    html += `<div class="item">
+      <div class="q">${i + 1}. ${q.q}</div>
+      <div class="ans ${benar ? 'benar' : 'salah'}">Jawabanmu: ${userAns >= 0 ? q.opts[userAns] : '(tidak dijawab)'} ${benar ? '✓' : '✗'}</div>
+      <div class="ans" style="color:#0f2847;">Jawaban benar: <strong>${q.opts[q.ans]}</strong></div>
+      <div style="color:var(--text-dim); margin-top:4px; font-style:italic;">${q.exp}</div>
+    </div>`;
+  });
+  html += `</div>
+      <div class="result-actions">
+        <button class="btn btn-primary" onclick="ulangiKuis()">🔄 ULANGI KUIS</button>
+        <button class="btn btn-sky" onclick="showPage('materi')">📖 KEMBALI KE MATERI</button>
+        <button class="btn btn-outline" onclick="showPage('home')">🏠 KEMBALI KE HOME</button>
+      </div>
+    </div>`;
+  res.innerHTML = html;
+}
+
+function ulangiKuis() {
+  document.getElementById('kuisResult').style.display = 'none';
+  document.getElementById('kuisIntro').style.display = 'block';
+  document.getElementById('kuisGame').style.display = 'none';
+}
+
+/* Tug canvas */
+const tugCanvas = document.getElementById('tugCanvas');
+let tugCtx = tugCanvas ? tugCanvas.getContext('2d') : null;
+function drawTug() {
+  if (!tugCtx) return;
+  const w = tugCanvas.width, h = tugCanvas.height;
+  tugCtx.clearRect(0, 0, w, h);
+  // tanah
+  tugCtx.fillStyle = 'rgba(15,40,71,0.1)';
+  tugCtx.fillRect(0, h - 25, w, 25);
+
+  // posisi tali berdasarkan HP
+  const diff = (kuis.hpYellow - kuis.hpBlue);
+  const offset = Math.max(-180, Math.min(180, diff * 2));
+  const midX = w / 2 + offset;
+
+  // garis tengah
+  tugCtx.strokeStyle = 'rgba(15,40,71,0.3)';
+  tugCtx.setLineDash([6, 6]);
+  tugCtx.beginPath(); tugCtx.moveTo(w / 2, 10); tugCtx.lineTo(w / 2, h - 25); tugCtx.stroke();
+  tugCtx.setLineDash([]);
+
+  // tali
+  tugCtx.strokeStyle = '#8d6e63';
+  tugCtx.lineWidth = 5;
+  tugCtx.beginPath();
+  tugCtx.moveTo(60, h / 2);
+  tugCtx.lineTo(w - 60, h / 2);
+  tugCtx.stroke();
+
+  // pita tengah
+  tugCtx.fillStyle = '#e0a800';
+  tugCtx.beginPath(); tugCtx.arc(midX, h / 2, 12, 0, Math.PI * 2); tugCtx.fill();
+  tugCtx.strokeStyle = '#0f2847'; tugCtx.lineWidth = 2; tugCtx.stroke();
+
+  // tim biru
+  tugCtx.fillStyle = '#2a7bb0';
+  for (let i = 0; i < 3; i++) {
+    const x = 70 + i * 45;
+    const y = h / 2 + (i === 1 ? -5 : 5);
+    tugCtx.beginPath(); tugCtx.arc(x, y, 14, 0, Math.PI * 2); tugCtx.fill();
+  }
+  // tim kuning
+  tugCtx.fillStyle = '#e0a800';
+  for (let i = 0; i < 3; i++) {
+    const x = w - 70 - i * 45;
+    const y = h / 2 + (i === 1 ? -5 : 5);
+    tugCtx.beginPath(); tugCtx.arc(x, y, 14, 0, Math.PI * 2); tugCtx.fill();
+  }
+}
+
+/* ============================================================
+   INISIALISASI
+   ============================================================ */
+window.addEventListener('DOMContentLoaded', () => {
+  initHero();
+  updateProgress();
+  openMateri(0);
+  labResize();
+  drawTug();
+  window.addEventListener('resize', () => {
+    if (state.currentPage === 'simulasi') labResize();
+    if (state.currentPage === 'home') initHero();
+  });
+  // klik SFX global
+  document.querySelectorAll('button').forEach(b => {
+    b.addEventListener('click', () => { if (!b.classList.contains('quiz-option') && !b.classList.contains('atom-btn')) SFX.click(); });
+  });
+});
+</script>
+</body>
+</html>
